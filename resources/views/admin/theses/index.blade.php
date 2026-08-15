@@ -59,7 +59,16 @@
                 <td>{{ $thesis->thesis_type ?? '-' }}</td>
                 <td>{{ $thesis->year ?? '-' }}</td>
                 <td>{{ $thesis->added_by ?? '-' }}</td>
-                <td>{{ $thesis->edited_by ?? '-' }}</td>
+                <td>
+                    @php
+                        $editorText = $thesis->edited_by ?? '-';
+                        preg_match('/^(.+) \(([^)]+)\)$/', $editorText, $editorMatches);
+                    @endphp
+                    {{ $editorMatches[1] ?? $editorText }}
+                    @if(isset($editorMatches[2]))
+                        <span class="badge bg-info">{{ $editorMatches[2] }}</span>
+                    @endif
+                </td>
                 <td>
                     <span class="badge bg-{{ $thesis->status === 'Available' ? 'success' : 'danger' }}">
                         {{ $thesis->status }}

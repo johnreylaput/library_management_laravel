@@ -124,7 +124,7 @@ class ThesisController extends Controller
             'subjects' => 'nullable|string|max:500',
         ]);
 
-        $thesis->update(array_merge($validated, ['edited_by' => Auth::user()->section]));
+        $thesis->update(array_merge($validated, ['edited_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
 
         return redirect()->route('theses.index')->with('success', 'Thesis updated successfully.');
     }

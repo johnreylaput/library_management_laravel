@@ -59,7 +59,16 @@
                 <td>{{ $book->isbn ?? '-' }}</td>
                 <td>{{ $book->available_quantity }}</td>
                 <td>{{ $book->added_by ?? '-' }}</td>
-                <td>{{ $book->edited_by ?? '-' }}</td>
+                <td>
+                    @php
+                        $editorText = $book->edited_by ?? '-';
+                        preg_match('/^(.+) \(([^)]+)\)$/', $editorText, $editorMatches);
+                    @endphp
+                    {{ $editorMatches[1] ?? $editorText }}
+                    @if(isset($editorMatches[2]))
+                        <span class="badge bg-info">{{ $editorMatches[2] }}</span>
+                    @endif
+                </td>
                 <td>
                     <span class="badge bg-{{ ($book->status === 'Available' && $book->available_quantity > 0) ? 'success' : 'danger' }}">
                         {{ $book->status }}

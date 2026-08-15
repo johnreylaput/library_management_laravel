@@ -46,7 +46,16 @@
                     <p class="mt-3"><strong>Link of the Journal Article:</strong> <a href="{{ $journal->link }}" target="_blank">{{ $journal->link }}</a></p>
                 @endif
                 <p class="mt-3"><strong>Added By:</strong> {{ $journal->added_by ?? '-' }}</p>
-                <p class="mb-1"><strong>Edited By:</strong> {{ $journal->edited_by ?? '-' }}</p>
+                <p class="mb-1"><strong>Edited By:</strong>
+                    @php
+                        $editorText = $journal->edited_by ?? '-';
+                        preg_match('/^(.+) \(([^)]+)\)$/', $editorText, $editorMatches);
+                    @endphp
+                    {{ $editorMatches[1] ?? $editorText }}
+                    @if(isset($editorMatches[2]))
+                        <span class="badge bg-info">{{ $editorMatches[2] }}</span>
+                    @endif
+                </p>
             </div>
         </div>
     </div>

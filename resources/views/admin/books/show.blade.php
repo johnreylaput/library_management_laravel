@@ -38,7 +38,16 @@
                     <p class="mt-3"><strong>Description:</strong><br>{{ nl2br(e($book->description)) }}</p>
                 @endif
                 <p class="mt-3"><strong>Added By:</strong> {{ $book->added_by ?? '-' }}</p>
-                <p class="mb-1"><strong>Edited By:</strong> {{ $book->edited_by ?? '-' }}</p>
+                <p class="mb-1"><strong>Edited By:</strong>
+                    @php
+                        $editorText = $book->edited_by ?? '-';
+                        preg_match('/^(.+) \(([^)]+)\)$/', $editorText, $editorMatches);
+                    @endphp
+                    {{ $editorMatches[1] ?? $editorText }}
+                    @if(isset($editorMatches[2]))
+                        <span class="badge bg-info">{{ $editorMatches[2] }}</span>
+                    @endif
+                </p>
             </div>
         </div>
     </div>

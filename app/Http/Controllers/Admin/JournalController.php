@@ -97,7 +97,7 @@ class JournalController extends Controller
 
         $validated['status'] = 'Available';
 
-        Journal::create(array_merge($validated, ['added_by' => Auth::user()->section]));
+        Journal::create(array_merge($validated, ['added_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
 
         return redirect()->route('e-periodical.index', ['view' => 'all-journals'])->with('success', 'Journal created successfully.');
     }
@@ -143,7 +143,7 @@ class JournalController extends Controller
         }
         unset($validated['journal_name_source']);
 
-        $journal->update(array_merge($validated, ['edited_by' => Auth::user()->section]));
+        $journal->update(array_merge($validated, ['edited_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
 
         return redirect()->route('e-periodical.index', ['view' => 'all-journals'])->with('success', 'Journal updated successfully.');
     }

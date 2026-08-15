@@ -54,7 +54,16 @@
         </div>
         <div class="col-md-6 mb-2">
             <div class="detail-label">Edited By</div>
-            <div class="detail-value">{{ $thesis->edited_by ?? 'N/A' }}</div>
+            <div class="detail-value">
+                @php
+                    $editorText = $thesis->edited_by ?? 'N/A';
+                    preg_match('/^(.+) \(([^)]+)\)$/', $editorText, $editorMatches);
+                @endphp
+                {{ $editorMatches[1] ?? $editorText }}
+                @if(isset($editorMatches[2]))
+                    <span class="badge bg-info">{{ $editorMatches[2] }}</span>
+                @endif
+            </div>
         </div>
         @if($thesis->link)
             <div class="col-12 mb-2">

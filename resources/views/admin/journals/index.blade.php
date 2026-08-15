@@ -67,7 +67,16 @@
                 <td>{{ $journal->volume ?? '-' }} / {{ $journal->issue ?? '-' }}</td>
                 <td>{{ $journal->publication_date ?? '-' }}</td>
                 <td>{{ $journal->added_by ?? '-' }}</td>
-                <td>{{ $journal->edited_by ?? '-' }}</td>
+                <td>
+                    @php
+                        $editorText = $journal->edited_by ?? '-';
+                        preg_match('/^(.+) \(([^)]+)\)$/', $editorText, $editorMatches);
+                    @endphp
+                    {{ $editorMatches[1] ?? $editorText }}
+                    @if(isset($editorMatches[2]))
+                        <span class="badge bg-info">{{ $editorMatches[2] }}</span>
+                    @endif
+                </td>
                 <td>
                     <span class="badge bg-{{ $journal->status === 'Available' ? 'success' : 'danger' }}">
                         {{ $journal->status }}

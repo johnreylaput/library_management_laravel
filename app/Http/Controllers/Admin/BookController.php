@@ -114,7 +114,7 @@ class BookController extends Controller
             'status' => 'nullable|in:Available,Unavailable,Archived',
         ]);
 
-        $book->update(array_merge($validated, ['edited_by' => Auth::user()->section]));
+        $book->update(array_merge($validated, ['edited_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
 
         return redirect()->route('books.index')->with('success', 'Book updated successfully.');
     }

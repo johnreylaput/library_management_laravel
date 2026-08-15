@@ -122,7 +122,11 @@ class AuthController extends Controller
 
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        try {
+            return Socialite::driver('google')->redirect();
+        } catch (\Exception $e) {
+            return redirect('/login')->with('error', 'Google login is not configured. Please contact the administrator.');
+        }
     }
 
     public function handleGoogleCallback(Request $request)
