@@ -125,8 +125,8 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5>Pending Reservation Requests</h5>
-                <a href="{{ route('reservations.index') }}" class="btn btn-sm btn-primary">View All</a>
+                <h5>Pending Borrow Requests</h5>
+                <a href="{{ route('borrow.index') }}" class="btn btn-sm btn-primary">View All</a>
             </div>
             <div class="card-body">
                 @if($pendingBorrows->count() > 0)
