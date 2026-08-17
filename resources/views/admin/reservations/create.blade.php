@@ -28,7 +28,7 @@
                                         <input type="hidden" name="member_input" value="{{ old('member_input') }}">
                                         <input type="hidden" name="book_input" value="{{ $rec->title }}">
                                         <input type="hidden" name="reservation_date" value="{{ old('reservation_date', date('Y-m-d')) }}">
-                                        <input type="hidden" name="expiration_date" value="{{ old('expiration_date') }}">
+                                        <input type="hidden" name="due_date" value="{{ old('due_date') }}">
                                         <button type="submit" class="btn btn-outline-primary btn-sm w-100">Reserve This</button>
                                     </form>
                                 </div>
@@ -56,8 +56,8 @@
         <input type="date" name="reservation_date" class="form-control" value="{{ old('reservation_date', date('Y-m-d')) }}">
     </div>
     <div class="mb-3">
-        <label>Expiration Date</label>
-        <input type="date" name="expiration_date" class="form-control" value="{{ old('expiration_date') }}">
+        <label>Due Date</label>
+        <input type="date" name="due_date" class="form-control" value="{{ old('due_date') }}">
     </div>
     <button type="submit" class="btn btn-success">Save Reservation</button>
     <a href="{{ route('reservations.index') }}" class="btn btn-secondary">Cancel</a>

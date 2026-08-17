@@ -7,8 +7,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        :root {
+            --bg-image: url('{{ asset('images/bg.png') }}');
+            --header-image: url('{{ asset('images/lgn.png') }}');
+        }
+        
         body {
-            background: #1e3c72 url('{{ asset('images/bg.png') }}') center/cover no-repeat fixed;
+            background-color: #1e3c72;
+            background-image: var(--bg-image);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -25,9 +35,11 @@
             max-width: 1000px;
         }
         .register-header {
-            background: linear-gradient(135deg, rgba(30,60,114,0.85) 0%, rgba(42,82,152,0.85) 100%), url('{{ asset('images/lgn.png') }}') center/cover no-repeat;
+            background-color: #2a5298;
+            background-image: linear-gradient(135deg, rgba(30,60,114,0.85) 0%, rgba(42,82,152,0.85) 100%), var(--header-image);
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
             color: #fff;
             padding: 3rem 2rem;
             text-align: center;
@@ -133,18 +145,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Username</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-at"></i></span>
-                            <input type="text" name="username" class="form-control" value="{{ old('username') }}" required placeholder="Choose username">
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-12 mb-3">
                         <label class="form-label">Email</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            <input type="email" name="email" class="form-control" value="{{ old('email') }}" required placeholder="Enter email">
+                            <input type="email" name="email" class="form-control" value="{{ old('email') }}" required placeholder="Enter your email (e.g. yourname@gmail.com)">
                         </div>
                     </div>
                 </div>

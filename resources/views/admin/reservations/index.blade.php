@@ -13,7 +13,7 @@
             <th>Item Type</th>
             <th>Item Title</th>
             <th>Reservation Date</th>
-            <th>Expiration Date</th>
+            <th>Due Date</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
@@ -29,7 +29,7 @@
                 <td>{{ $itemType }}</td>
                 <td>{{ $itemTitle }}</td>
                 <td>{{ $reservation->reservation_date ?? '-' }}</td>
-                <td>{{ $reservation->expiration_date ?? '-' }}</td>
+                <td>{{ $reservation->due_date ?? '-' }}</td>
                 <td>
                     <span class="badge bg-{{ $reservation->status === 'Pending' ? 'warning' : ($reservation->status === 'Approved' ? 'info' : ($reservation->status === 'Claimed' ? 'success' : 'danger')) }}">
                         {{ $reservation->status }}

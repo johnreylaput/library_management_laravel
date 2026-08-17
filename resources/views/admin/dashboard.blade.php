@@ -80,7 +80,7 @@
                                             <span class="badge bg-warning text-dark">Due Tomorrow</span>
                                         @endif
                                     </div>
-                                    <form action="{{ route('notifications.send') }}" method="POST" class="d-inline" onsubmit="return confirm('Send due date notification to {{ $borrow->member->user->full_name ?? 'this member' }}?')">
+                                    <form action="{{ route('notifications.send') }}" method="POST" class="d-inline" onsubmit="return confirm(`Send due date notification to {{ $borrow->member->user->full_name ?? 'this member' }}?`)">
                                         @csrf
                                         <input type="hidden" name="type" value="borrow">
                                         <input type="hidden" name="record_id" value="{{ $borrow->id }}">
@@ -94,22 +94,22 @@
                     @endif
 
                     @if($dueReservations->count() > 0)
-                        <h6 class="mb-3">Reservations Expiring Soon</h6>
+                         <h6 class="mb-3">Reservations Due Soon</h6>
                         <div class="list-group list-group-flush">
                             @foreach($dueReservations as $reservation)
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
                                         <strong>{{ $reservation->member->user->full_name ?? 'Unknown' }}</strong>
                                         <br><small class="text-muted">Book: {{ $reservation->book->title ?? 'Unknown' }}</small>
-                                        <br><small class="text-muted">Expires: {{ $reservation->expiration_date }}</small>
-                                        <span class="badge bg-info">Expiring Soon</span>
+                                        <br><small class="text-muted">Due: {{ $reservation->due_date }}</small>
+                                        <span class="badge bg-info">Due Soon</span>
                                     </div>
-                                    <form action="{{ route('notifications.send') }}" method="POST" class="d-inline" onsubmit="return confirm('Send reservation reminder to {{ $reservation->member->user->full_name ?? 'this member' }}?')">
+                                    <form action="{{ route('notifications.send') }}" method="POST" class="d-inline" onsubmit="return confirm(`Send reservation reminder to {{ $reservation->member->user->full_name ?? 'this member' }}?`)">
                                         @csrf
                                         <input type="hidden" name="type" value="reservation">
                                         <input type="hidden" name="record_id" value="{{ $reservation->id }}">
                                         <input type="hidden" name="title" value="Reservation Expiring Soon">
-                                        <input type="hidden" name="message" value="Your reservation for {{ $reservation->book->title ?? 'the book' }} will expire on {{ $reservation->expiration_date }}. Please borrow it before it expires.">
+                                        <input type="hidden" name="message" value="Your reservation for {{ $reservation->book->title ?? 'the book' }} is due on {{ $reservation->due_date }}. Please borrow it before the due date.">
                                         <button type="submit" class="btn btn-primary btn-sm">Notify</button>
                                     </form>
                                 </div>
@@ -183,6 +183,7 @@
                                         <strong>{{ $reservation->member->user->full_name ?? 'Unknown Member' }}</strong>
                                         <br><small class="text-muted">{{ $itemType }}: {{ $itemTitle }}</small>
                                         <br><small class="text-muted">Reservation Date: {{ $reservation->reservation_date }}</small>
+                                        <br><small class="text-muted">Due Date: {{ $reservation->due_date }}</small>
                                     </div>
                                     <div>
                                         <form action="{{ route('reservations.approve', $reservation->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Approve this reservation?')">

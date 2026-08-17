@@ -51,7 +51,7 @@
         <div class="row">
             <div class="col-md-6">
                 <p><strong>Reservation Date:</strong> {{ $reservation->reservation_date ?? '-' }}</p>
-                <p><strong>Expiration Date:</strong> {{ $reservation->expiration_date ?? '-' }}</p>
+                <p><strong>Due Date:</strong> {{ $reservation->due_date ?? '-' }}</p>
             </div>
             <div class="col-md-6">
                 <p><strong>Status:</strong>

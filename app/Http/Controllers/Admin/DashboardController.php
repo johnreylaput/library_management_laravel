@@ -25,7 +25,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        if (in_array($user->role, ['Member', 'Working-Student'])) {
+        if (in_array($user->role, ['Member'])) {
             $member = Member::where('user_id', $user->id)->first();
             $stats = [
                 'total_books' => Book::count(),
@@ -131,7 +131,7 @@ class DashboardController extends Controller
 
         $dueReservations = Reservation::with(['member.user', 'book'])
             ->where('status', 'Pending')
-            ->where('expiration_date', '<=', $tomorrow)
+            ->where('due_date', '<=', $tomorrow)
             ->get();
 
         $showPendingAlert = false;

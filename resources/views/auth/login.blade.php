@@ -7,8 +7,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        :root {
+            --bg-image: url('{{ asset('images/bg.png') }}');
+            --header-image: url('{{ asset('images/lgn.png') }}');
+        }
+        
         body {
-            background: #1e3c72 url('{{ asset('images/bg.png') }}') center/cover no-repeat fixed;
+            background-color: #1e3c72;
+            background-image: var(--bg-image);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -24,9 +34,11 @@
             max-width: 1000px;
         }
         .login-header {
-            background: linear-gradient(135deg, rgba(30,60,114,0.85) 0%, rgba(42,82,152,0.85) 100%), url('{{ asset('images/lgn.png') }}') center/cover no-repeat;
+            background-color: #2a5298;
+            background-image: linear-gradient(135deg, rgba(30,60,114,0.85) 0%, rgba(42,82,152,0.85) 100%), var(--header-image);
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
             color: #fff;
             padding: 3rem 2rem;
             text-align: center;
@@ -82,28 +94,6 @@
         .divider span {
             padding: 0 1rem;
         }
-        .btn-google {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 0.6rem;
-            font-weight: 500;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            color: #333;
-            text-decoration: none;
-        }
-        .btn-google:hover {
-            background: #f8f9fa;
-            color: #333;
-        }
-        .btn-google img {
-            width: 20px;
-            height: 20px;
-        }
         .register-link {
             text-align: center;
             margin-top: 1.5rem;
@@ -121,6 +111,8 @@
         .alert {
             border-radius: 8px;
             font-size: 0.9rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
         }
     </style>
 </head>

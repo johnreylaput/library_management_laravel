@@ -10,6 +10,9 @@ use App\Models\Member;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\BorrowConfirmationMail;
+use App\Mail\RequestStatusMail;
+use Illuminate\Support\Facades\Mail;
 
 class BorrowController extends Controller
 {
@@ -28,7 +31,7 @@ class BorrowController extends Controller
     public function create()
     {
         $members = Member::with('user')->get();
-        $users = User::whereIn('role', ['Admin', 'Librarian'])->get();
+        $users = User::whereIn('role', ['Admin', 'Librarian', 'Working-Student'])->get();
         return view('admin.borrow.create', compact('members', 'users'));
     }
 
@@ -85,7 +88,7 @@ class BorrowController extends Controller
             $dueDate = $borrowDate->copy()->addDays(3);
         }
 
-        BorrowRecord::create([
+        $borrow = BorrowRecord::create([
             'member_id' => $member->id,
             'book_id' => $book->id,
             'borrowed_by' => $validated['borrowed_by'],
@@ -94,6 +97,16 @@ class BorrowController extends Controller
             'status' => 'Borrowed',
             'remarks' => $validated['remarks'],
         ]);
+
+        if ($member->user && $member->user->email) {
+            Mail::to($member->user->email)->send(new BorrowConfirmationMail(
+                userName: $member->user->full_name,
+                itemTitle: $book->title,
+                dueDate: $dueDate->toDateString(),
+                borrowDate: $validated['borrow_date'],
+                itemType: 'Book'
+            ));
+        }
 
         return redirect()->route('borrow.index')->with('success', 'Book borrowed successfully.');
     }
@@ -109,7 +122,7 @@ class BorrowController extends Controller
         $borrow = BorrowRecord::with(['member.user', 'book'])->findOrFail($id);
         $members = Member::with('user')->get();
         $books = Book::all();
-        $users = User::whereIn('role', ['Admin', 'Librarian'])->get();
+        $users = User::whereIn('role', ['Admin', 'Librarian', 'Working-Student'])->get();
         return view('admin.borrow.edit', compact('borrow', 'members', 'books', 'users'));
     }
 
@@ -172,6 +185,18 @@ class BorrowController extends Controller
 
         $borrow->update(['status' => 'Borrowed']);
 
+        $itemType = $borrow->book ? 'Book' : ($borrow->journal ? 'Journal' : ($borrow->thesis ? 'Thesis' : 'Item'));
+
+        if ($borrow->member->user && $borrow->member->user->email) {
+            Mail::to($borrow->member->user->email)->send(new BorrowConfirmationMail(
+                userName: $borrow->member->user->full_name,
+                itemTitle: $itemTitle,
+                dueDate: $borrow->due_date,
+                borrowDate: $borrow->borrow_date,
+                itemType: $itemType
+            ));
+        }
+
         ActivityLog::create([
             'user_id' => Auth::id(),
             'username' => Auth::user()?->username ?? 'Admin',
@@ -181,7 +206,7 @@ class BorrowController extends Controller
             'ip_address' => request()->ip(),
         ]);
 
-        return redirect()->route('borrow.index')->with('success', 'Borrow request approved successfully.');
+        return redirect()->route('borrow.index')->with('success', "Borrow request approved. Your request to borrow \"{$itemTitle}\" is Approved. Due date: {$borrow->due_date}");
     }
 
     public function reject($id)
@@ -196,6 +221,15 @@ class BorrowController extends Controller
 
         $borrow->update(['status' => 'Cancelled']);
 
+        if ($borrow->member->user && $borrow->member->user->email) {
+            Mail::to($borrow->member->user->email)->send(new RequestStatusMail(
+                userName: $borrow->member->user->full_name,
+                itemTitle: $itemTitle,
+                requestType: 'Borrow',
+                status: 'Rejected'
+            ));
+        }
+
         ActivityLog::create([
             'user_id' => Auth::id(),
             'username' => Auth::user()?->username ?? 'Admin',
@@ -205,6 +239,6 @@ class BorrowController extends Controller
             'ip_address' => request()->ip(),
         ]);
 
-        return redirect()->route('borrow.index')->with('success', 'Borrow request rejected successfully.');
+        return redirect()->route('borrow.index')->with('warning', "Borrow request rejected. Your request to borrow \"{$itemTitle}\" is Rejected.");
     }
 }

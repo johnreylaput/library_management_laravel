@@ -13,7 +13,7 @@ class Reservation extends Model
         'journal_id',
         'thesis_id',
         'reservation_date',
-        'expiration_date',
+        'due_date',
         'status',
     ];
 

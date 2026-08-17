@@ -22,3 +22,14 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+corepack
+corepack.cmd
+node.exe
+nodevars.bat
+npm
+npm.cmd
+npm.ps1
+npx
+npx.cmd
+npx.ps1
+install_tools.bat

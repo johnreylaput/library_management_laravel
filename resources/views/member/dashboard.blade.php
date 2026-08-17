@@ -131,7 +131,10 @@
                 <ul class="list-group list-group-flush">
                     @forelse($reservations as $reservation)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ $reservation->book->title ?? 'Book' }}
+                            <div>
+                                {{ $reservation->book->title ?? 'Book' }}
+                                <br><small class="text-muted">Due: {{ $reservation->due_date }}</small>
+                            </div>
                             <span class="badge bg-info">{{ $reservation->status }}</span>
                         </li>
                     @empty

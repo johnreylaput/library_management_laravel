@@ -9,6 +9,8 @@ use App\Models\Member;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\RequestStatusMail;
+use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
@@ -35,7 +37,7 @@ class ReservationController extends Controller
             'member_input' => 'required|string',
             'book_input' => 'required|string',
             'reservation_date' => 'nullable|date',
-            'expiration_date' => 'nullable|date|after_or_equal:reservation_date',
+            'due_date' => 'nullable|date|after_or_equal:reservation_date',
         ]);
 
         $member = Member::whereHas('user', function ($q) use ($request) {
@@ -67,11 +69,18 @@ class ReservationController extends Controller
             return back()->with('error', 'The book "' . $book->title . '" is currently unavailable. Here are some related books you may consider:')->with('recommendations', $recommendations)->withInput();
         }
 
+        $reservationDate = \Carbon\Carbon::parse($request->reservation_date ?? now()->toDateString());
+        $dueDate = \Carbon\Carbon::parse($request->due_date ?? $reservationDate->copy()->addDays(3)->toDateString());
+
+        if ($dueDate->lt($reservationDate->copy()->addDays(3))) {
+            $dueDate = $reservationDate->copy()->addDays(3);
+        }
+
         Reservation::create([
             'member_id' => $member->id,
             'book_id' => $book->id,
-            'reservation_date' => $request->reservation_date,
-            'expiration_date' => $request->expiration_date,
+            'reservation_date' => $reservationDate->toDateString(),
+            'due_date' => $dueDate->toDateString(),
             'status' => 'Pending',
         ]);
 
@@ -97,7 +106,7 @@ class ReservationController extends Controller
             'member_input' => 'required|string',
             'book_input' => 'required|string',
             'reservation_date' => 'nullable|date',
-            'expiration_date' => 'nullable|date|after_or_equal:reservation_date',
+            'due_date' => 'nullable|date|after_or_equal:reservation_date',
             'status' => 'required|in:Pending,Approved,Cancelled,Claimed',
         ]);
 
@@ -107,13 +116,26 @@ class ReservationController extends Controller
 
         $book = Book::where('title', 'like', '%' . $request->book_input . '%')->first();
 
-        $reservation->update([
-            'member_id' => $member ? $member->id : $reservation->member_id,
-            'book_id' => $book ? $book->id : $reservation->book_id,
+        if (!$member) {
+            return back()->with('error', 'Member not found. Please check the name or member number.')->withInput();
+        }
+
+        if (!$book) {
+            return back()->with('error', 'Book not found. Please check the title.')->withInput();
+        }
+
+        $updateData = [
+            'member_id' => $member->id,
+            'book_id' => $book->id,
             'reservation_date' => $validated['reservation_date'],
-            'expiration_date' => $validated['expiration_date'],
             'status' => $validated['status'],
-        ]);
+        ];
+
+        if (!empty($validated['due_date'])) {
+            $updateData['due_date'] = $validated['due_date'];
+        }
+
+        $reservation->update($updateData);
 
         return redirect()->route('reservations.index')->with('success', 'Reservation updated successfully.');
     }
@@ -138,6 +160,16 @@ class ReservationController extends Controller
 
         $itemTitle = $reservation->book?->title ?? $reservation->journal?->title ?? $reservation->thesis?->title ?? 'Unknown Item';
 
+        if ($reservation->member->user && $reservation->member->user->email) {
+            Mail::to($reservation->member->user->email)->send(new RequestStatusMail(
+                userName: $reservation->member->user->full_name,
+                itemTitle: $itemTitle,
+                requestType: 'Reservation',
+                status: 'Approved',
+                dueDate: $reservation->due_date
+            ));
+        }
+
         ActivityLog::create([
             'user_id' => Auth::id(),
             'username' => Auth::user()?->username ?? 'Admin',
@@ -147,7 +179,7 @@ class ReservationController extends Controller
             'ip_address' => request()->ip(),
         ]);
 
-        return redirect()->route('reservations.index')->with('success', 'Reservation approved successfully.');
+        return redirect()->route('reservations.index')->with('success', "Reservation approved. Your request to reserve \"{$itemTitle}\" is Approved. Due date: {$reservation->due_date}");
     }
 
     public function reject($id)
@@ -162,6 +194,15 @@ class ReservationController extends Controller
 
         $itemTitle = $reservation->book?->title ?? $reservation->journal?->title ?? $reservation->thesis?->title ?? 'Unknown Item';
 
+        if ($reservation->member->user && $reservation->member->user->email) {
+            Mail::to($reservation->member->user->email)->send(new RequestStatusMail(
+                userName: $reservation->member->user->full_name,
+                itemTitle: $itemTitle,
+                requestType: 'Reservation',
+                status: 'Rejected'
+            ));
+        }
+
         ActivityLog::create([
             'user_id' => Auth::id(),
             'username' => Auth::user()?->username ?? 'Admin',
@@ -171,6 +212,6 @@ class ReservationController extends Controller
             'ip_address' => request()->ip(),
         ]);
 
-        return redirect()->route('reservations.index')->with('success', 'Reservation rejected successfully.');
+        return redirect()->route('reservations.index')->with('warning', "Reservation rejected. Your request to reserve \"{$itemTitle}\" is Rejected.");
     }
 }

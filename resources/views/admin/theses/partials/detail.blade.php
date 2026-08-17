@@ -104,7 +104,7 @@
                 @csrf
                 <input type="hidden" name="thesis_id" value="{{ $thesis->id }}">
                 <input type="hidden" name="reservation_date" value="{{ date('Y-m-d') }}">
-                <input type="hidden" name="expiration_date" value="{{ date('Y-m-d', strtotime('+7 days')) }}">
+                <input type="hidden" name="due_date" value="{{ date('Y-m-d', strtotime('+3 days')) }}">
                 <button type="submit" class="btn btn-warning" @if($thesis->availability !== 'Available') disabled @endif>
                     <i class="bi bi-calendar-check"></i> Reserve
                 </button>

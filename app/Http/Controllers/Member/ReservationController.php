@@ -42,7 +42,7 @@ class ReservationController extends Controller
             'journal_id' => 'nullable|exists:journals,id',
             'thesis_id' => 'nullable|exists:theses,id',
             'reservation_date' => 'nullable|date',
-            'expiration_date' => 'nullable|date|after_or_equal:reservation_date',
+            'due_date' => 'nullable|date|after_or_equal:reservation_date',
         ]);
 
         $user = Auth::user();
@@ -72,13 +72,20 @@ class ReservationController extends Controller
             return back()->with('error', 'No item selected for reservation.');
         }
 
+        $reservationDate = \Carbon\Carbon::parse($request->reservation_date ?: now()->toDateString());
+        $dueDate = \Carbon\Carbon::parse($request->due_date ?: $reservationDate->copy()->addDays(3)->toDateString());
+
+        if ($dueDate->lt($reservationDate->copy()->addDays(3))) {
+            $dueDate = $reservationDate->copy()->addDays(3);
+        }
+
         Reservation::create([
             'member_id' => $member->id,
             'book_id' => $type === 'book' ? $item->id : null,
             'journal_id' => $type === 'journal' ? $item->id : null,
             'thesis_id' => $type === 'thesis' ? $item->id : null,
-            'reservation_date' => $request->reservation_date ?: now()->toDateString(),
-            'expiration_date' => $request->expiration_date,
+            'reservation_date' => $reservationDate->toDateString(),
+            'due_date' => $dueDate->toDateString(),
             'status' => 'Pending',
         ]);
 

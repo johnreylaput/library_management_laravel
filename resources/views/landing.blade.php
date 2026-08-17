@@ -7,11 +7,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        :root {
+            --bg-image: url('{{ asset('images/lgn.png') }}');
+        }
+        
         body {
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa url('{{ asset('images/lgn.png') }}') center/contain no-repeat fixed;
-            background-size: 100% auto;
+            background-color: #f5f7fa;
+            background-image: var(--bg-image);
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             overflow-x: hidden;
         }
         .hero {
@@ -211,13 +219,6 @@
                         <i class="bi bi-file-earmark-bar-graph"></i>
                         <h5>Reports</h5>
                         <p>Admins can generate insightful library reports.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card" data-animate>
-                        <i class="bi bi-google"></i>
-                        <h5>Google Login</h5>
-                        <p>Sign in quickly using your Google account.</p>
                     </div>
                 </div>
             </div>
