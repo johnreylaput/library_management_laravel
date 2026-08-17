@@ -18,46 +18,36 @@ class AuthController extends Controller
         }
         return view('auth.login');
     }
+public function login(Request $request)
+{
+    $credentials = $request->validate([
+        'username' => ['required', 'string'],
+        'password' => ['required', 'string'],
+    ]);
 
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'username' => ['required', 'string'],
-            'password' => ['required', 'string'],
+    $user = User::where('username', $credentials['username'])->first();
+
+    if ($user && Hash::check($credentials['password'], $user->password)) {
+        Auth::login($user);
+
+        $request->session()->regenerate();
+
+        ActivityLog::create([
+            'user_id' => $user->id,
+            'username' => $this->formatActivityUsername($user),
+            'role' => $user->role,
+            'action' => 'Login',
+            'description' => 'Logged in successfully',
+            'ip_address' => $request->ip(),
         ]);
 
-        $user = User::where('username', $credentials['username'])->first();
-
-        $authenticated = false;
-
-        if ($user && $user->password === $credentials['password']) {
-            $user->update(['password' => bcrypt($credentials['password'])]);
-            Auth::login($user);
-            $authenticated = true;
-        } elseif (Auth::attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
-            $authenticated = true;
-        }
-
-        if ($authenticated) {
-            $request->session()->regenerate();
-
-            ActivityLog::create([
-                'user_id' => Auth::id(),
-                'username' => $this->formatActivityUsername(Auth::user()),
-                'role' => Auth::user()->role,
-                'action' => 'Login',
-                'description' => 'Logged in successfully',
-                'ip_address' => $request->ip(),
-            ]);
-
-            return redirect()->route('e-periodical.index');
-        }
-
-        return back()->withErrors([
-            'username' => 'Invalid username or password.',
-        ]);
+        return redirect()->route('e-periodical.index');
     }
 
+    return back()->withErrors([
+        'username' => 'Invalid username or password.',
+    ]);
+}
     public function showRegister()
     {
         if (Auth::check()) {
