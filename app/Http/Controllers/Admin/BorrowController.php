@@ -7,6 +7,7 @@ use App\Models\ActivityLog;
 use App\Models\BorrowRecord;
 use App\Models\Book;
 use App\Models\Member;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -197,6 +198,18 @@ class BorrowController extends Controller
             ));
         }
 
+        if ($borrow->member->user) {
+            Notification::create([
+                'user_id' => $borrow->member->user->id,
+                'type' => 'borrow',
+                'borrow_id' => $borrow->id,
+                'title' => 'Borrow Request Approved',
+                'message' => "Your request to borrow \"{$itemTitle}\" is Approved. Due date: {$borrow->due_date}",
+                'is_read' => false,
+                'sent_by' => Auth::id(),
+            ]);
+        }
+
         ActivityLog::create([
             'user_id' => Auth::id(),
             'username' => Auth::user()?->username ?? 'Admin',
@@ -228,6 +241,18 @@ class BorrowController extends Controller
                 requestType: 'Borrow',
                 status: 'Rejected'
             ));
+        }
+
+        if ($borrow->member->user) {
+            Notification::create([
+                'user_id' => $borrow->member->user->id,
+                'type' => 'borrow',
+                'borrow_id' => $borrow->id,
+                'title' => 'Borrow Request Rejected',
+                'message' => "Your request to borrow \"{$itemTitle}\" is Rejected.",
+                'is_read' => false,
+                'sent_by' => Auth::id(),
+            ]);
         }
 
         ActivityLog::create([

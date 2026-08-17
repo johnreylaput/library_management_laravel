@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\Book;
 use App\Models\Member;
+use App\Models\Notification;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -170,6 +171,18 @@ class ReservationController extends Controller
             ));
         }
 
+        if ($reservation->member->user) {
+            Notification::create([
+                'user_id' => $reservation->member->user->id,
+                'type' => 'reservation',
+                'reservation_id' => $reservation->id,
+                'title' => 'Reservation Request Approved',
+                'message' => "Your request to reserve \"{$itemTitle}\" is Approved. Due date: {$reservation->due_date}",
+                'is_read' => false,
+                'sent_by' => Auth::id(),
+            ]);
+        }
+
         ActivityLog::create([
             'user_id' => Auth::id(),
             'username' => Auth::user()?->username ?? 'Admin',
@@ -201,6 +214,18 @@ class ReservationController extends Controller
                 requestType: 'Reservation',
                 status: 'Rejected'
             ));
+        }
+
+        if ($reservation->member->user) {
+            Notification::create([
+                'user_id' => $reservation->member->user->id,
+                'type' => 'reservation',
+                'reservation_id' => $reservation->id,
+                'title' => 'Reservation Request Rejected',
+                'message' => "Your request to reserve \"{$itemTitle}\" is Rejected.",
+                'is_read' => false,
+                'sent_by' => Auth::id(),
+            ]);
         }
 
         ActivityLog::create([
