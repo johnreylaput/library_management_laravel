@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
-use Pdo\Mysql;
+use PDO;
 
 return [
 
@@ -77,14 +77,9 @@ return [
             |
             */
 
-            'options' => extension_loaded('pdo_mysql')
-                ? array_filter([
-                    (PHP_VERSION_ID >= 80500
-                        ? Mysql::ATTR_SSL_CA
-                        : PDO::MYSQL_ATTR_SSL_CA
-                    ) => base_path('certs/aiven-ca.pem'),
-                ])
-                : [],
+            'options' => extension_loaded('pdo_mysql') ? [
+    PDO::MYSQL_ATTR_SSL_CA => base_path('api/certs/aiven-ca.pem'),
+] : [],
         ],
 
         'mariadb' => [
@@ -106,14 +101,9 @@ return [
             'strict' => true,
             'engine' => null,
 
-            'options' => extension_loaded('pdo_mysql')
-                ? array_filter([
-                    (PHP_VERSION_ID >= 80500
-                        ? Mysql::ATTR_SSL_CA
-                        : PDO::MYSQL_ATTR_SSL_CA
-                    ) => base_path('certs/aiven-ca.pem'),
-                ])
-                : [],
+            'options' => extension_loaded('pdo_mysql') ? [
+    PDO::MYSQL_ATTR_SSL_CA => base_path('api/certs/aiven-ca.pem'),
+] : [],
         ],
 
         'pgsql' => [
