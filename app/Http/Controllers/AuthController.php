@@ -11,14 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function showLogin()
-    {
-        if (Auth::check()) {
-            return redirect()->route('e-periodical.index');
-        }
-        return view('auth.login');
-    }
-public function login(Request $request)
+  public function login(Request $request)
 {
     $credentials = $request->validate([
         'username' => ['required', 'string'],
@@ -32,7 +25,7 @@ public function login(Request $request)
 
         $request->session()->regenerate();
 
-        return redirect()->route('e-periodical.index');
+        return redirect('/');
     }
 
     return back()->withErrors([
