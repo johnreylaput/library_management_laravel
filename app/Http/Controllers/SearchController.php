@@ -188,7 +188,6 @@ class SearchController extends Controller
 
         $journals = collect();
         $theses = collect();
-        $books = collect();
         $categories = Category::all();
         $allJournals = collect();
         $editingJournal = null;
@@ -235,34 +234,6 @@ class SearchController extends Controller
                 $journals = $journalQuery->get();
             }
 
-            if ($type === 'all' || $type === 'books') {
-                $bookQuery = Book::with(['category', 'author', 'publisher']);
-
-                if ($searchField === 'all') {
-                    $bookQuery->where(function ($q) use ($query) {
-                        $q->where('title', 'like', "%{$query}%")
-                          ->orWhere('isbn', 'like', "%{$query}%")
-                          ->orWhereHas('author', function ($q2) use ($query) {
-                              $q2->where('author_name', 'like', "%{$query}%");
-                          });
-                    });
-                } elseif ($searchField === 'isbn') {
-                    $bookQuery->where('isbn', 'like', "%{$query}%");
-                } elseif ($searchField === 'authors') {
-                    $bookQuery->whereHas('author', function ($q2) use ($query) {
-                        $q2->where('author_name', 'like', "%{$query}%");
-                    });
-                } else {
-                    $bookQuery->where($searchField, 'like', "%{$query}%");
-                }
-
-                if ($categoryId) {
-                    $bookQuery->where('category_id', $categoryId);
-                }
-
-                $books = $bookQuery->get();
-            }
-
             if ($type === 'all' || $type === 'theses') {
                 $thesisQuery = Thesis::with(['category', 'author', 'publisher']);
 
@@ -288,11 +259,6 @@ class SearchController extends Controller
                     ->where('category_id', $categoryId)
                     ->get();
             }
-            if ($type === 'all' || $type === 'books') {
-                $books = Book::with(['category', 'author', 'publisher'])
-                    ->where('category_id', $categoryId)
-                    ->get();
-            }
             if ($type === 'all' || $type === 'theses') {
                 $theses = Thesis::with(['category', 'author', 'publisher'])
                     ->where('category_id', $categoryId)
@@ -300,8 +266,8 @@ class SearchController extends Controller
             }
         }
 
-        $totalResults = $journals->count() + $theses->count() + $books->count();
+        $totalResults = $journals->count() + $theses->count();
 
-        return view('admin.search.e-periodical-index', compact('journals', 'theses', 'books', 'query', 'categories', 'categoryId', 'type', 'totalResults', 'view', 'allJournals', 'editingJournal', 'searchField'));
+        return view('admin.search.e-periodical-index', compact('journals', 'theses', 'query', 'categories', 'categoryId', 'type', 'totalResults', 'view', 'allJournals', 'editingJournal', 'searchField'));
     }
 }

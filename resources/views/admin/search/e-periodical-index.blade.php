@@ -337,7 +337,6 @@
                         <div class="col-md-2">
                             <select name="type" class="form-select">
                                 <option value="all" {{ ($type ?? 'all') == 'all' ? 'selected' : '' }}>All Types</option>
-                                <option value="books" {{ ($type ?? '') == 'books' ? 'selected' : '' }}>Books</option>
                                 <option value="journals" {{ ($type ?? '') == 'journals' ? 'selected' : '' }}>Journals</option>
                                 <option value="theses" {{ ($type ?? '') == 'theses' ? 'selected' : '' }}>Theses</option>
                             </select>
@@ -574,45 +573,6 @@
                     @endforeach
                 @endif
 
-                @if(($books->count() ?? 0) > 0)
-                    @foreach($books as $book)
-                        <div class="result-item" data-type="book" data-id="{{ $book->id }}" onclick="showBookDetail({{ $book->id }})">
-                            <div class="d-flex align-items-start">
-                                <div class="doc-icon">
-                                    <i class="bi bi-book"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div class="result-meta">
-                                        <strong>Title:</strong> {{ $book->title }}
-                                    </div>
-                                    <div class="result-meta">
-                                        <strong>Author:</strong> {{ $book->author->author_name ?? 'N/A' }}
-                                    </div>
-                                    <div class="result-meta">
-                                        <strong>ISBN:</strong> {{ $book->isbn ?? 'N/A' }}
-                                    </div>
-                                    <div class="result-meta">
-                                        <strong>Category/Subject:</strong> {{ $book->category->category_name ?? 'Uncategorized' }}
-                                    </div>
-                                    <div class="result-meta">
-                                        <strong>Publisher:</strong> {{ $book->publisher->publisher_name ?? 'N/A' }}
-                                    </div>
-                                    <div class="result-meta">
-                                        <strong>Year:</strong> {{ $book->publication_year ?? 'N/A' }}
-                                    </div>
-                                    <div class="result-meta">
-                                        <strong>Status:</strong>
-                                        <span class="badge bg-{{ ($book->available_quantity > 0 && $book->status === 'Available') ? 'success' : 'danger' }}">
-                                            {{ $book->status ?? 'Unavailable' }}
-                                        </span>
-                                        @if($book->available_quantity > 0)
-                                            <span class="badge bg-info">Available ({{ $book->available_quantity }})</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
                 @endif
             @elseif(!empty($query))
                 <div class="no-results">
@@ -689,24 +649,6 @@
             });
         }
 
-        function showBookDetail(id) {
-            const url = `{{ url('/books') }}/${id}`;
-            fetch(url + '?ajax=1', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('detailModalBody').innerHTML = html;
-                document.getElementById('detailModalLabel').textContent = 'Book Details';
-                new bootstrap.Modal(document.getElementById('detailModal')).show();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                window.open(url, '_blank');
-            });
-        }
     </script>
 </body>
 </html>
