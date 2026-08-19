@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
-use PDO;
+
 
 return [
 
@@ -78,7 +78,7 @@ return [
             */
 
             'options' => extension_loaded('pdo_mysql') ? [
-    PDO::MYSQL_ATTR_SSL_CA => base_path('api/certs/aiven-ca.pem'),
+    PDO::MYSQL_ATTR_SSL_CA => base_path('certs/aiven-ca.pem'),
 ] : [],
         ],
 
@@ -101,8 +101,8 @@ return [
             'strict' => true,
             'engine' => null,
 
-            'options' => extension_loaded('pdo_mysql') ? [
-    PDO::MYSQL_ATTR_SSL_CA => base_path('api/certs/aiven-ca.pem'),
+           'options' => extension_loaded('pdo_mysql') ? [
+    PDO::MYSQL_ATTR_SSL_CA => base_path('certs/aiven-ca.pem'),
 ] : [],
         ],
 

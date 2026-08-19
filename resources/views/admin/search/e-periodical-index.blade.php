@@ -571,7 +571,7 @@
                             </div>
                         </div>
                     @endforeach
-                @endif
+                
 
                 @endif
             @elseif(!empty($query))
