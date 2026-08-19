@@ -70,7 +70,7 @@ class AuthController extends Controller
             'ip_address' => $request->ip(),
         ]);
 
-        return redirect()->intended('/dashboard');
+        return redirect()->route('dashboard');
     }
 
     /**
