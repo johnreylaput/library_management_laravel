@@ -32,15 +32,6 @@ public function login(Request $request)
 
         $request->session()->regenerate();
 
-        ActivityLog::create([
-            'user_id' => $user->id,
-            'username' => $this->formatActivityUsername($user),
-            'role' => $user->role,
-            'action' => 'Login',
-            'description' => 'Logged in successfully',
-            'ip_address' => $request->ip(),
-        ]);
-
         return redirect()->route('e-periodical.index');
     }
 
