@@ -12,14 +12,41 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function login(Request $request)
-{
-    $credentials = $request->validate([
-        'username' => ['required', 'string'],
-        'password' => ['required', 'string'],
-    ]);
+    {
+        $credentials = $request->validate([
+            'username' => ['required', 'string'],
+            'password' => ['required', 'string'],
+        ]);
 
-    return 'VALIDATION REACHED';
-}
+        $user = User::where('username', $credentials['username'])->first();
+
+        if (! $user || ! Hash::check($credentials['password'], $user->password)) {
+            return back()->withErrors([
+                'username' => 'The provided credentials do not match our records.',
+            ])->withInput();
+        }
+
+        if ($user->status !== 'Active') {
+            return back()->withErrors([
+                'username' => 'Your account is not active. Please contact the administrator.',
+            ])->withInput();
+        }
+
+        Auth::login($user);
+
+        $request->session()->regenerate();
+
+        ActivityLog::create([
+            'user_id' => $user->id,
+            'username' => $this->formatActivityUsername($user),
+            'role' => $user->role,
+            'action' => 'Login',
+            'description' => 'Logged in',
+            'ip_address' => $request->ip(),
+        ]);
+
+        return redirect()->intended('/dashboard');
+    }
 
     public function showRegister()
     {
