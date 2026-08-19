@@ -1,11 +1,14 @@
+```blade
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Periodical Index - UC Library</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -262,56 +265,93 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container-fluid">
+
         <div class="header-branding">
             <div class="container">
                 <div class="d-flex justify-content-between align-items-center">
+
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('UCB.png') }}" alt="UC Banilad Campus Logo" class="me-3" style="max-height: 60px;">
-                        <img src="{{ asset('images/uc-library-logo.png') }}" alt="UC Library Logo" class="me-3" style="max-height: 50px;">
-                       
+                        <img src="{{ asset('UCB.png') }}"
+                             alt="UC Banilad Campus Logo"
+                             class="me-3"
+                             style="max-height: 60px;">
+
+                        <img src="{{ asset('images/uc-library-logo.png') }}"
+                             alt="UC Library Logo"
+                             class="me-3"
+                             style="max-height: 50px;">
                     </div>
+
                     <div class="text-center">
-                        <span class="fw-bold text-primary banner-index-title">IN-HOUSE-PERIODICAL INDEX</span>
+                        <span class="fw-bold text-primary banner-index-title">
+                            IN-HOUSE-PERIODICAL INDEX
+                        </span>
                     </div>
+
                     <div class="d-flex gap-2">
+
                         @if(Auth::check() && Auth::user()->role === 'Member')
-                            <a href="{{ route('search.index') }}" class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-arrow-left"></i> Back to Browse Resources
+                            <a href="{{ route('search.index') }}"
+                               class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-arrow-left"></i>
+                                Back to Browse Resources
                             </a>
                         @endif
+
                         @if(Auth::check() && in_array(Auth::user()->role, ['Admin', 'Librarian', 'Working-Student']))
+
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button type="button"
+                                        class="btn btn-primary btn-sm dropdown-toggle"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
                                     <i class="bi bi-gear"></i> Actions
                                 </button>
+
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'add-journal']) }}">
-                                            <i class="bi bi-plus-circle"></i> Add Journal Article
+                                        <a class="dropdown-item"
+                                           href="{{ route('e-periodical.index', ['view' => 'add-journal']) }}">
+                                            <i class="bi bi-plus-circle"></i>
+                                            Add Journal Article
                                         </a>
                                     </li>
+
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'all-journals']) }}">
-                                            <i class="bi bi-journal-arrow-down"></i> View Journal Article
+                                        <a class="dropdown-item"
+                                           href="{{ route('e-periodical.index', ['view' => 'all-journals']) }}">
+                                            <i class="bi bi-journal-arrow-down"></i>
+                                            View Journal Article
                                         </a>
                                     </li>
+
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'edit-journal']) }}">
-                                            <i class="bi bi-pencil"></i> Edit Journal Article
+                                        <a class="dropdown-item"
+                                           href="{{ route('e-periodical.index', ['view' => 'edit-journal']) }}">
+                                            <i class="bi bi-pencil"></i>
+                                            Edit Journal Article
                                         </a>
                                     </li>
+
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'delete-journal']) }}">
-                                            <i class="bi bi-trash"></i> Delete Journal Article
+                                        <a class="dropdown-item"
+                                           href="{{ route('e-periodical.index', ['view' => 'delete-journal']) }}">
+                                            <i class="bi bi-trash"></i>
+                                            Delete Journal Article
                                         </a>
                                     </li>
                                 </ul>
                             </div>
-                            <a href="{{ route('journals.index') }}" class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-arrow-left"></i> Back to Journals Dashboard
+
+                            <a href="{{ route('journals.index') }}"
+                               class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-arrow-left"></i>
+                                Back to Journals Dashboard
                             </a>
+
                         @endif
                     </div>
                 </div>
@@ -320,7 +360,9 @@
 
         <div class="campus-banner">
             <div class="container">
-                <div class="campus-banner-text text-start">University of Cebu Banilad</div>
+                <div class="campus-banner-text text-start">
+                    University of Cebu Banilad
+                </div>
             </div>
         </div>
 
@@ -331,288 +373,577 @@
         </div>
 
         <div class="container">
+
             <div class="search-section">
                 <form action="{{ route('e-periodical.index') }}" method="GET">
                     <div class="row g-3">
+
                         <div class="col-md-2">
                             <select name="type" class="form-select">
-                                <option value="all" {{ ($type ?? 'all') == 'all' ? 'selected' : '' }}>All Types</option>
-                                <option value="journals" {{ ($type ?? '') == 'journals' ? 'selected' : '' }}>Journals</option>
-                                <option value="theses" {{ ($type ?? '') == 'theses' ? 'selected' : '' }}>Theses</option>
+                                <option value="all"
+                                    {{ ($type ?? 'all') == 'all' ? 'selected' : '' }}>
+                                    All Types
+                                </option>
+
+                                <option value="journals"
+                                    {{ ($type ?? '') == 'journals' ? 'selected' : '' }}>
+                                    Journals
+                                </option>
+
+                                <option value="theses"
+                                    {{ ($type ?? '') == 'theses' ? 'selected' : '' }}>
+                                    Theses
+                                </option>
                             </select>
                         </div>
+
                         <div class="col-md-3">
-                            <select name="search_field" class="form-select" aria-label="Search field selector">
-                                <option value="all" {{ ($searchField ?? 'all') == 'all' ? 'selected' : '' }}>All Fields</option>
-                                <option value="title" {{ ($searchField ?? '') == 'title' ? 'selected' : '' }}>Title</option>
-                                <option value="authors" {{ ($searchField ?? '') == 'authors' ? 'selected' : '' }}>Author</option>
-                                <option value="journal_name" {{ ($searchField ?? '') == 'journal_name' ? 'selected' : '' }}>Journal Name</option>
-                                <option value="keyword" {{ ($searchField ?? '') == 'keyword' ? 'selected' : '' }}>Keyword</option>
-                                <option value="subjects" {{ ($searchField ?? '') == 'subjects' ? 'selected' : '' }}>Subject</option>
-                                <option value="doi" {{ ($searchField ?? '') == 'doi' ? 'selected' : '' }}>DOI / ISSN</option>
-                                <option value="isbn" {{ ($searchField ?? '') == 'isbn' ? 'selected' : '' }}>ISBN</option>
+                            <select name="search_field"
+                                    class="form-select"
+                                    aria-label="Search field selector">
+
+                                <option value="all"
+                                    {{ ($searchField ?? 'all') == 'all' ? 'selected' : '' }}>
+                                    All Fields
+                                </option>
+
+                                <option value="title"
+                                    {{ ($searchField ?? '') == 'title' ? 'selected' : '' }}>
+                                    Title
+                                </option>
+
+                                <option value="authors"
+                                    {{ ($searchField ?? '') == 'authors' ? 'selected' : '' }}>
+                                    Author
+                                </option>
+
+                                <option value="journal_name"
+                                    {{ ($searchField ?? '') == 'journal_name' ? 'selected' : '' }}>
+                                    Journal Name
+                                </option>
+
+                                <option value="keyword"
+                                    {{ ($searchField ?? '') == 'keyword' ? 'selected' : '' }}>
+                                    Keyword
+                                </option>
+
+                                <option value="subjects"
+                                    {{ ($searchField ?? '') == 'subjects' ? 'selected' : '' }}>
+                                    Subject
+                                </option>
+
+                                <option value="doi"
+                                    {{ ($searchField ?? '') == 'doi' ? 'selected' : '' }}>
+                                    DOI / ISSN
+                                </option>
+
+                                <option value="isbn"
+                                    {{ ($searchField ?? '') == 'isbn' ? 'selected' : '' }}>
+                                    ISBN
+                                </option>
                             </select>
                         </div>
+
                         <div class="col-md-5">
-                            <input type="text" name="q" class="form-control" placeholder="Search by title, author, journal name, subject, keyword, DOI, ISSN..." value="{{ $query ?? '' }}">
+                            <input type="text"
+                                   name="q"
+                                   class="form-control"
+                                   placeholder="Search by title, author, journal name, subject, keyword, DOI, ISSN..."
+                                   value="{{ $query ?? '' }}">
                         </div>
+
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary w-100">
+                            <button type="submit"
+                                    class="btn btn-primary w-100">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
+
                     </div>
                 </form>
             </div>
 
+            {{-- ADD JOURNAL --}}
             @if($view === 'add-journal')
+
                 <div class="alert alert-info">
-                    <h5><i class="bi bi-plus-circle"></i> Add Journal Article</h5>
+                    <h5>
+                        <i class="bi bi-plus-circle"></i>
+                        Add Journal Article
+                    </h5>
+
                     <p>Click the button below to add a new journal article.</p>
-                    <a href="{{ route('journals.create') }}" class="btn btn-primary">
-                        <i class="bi bi-plus-circle"></i> Add New Journal Article
+
+                    <a href="{{ route('journals.create') }}"
+                       class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i>
+                        Add New Journal Article
                     </a>
                 </div>
+
             @endif
 
+
+            {{-- ALL JOURNALS --}}
             @if($view === 'all-journals' && $allJournals->count() > 0)
+
                 <div class="results-header">
-                    <h3>All Journal Articles ({{ $allJournals->count() }})</h3>
+                    <h3>
+                        All Journal Articles ({{ $allJournals->count() }})
+                    </h3>
                 </div>
+
                 @foreach($allJournals as $journal)
-                    <div class="result-item" data-type="journal" data-id="{{ $journal->id }}" onclick="showJournalDetail({{ $journal->id }})">
+
+                    <div class="result-item"
+                         data-type="journal"
+                         data-id="{{ $journal->id }}"
+                         onclick="showJournalDetail({{ $journal->id }})">
+
                         <div class="d-flex align-items-start">
+
                             <div class="doc-icon">
                                 <i class="bi bi-journal-arrow-down"></i>
                             </div>
+
                             <div class="flex-grow-1">
+
                                 <div class="result-meta">
-                                    <strong>Author of the Article:</strong> {{ $journal->authors ?? 'N/A' }}
+                                    <strong>Author of the Article:</strong>
+                                    {{ $journal->authors ?? 'N/A' }}
                                 </div>
+
                                 <div class="result-meta">
-                                    <strong>Title of the Article:</strong> {{ $journal->title }}
+                                    <strong>Title of the Article:</strong>
+                                    {{ $journal->title }}
                                 </div>
+
                                 @if(!empty($journal->source))
                                     <div class="result-meta">
-                                        <strong>Source:</strong> "{{ $journal->source }}"
+                                        <strong>Source:</strong>
+                                        "{{ $journal->source }}"
                                     </div>
                                 @endif
+
                                 <div class="result-meta">
-                                    <strong>Title of the Journal:</strong> {{ $journal->journal_name ?? 'N/A' }}
+                                    <strong>Title of the Journal:</strong>
+                                    {{ $journal->journal_name ?? 'N/A' }}
                                 </div>
+
                                 <div class="result-meta">
-                                    <strong>Abstract:</strong> "{{ \Illuminate\Support\Str::limit($journal->abstract, 250) ?: 'No abstract available.' }}"
+                                    <strong>Abstract:</strong>
+                                    "{{ \Illuminate\Support\Str::limit($journal->abstract, 250) ?: 'No abstract available.' }}"
                                 </div>
+
                                 <div class="result-meta">
-                                    <strong>Subject:</strong> {{ $journal->subjects ?? ($journal->category_text ?? 'N/A') }}
+                                    <strong>Subject:</strong>
+                                    {{ $journal->subjects ?? ($journal->category_text ?? 'N/A') }}
                                 </div>
+
                                 @if(!empty($journal->keyword))
                                     <div class="result-meta">
-                                        <strong>Keyword:</strong> {{ $journal->keyword }}
+                                        <strong>Keyword:</strong>
+                                        {{ $journal->keyword }}
                                     </div>
                                 @endif
+
                                 <div class="result-meta">
-                                    <strong>Note:</strong> {{ \Illuminate\Support\Str::limit($journal->description, 250) ?: 'No additional note available.' }}
+                                    <strong>Note:</strong>
+                                    {{ \Illuminate\Support\Str::limit($journal->description, 250) ?: 'No additional note available.' }}
                                 </div>
+
                             </div>
                         </div>
                     </div>
+
                 @endforeach
+
             @endif
 
+
+            {{-- EDIT JOURNAL --}}
             @if($view === 'edit-journal' && $allJournals->count() > 0)
+
                 <div class="results-header">
-                    <h3>Select a Journal Article to Edit ({{ $allJournals->count() }})</h3>
+                    <h3>
+                        Select a Journal Article to Edit
+                        ({{ $allJournals->count() }})
+                    </h3>
                 </div>
+
                 @foreach($allJournals as $journal)
-                    <div class="result-item" data-type="journal" data-id="{{ $journal->id }}">
+
+                    <div class="result-item"
+                         data-type="journal"
+                         data-id="{{ $journal->id }}">
+
                         <div class="d-flex align-items-start">
+
                             <div class="doc-icon">
                                 <i class="bi bi-journal-arrow-down"></i>
                             </div>
+
                             <div class="flex-grow-1">
+
                                 <div class="result-meta">
-                                    <strong>Author of the Article:</strong> {{ $journal->authors ?? 'N/A' }}
+                                    <strong>Author of the Article:</strong>
+                                    {{ $journal->authors ?? 'N/A' }}
                                 </div>
+
                                 <div class="result-meta">
-                                    <strong>Title of the Article:</strong> {{ $journal->title }}
+                                    <strong>Title of the Article:</strong>
+                                    {{ $journal->title }}
                                 </div>
+
                                 <div class="result-meta">
-                                    <strong>Title of the Journal:</strong> {{ $journal->journal_name ?? 'N/A' }}
+                                    <strong>Title of the Journal:</strong>
+                                    {{ $journal->journal_name ?? 'N/A' }}
                                 </div>
+
                             </div>
+
                             <div class="ms-3">
-                                <a href="{{ route('journals.edit', $journal->id) }}" class="btn btn-warning btn-sm" onclick="event.stopPropagation();">
-                                    <i class="bi bi-pencil"></i> Edit
+                                <a href="{{ route('journals.edit', $journal->id) }}"
+                                   class="btn btn-warning btn-sm"
+                                   onclick="event.stopPropagation();">
+
+                                    <i class="bi bi-pencil"></i>
+                                    Edit
                                 </a>
                             </div>
+
                         </div>
                     </div>
+
                 @endforeach
+
             @endif
 
+
+            {{-- DELETE JOURNAL --}}
             @if($view === 'delete-journal' && $allJournals->count() > 0)
+
                 <div class="results-header">
-                    <h3>Select a Journal Article to Delete ({{ $allJournals->count() }})</h3>
+                    <h3>
+                        Select a Journal Article to Delete
+                        ({{ $allJournals->count() }})
+                    </h3>
                 </div>
+
                 @foreach($allJournals as $journal)
-                    <div class="result-item" data-type="journal" data-id="{{ $journal->id }}">
+
+                    <div class="result-item"
+                         data-type="journal"
+                         data-id="{{ $journal->id }}">
+
                         <div class="d-flex align-items-start">
+
                             <div class="doc-icon">
                                 <i class="bi bi-journal-arrow-down"></i>
                             </div>
+
                             <div class="flex-grow-1">
+
                                 <div class="result-meta">
-                                    <strong>Author of the Article:</strong> {{ $journal->authors ?? 'N/A' }}
+                                    <strong>Author of the Article:</strong>
+                                    {{ $journal->authors ?? 'N/A' }}
                                 </div>
+
                                 <div class="result-meta">
-                                    <strong>Title of the Article:</strong> {{ $journal->title }}
+                                    <strong>Title of the Article:</strong>
+                                    {{ $journal->title }}
                                 </div>
+
                                 <div class="result-meta">
-                                    <strong>Title of the Journal:</strong> {{ $journal->journal_name ?? 'N/A' }}
+                                    <strong>Title of the Journal:</strong>
+                                    {{ $journal->journal_name ?? 'N/A' }}
                                 </div>
+
                             </div>
+
                             <div class="ms-3">
+
                                 @if(Auth::check() && Auth::user()->role === 'Working-Student')
-                                    <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Submit a deletion request for this journal? The librarian will review it.');">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="event.stopPropagation();">
-                                            <i class="bi bi-send"></i> Request Deletion
+
+                                    <form action="{{ route('journals.destroy', $journal->id) }}"
+                                          method="POST"
+                                          class="d-inline"
+                                          onsubmit="event.stopPropagation(); return confirm('Submit a deletion request for this journal? The librarian will review it.');">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="event.stopPropagation();">
+
+                                            <i class="bi bi-send"></i>
+                                            Request Deletion
                                         </button>
                                     </form>
+
                                 @else
-                                    <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Delete this journal article permanently?');">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="event.stopPropagation();">
-                                            <i class="bi bi-trash"></i> Delete
+
+                                    <form action="{{ route('journals.destroy', $journal->id) }}"
+                                          method="POST"
+                                          class="d-inline"
+                                          onsubmit="event.stopPropagation(); return confirm('Delete this journal article permanently?');">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="event.stopPropagation();">
+
+                                            <i class="bi bi-trash"></i>
+                                            Delete
                                         </button>
                                     </form>
+
                                 @endif
+
                             </div>
                         </div>
                     </div>
+
                 @endforeach
+
             @endif
 
+
+            {{-- SEARCH RESULTS --}}
             @if(isset($totalResults) && $totalResults > 0)
+
                 <div class="results-header">
-                    <h3>Your search found {{ $totalResults }} result(s).</h3>
+                    <h3>
+                        Your search found {{ $totalResults }} result(s).
+                    </h3>
                 </div>
 
+
+                {{-- JOURNALS --}}
                 @if(($journals->count() ?? 0) > 0)
+
                     @foreach($journals as $journal)
-                        <div class="result-item" data-type="journal" data-id="{{ $journal->id }}" onclick="showJournalDetail({{ $journal->id }})">
+
+                        <div class="result-item"
+                             data-type="journal"
+                             data-id="{{ $journal->id }}"
+                             onclick="showJournalDetail({{ $journal->id }})">
+
                             <div class="d-flex align-items-start">
+
                                 <div class="doc-icon">
                                     <i class="bi bi-journal-arrow-down"></i>
                                 </div>
+
                                 <div class="flex-grow-1">
+
                                     <div class="result-meta">
-                                        <strong>Author of the Article:</strong> {{ $journal->authors ?? 'N/A' }}
+                                        <strong>Author of the Article:</strong>
+                                        {{ $journal->authors ?? 'N/A' }}
                                     </div>
+
                                     <div class="result-meta">
-                                        <strong>Title of the Article:</strong> {{ $journal->title }}
+                                        <strong>Title of the Article:</strong>
+                                        {{ $journal->title }}
                                     </div>
+
                                     @if(!empty($journal->source))
                                         <div class="result-meta">
-                                            <strong>Source:</strong> "{{ $journal->source }}"
+                                            <strong>Source:</strong>
+                                            "{{ $journal->source }}"
                                         </div>
                                     @endif
+
                                     <div class="result-meta">
-                                        <strong>Title of the Journal:</strong> {{ $journal->journal_name ?? 'N/A' }}
+                                        <strong>Title of the Journal:</strong>
+                                        {{ $journal->journal_name ?? 'N/A' }}
                                     </div>
+
                                     <div class="result-meta">
-                                        <strong>Abstract:</strong> "{{ \Illuminate\Support\Str::limit($journal->abstract, 250) ?: 'No abstract available.' }}"
+                                        <strong>Abstract:</strong>
+                                        "{{ \Illuminate\Support\Str::limit($journal->abstract, 250) ?: 'No abstract available.' }}"
                                     </div>
+
                                     <div class="result-meta">
-                                        <strong>Subject:</strong> {{ $journal->subjects ?? ($journal->category_text ?? 'N/A') }}
+                                        <strong>Subject:</strong>
+                                        {{ $journal->subjects ?? ($journal->category_text ?? 'N/A') }}
                                     </div>
+
                                     <div class="result-meta">
-                                        <strong>Note:</strong> {{ \Illuminate\Support\Str::limit($journal->description, 250) ?: 'No additional note available.' }}
+                                        <strong>Note:</strong>
+                                        {{ \Illuminate\Support\Str::limit($journal->description, 250) ?: 'No additional note available.' }}
                                     </div>
+
                                 </div>
                             </div>
                         </div>
+
                     @endforeach
+
                 @endif
 
+
+                {{-- THESES --}}
                 @if(($theses->count() ?? 0) > 0)
+
                     @foreach($theses as $thesis)
-                        <div class="result-item" data-type="thesis" data-id="{{ $thesis->id }}" onclick="showThesisDetail({{ $thesis->id }})">
+
+                        <div class="result-item"
+                             data-type="thesis"
+                             data-id="{{ $thesis->id }}"
+                             onclick="showThesisDetail({{ $thesis->id }})">
+
                             <div class="d-flex align-items-start">
+
                                 <div class="doc-icon">
                                     <i class="bi bi-file-earmark-text"></i>
                                 </div>
+
                                 <div class="flex-grow-1">
+
                                     <div class="result-meta">
-                                        <strong>Author:</strong> {{ $thesis->authors ?? 'N/A' }}
+                                        <strong>Author:</strong>
+                                        {{ $thesis->authors ?? 'N/A' }}
                                     </div>
+
                                     <div class="result-meta">
-                                        <strong>Title:</strong> {{ $thesis->title }}
+                                        <strong>Title:</strong>
+                                        {{ $thesis->title }}
                                     </div>
+
                                     <div class="result-meta">
-                                        <strong>Source:</strong> {{ $thesis->institution ?? 'N/A' }}
+                                        <strong>Source:</strong>
+                                        {{ $thesis->institution ?? 'N/A' }}
                                     </div>
+
                                     <div class="result-meta">
-                                        <strong>Thesis Type:</strong> {{ $thesis->thesis_type ?? 'N/A' }} |
-                                        <strong>Year:</strong> {{ $thesis->year ?? 'N/A' }} |
-                                        <strong>Pages:</strong> {{ $thesis->pages ?? 'N/A' }}
+                                        <strong>Thesis Type:</strong>
+                                        {{ $thesis->thesis_type ?? 'N/A' }}
+                                        |
+                                        <strong>Year:</strong>
+                                        {{ $thesis->year ?? 'N/A' }}
+                                        |
+                                        <strong>Pages:</strong>
+                                        {{ $thesis->pages ?? 'N/A' }}
                                     </div>
+
                                     <div class="result-meta">
-                                        <strong>Abstract:</strong> {{ \Illuminate\Support\Str::limit($thesis->abstract, 250) ?: 'No abstract available.' }}
+                                        <strong>Abstract:</strong>
+                                        {{ \Illuminate\Support\Str::limit($thesis->abstract, 250) ?: 'No abstract available.' }}
                                     </div>
+
                                     <div class="result-meta">
-                                        <strong>Subject:</strong> {{ $thesis->subjects ?? ($thesis->category->category_name ?? 'N/A') }}
+                                        <strong>Subject:</strong>
+                                        {{ $thesis->subjects ?? ($thesis->category->category_name ?? 'N/A') }}
                                     </div>
+
                                     <div class="result-meta">
-                                        <strong>Note:</strong> {{ \Illuminate\Support\Str::limit($thesis->description, 250) ?: 'No additional note available.' }}
+                                        <strong>Note:</strong>
+                                        {{ \Illuminate\Support\Str::limit($thesis->description, 250) ?: 'No additional note available.' }}
                                     </div>
+
                                 </div>
                             </div>
                         </div>
+
                     @endforeach
-                
 
                 @endif
+
             @elseif(!empty($query))
+
                 <div class="no-results">
                     <i class="bi bi-search d-block"></i>
-                    <h4>No results found for "{{ $query }}"</h4>
-                    <p class="text-muted">Try refining your search or browse categories.</p>
+
+                    <h4>
+                        No results found for "{{ $query }}"
+                    </h4>
+
+                    <p class="text-muted">
+                        Try refining your search or browse categories.
+                    </p>
                 </div>
+
             @else
+
                 <div class="no-results">
                     <i class="bi bi-journal-arrow-down d-block"></i>
-                    <h4>Welcome to the E-Periodical Index</h4>
-                    <p class="text-muted">Search for journals and theses using the search box above.</p>
+
+                    <h4>
+                        Welcome to the E-Periodical Index
+                    </h4>
+
+                    <p class="text-muted">
+                        Search for journals and theses using the search box above.
+                    </p>
                 </div>
+
             @endif
+
         </div>
     </div>
 
-    <div class="modal fade detail-modal" id="detailModal" tabindex="-1" aria-hidden="true">
+
+    {{-- DETAIL MODAL --}}
+    <div class="modal fade detail-modal"
+         id="detailModal"
+         tabindex="-1"
+         aria-hidden="true">
+
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
             <div class="modal-content">
+
                 <div class="modal-header">
-                    <button type="button" class="btn btn-light btn-sm" onclick="window.location.href='{{ route('search.index') }}'" aria-label="Back to Browse Resources">
-                        <i class="bi bi-arrow-left"></i> Back
+
+                    <button type="button"
+                            class="btn btn-light btn-sm"
+                            onclick="window.location.href='{{ route('search.index') }}'"
+                            aria-label="Back to Browse Resources">
+
+                        <i class="bi bi-arrow-left"></i>
+                        Back
                     </button>
-                    <h5 class="modal-title" id="detailModalLabel">Journal Details</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                    <h5 class="modal-title"
+                        id="detailModalLabel">
+                        Journal Details
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                    </button>
+
                 </div>
-                <div class="modal-body" id="detailModalBody">
+
+                <div class="modal-body"
+                     id="detailModalBody">
                 </div>
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>
                 </div>
+
             </div>
         </div>
     </div>
 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         function showJournalDetail(id) {
             const url = `{{ url('/journals') }}/${id}`;
+
             fetch(url + '?ajax=1', {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
@@ -622,7 +953,10 @@
             .then(html => {
                 document.getElementById('detailModalBody').innerHTML = html;
                 document.getElementById('detailModalLabel').textContent = 'Journal Details';
-                new bootstrap.Modal(document.getElementById('detailModal')).show();
+
+                new bootstrap.Modal(
+                    document.getElementById('detailModal')
+                ).show();
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -630,8 +964,10 @@
             });
         }
 
+
         function showThesisDetail(id) {
             const url = `{{ url('/theses') }}/${id}`;
+
             fetch(url + '?ajax=1', {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
@@ -641,14 +977,18 @@
             .then(html => {
                 document.getElementById('detailModalBody').innerHTML = html;
                 document.getElementById('detailModalLabel').textContent = 'Thesis Details';
-                new bootstrap.Modal(document.getElementById('detailModal')).show();
+
+                new bootstrap.Modal(
+                    document.getElementById('detailModal')
+                ).show();
             })
             .catch(error => {
                 console.error('Error:', error);
                 window.open(url, '_blank');
             });
         }
-
     </script>
+
 </body>
 </html>
+```
