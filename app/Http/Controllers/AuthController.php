@@ -11,34 +11,29 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-  public function login(Request $request)
-{
-    $credentials = $request->validate([
-        'username' => ['required', 'string'],
-        'password' => ['required', 'string'],
-    ]);
+    public function showLogin()
+    {
+        if (Auth::check()) {
+            return redirect()->route('e-periodical.index');
+        }
 
-    $user = User::where('username', $credentials['username'])->first();
-
-    if ($user && Hash::check($credentials['password'], $user->password)) {
-        Auth::login($user);
-
-        $request->session()->regenerate();
-
-        return redirect('/');
+        return view('auth.login');
     }
 
-    return back()->withErrors([
-        'username' => 'Invalid username or password.',
-    ]);
-}
+    public function login(Request $request)
+    {
+        return 'LOGIN METHOD REACHED';
+    }
+
     public function showRegister()
     {
         if (Auth::check()) {
             return redirect('/');
         }
+
         return view('auth.register');
     }
+
 
     public function register(Request $request)
     {
