@@ -28,6 +28,7 @@
             <option value="Admin" {{ $user->role === 'Admin' ? 'selected' : '' }}>Admin</option>
             <option value="Librarian" {{ $user->role === 'Librarian' ? 'selected' : '' }}>Librarian</option>
             <option value="Member" {{ $user->role === 'Member' ? 'selected' : '' }}>Member</option>
+            <option value="Working-Student" {{ $user->role === 'Working-Student' ? 'selected' : '' }}>Working Student</option>
         </select>
     </div>
     <div class="mb-3">

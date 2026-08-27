@@ -14,6 +14,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('Admin', 'Librarian', 'Member') NOT NULL");
+        DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('Admin', 'Librarian', 'Member', 'Working-Student') NOT NULL");
     }
 };
