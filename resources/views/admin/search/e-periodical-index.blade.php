@@ -273,7 +273,7 @@
                        
                     </div>
                     <div class="text-center">
-                        <span class="fw-bold text-primary banner-index-title">IN-HOUSE-PERIODICAL INDEX</span>
+                        <span class="fw-bold text-primary banner-index-title">PERIODICAL INDEX</span>
                     </div>
                     <div class="d-flex gap-2">
                         @if(Auth::check() && Auth::user()->role === 'Member')
@@ -310,7 +310,7 @@
                                 </ul>
                             </div>
                             <a href="{{ route('journals.index') }}" class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-arrow-left"></i> Back to Journals Dashboard
+                                <i class="bi bi-arrow-left"></i> Back to Periodicals Dashboard
                             </a>
                         @endif
                     </div>
@@ -336,8 +336,8 @@
                     <div class="row g-3">
                         <div class="col-md-2">
                             <select name="type" class="form-select">
-                                <option value="all" {{ ($type ?? 'all') == 'all' ? 'selected' : '' }}>All Types</option>
-                                <option value="journals" {{ ($type ?? '') == 'journals' ? 'selected' : '' }}>Journals</option>
+                                <option value="all" {{ ($type ?? 'all') == 'all' ? 'selected' : '' }}>Databases</option>
+                                <option value="journals" {{ ($type ?? '') == 'journals' ? 'selected' : '' }}>Periodicals</option>
                                 <option value="theses" {{ ($type ?? '') == 'theses' ? 'selected' : '' }}>Theses</option>
                             </select>
                         </div>
@@ -354,7 +354,7 @@
                             </select>
                         </div>
                         <div class="col-md-5">
-                            <input type="text" name="q" class="form-control" placeholder="Search by title, author, journal name, subject, keyword, DOI, ISSN..." value="{{ $query ?? '' }}">
+                            <input type="text" name="q" class="form-control" placeholder="" value="{{ $query ?? '' }}">
                         </div>
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-primary w-100">

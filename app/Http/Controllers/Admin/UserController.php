@@ -18,6 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+
         return view('admin.users.index', compact('users'));
     }
 
@@ -33,7 +34,10 @@ class UserController extends Controller
             'username' => 'required|string|max:50|unique:users,username',
             'email' => 'required|email|max:100|unique:users,email',
             'password' => 'required|string|min:8',
-            'role' => 'required|in:Admin,Librarian,Member',
+
+            // Added Working-Student
+            'role' => 'required|in:Admin,Librarian,Member,Working-Student',
+
             'status' => 'required|in:Active,Inactive',
         ]);
 
@@ -41,30 +45,38 @@ class UserController extends Controller
 
         User::create($validated);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'User created successfully.');
     }
 
     public function show($id)
     {
         $user = User::findOrFail($id);
+
         return view('admin.users.show', compact('user'));
     }
 
     public function edit($id)
     {
         $user = User::findOrFail($id);
+
         return view('admin.users.edit', compact('user'));
     }
 
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
+
         $validated = $request->validate([
             'full_name' => 'required|string|max:150',
             'username' => 'required|string|max:50|unique:users,username,' . $user->id,
             'email' => 'required|email|max:100|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8',
-            'role' => 'required|in:Admin,Librarian,Member',
+
+            // Added Working-Student
+            'role' => 'required|in:Admin,Librarian,Member,Working-Student',
+
             'status' => 'required|in:Active,Inactive',
         ]);
 
@@ -76,14 +88,19 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'User updated successfully.');
     }
 
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'User deleted successfully.');
     }
 }
