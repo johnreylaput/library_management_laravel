@@ -32,18 +32,6 @@
             <label>Title of the Journal:</label>
             <input type="text" name="journal_name" class="form-control" required>
         </div>
-        <div class="col-md-12 mb-3">
-            <label>Abstract: "full abstract"</label>
-            <textarea name="abstract" class="form-control" rows="4"></textarea>
-        </div>
-        <div class="col-md-12 mb-3">
-            <label>Keyword:</label>
-            <input type="text" name="keyword" class="form-control">
-        </div>
-        <div class="col-md-12 mb-3">
-            <label>Note:</label>
-            <textarea name="description" class="form-control" rows="3"></textarea>
-        </div>
         <div class="col-md-6 mb-3">
             <label>Volume</label>
             <input type="text" name="volume" class="form-control">
@@ -76,6 +64,18 @@
                 <option value="Unavailable">Unavailable</option>
                 <option value="Archived">Archived</option>
             </select>
+        </div>
+        <div class="col-md-12 mb-3">
+            <label>Abstract: "full abstract"</label>
+            <textarea name="abstract" class="form-control" rows="4"></textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <label>Keyword:</label>
+            <input type="text" name="keyword" class="form-control">
+        </div>
+        <div class="col-md-12 mb-3">
+            <label>Note:</label>
+            <textarea name="description" class="form-control" rows="3"></textarea>
         </div>
     </div>
     <div class="d-flex gap-2 mt-3">
