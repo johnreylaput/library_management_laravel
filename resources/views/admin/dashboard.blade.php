@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="dashboard-header">
-    <img src="{{ asset('images/lgn.png') }}" alt="Library Management System" class="dashboard-logo">
+    <img src="{{ asset('images/templib.png') }}" alt="Library Management System" class="dashboard-logo">
 </div>
 
 @if(isset($showPendingAlert) && $showPendingAlert && ($stats['pending_borrow_requests'] > 0 || $stats['pending_reservation_requests'] > 0))

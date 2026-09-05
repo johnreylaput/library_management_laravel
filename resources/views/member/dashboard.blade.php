@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="dashboard-header">
-    <img src="{{ asset('images/lgn.png') }}" alt="Library Management System" class="dashboard-logo">
+    <img src="{{ asset('images/templib.png') }}" alt="Library Management System" class="dashboard-logo">
 </div>
 @if(isset($receivedNotifications) && $receivedNotifications->count() > 0)
     @php

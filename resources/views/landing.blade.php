@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root {
-            --bg-image: url('{{ asset('images/lgn.png') }}');
+            --bg-image: url('{{ asset('images/templib.png') }}');
         }
         
         body {

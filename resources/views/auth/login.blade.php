@@ -9,7 +9,7 @@
     <style>
         :root {
             --bg-image: url('{{ asset('images/bg.png') }}');
-            --header-image: url('{{ asset('images/lgn.png') }}');
+            --header-image: url('{{ asset('images/templib.png') }}');
         }
         
         body {
@@ -119,7 +119,7 @@
 <body>
     <div class="login-card">
         <div class="login-header">
-            <img src="{{ asset('images/lgn.png') }}" alt="Library Management System" class="login-logo">
+            <img src="{{ asset('images/templib.png') }}" alt="Library Management System" class="login-logo">
         </div>
         <div class="login-body">
             @if($errors->any())
