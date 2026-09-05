@@ -21,19 +21,21 @@
         }
         .dashboard-logo {
             width: 100%;
-            max-width: 100%;
+            max-width: 300px;
             height: auto;
             object-fit: contain;
             object-position: center;
             display: block;
+            margin: 0 auto;
         }
         .dashboard-header {
             position: relative;
             width: 100%;
             overflow: visible;
             margin: 0 0 1.5rem 0;
-            padding: 0;
+            padding: 1.5rem 0;
             background: linear-gradient(135deg, rgba(30,60,114,0.85) 0%, rgba(42,82,152,0.85) 100%);
+            text-align: center;
         }
         .sidebar h6 {
             font-size: 15px;
