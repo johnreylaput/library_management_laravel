@@ -10,7 +10,12 @@ return new class extends Migration
         DB::statement("
             ALTER TABLE users
             MODIFY COLUMN role
-            ENUM('Admin', 'Librarian', 'Member', 'Working-Student')
+            ENUM(
+                'Admin',
+                'Librarian',
+                'Member',
+                'Working-Student'
+            )
             NOT NULL
         ");
     }
@@ -20,7 +25,11 @@ return new class extends Migration
         DB::statement("
             ALTER TABLE users
             MODIFY COLUMN role
-            ENUM('Admin', 'Librarian', 'Member')
+            ENUM(
+                'Admin',
+                'Librarian',
+                'Member'
+            )
             NOT NULL
         ");
     }
