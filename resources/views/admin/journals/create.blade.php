@@ -1,9 +1,9 @@
 @extends('layout.app')
 
-@section('title', 'Add Journal Article')
+@section('title', 'Add Periodical')
 
 @section('content')
-<h2 class="mb-4">Add Journal Article</h2>
+<h2 class="mb-4">Add Periodical</h2>
 @if($errors->any())
     <div class="alert alert-danger">
         <ul class="mb-0">
@@ -83,7 +83,7 @@
             <i class="bi bi-check-circle"></i> Save
         </button>
         <a href="{{ route('e-periodical.index', ['view' => 'all-journals']) }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Back to View Journal Article
+            <i class="bi bi-arrow-left"></i> Back to View Periodical
         </a>
     </div>
 </form>

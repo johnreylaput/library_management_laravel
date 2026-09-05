@@ -43,7 +43,7 @@
                     <p class="mt-3"><strong>Keyword:</strong> {{ $journal->keyword }}</p>
                 @endif
                 @if($journal->link)
-                    <p class="mt-3"><strong>Link of the Journal Article:</strong> <a href="{{ $journal->link }}" target="_blank">{{ $journal->link }}</a></p>
+                    <p class="mt-3"><strong>Link of the Periodical:</strong> <a href="{{ $journal->link }}" target="_blank">{{ $journal->link }}</a></p>
                 @endif
                 <p class="mt-3"><strong>Added By:</strong> {{ $journal->added_by ?? '-' }}</p>
                 <p class="mb-1"><strong>Edited By:</strong>

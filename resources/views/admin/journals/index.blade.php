@@ -7,18 +7,18 @@
 <div class="mb-3">
     <div class="btn-group">
         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-plus-circle"></i> Add Journal Article
+            <i class="bi bi-plus-circle"></i> Add Periodical
         </button>
         <ul class="dropdown-menu">
             <li>
                 <a class="dropdown-item" href="{{ route('journals.create') }}">
-                    <i class="bi bi-plus-circle"></i> Add New Journal Article
+                    <i class="bi bi-plus-circle"></i> Add New Periodical
                 </a>
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
                 <a class="dropdown-item" href="{{ route('journals.index') }}">
-                    <i class="bi bi-list"></i> View All Journal Articles
+                    <i class="bi bi-list"></i> View All Periodicals
                 </a>
             </li>
         </ul>

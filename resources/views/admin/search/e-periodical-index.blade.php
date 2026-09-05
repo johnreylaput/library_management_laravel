@@ -289,22 +289,22 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'add-journal']) }}">
-                                            <i class="bi bi-plus-circle"></i> Add Journal Article
+                                            <i class="bi bi-plus-circle"></i> Add Periodical
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'all-journals']) }}">
-                                            <i class="bi bi-journal-arrow-down"></i> View Journal Article
+                                            <i class="bi bi-journal-arrow-down"></i> View Periodical
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'edit-journal']) }}">
-                                            <i class="bi bi-pencil"></i> Edit Journal Article
+                                            <i class="bi bi-pencil"></i> Edit Periodical
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'delete-journal']) }}">
-                                            <i class="bi bi-trash"></i> Delete Journal Article
+                                            <i class="bi bi-trash"></i> Delete Periodical
                                         </a>
                                     </li>
                                 </ul>
@@ -367,17 +367,17 @@
 
             @if($view === 'add-journal')
                 <div class="alert alert-info">
-                    <h5><i class="bi bi-plus-circle"></i> Add Journal Article</h5>
-                    <p>Click the button below to add a new journal article.</p>
+                    <h5><i class="bi bi-plus-circle"></i> Add Periodical</h5>
+                    <p>Click the button below to add a new periodical.</p>
                     <a href="{{ route('journals.create') }}" class="btn btn-primary">
-                        <i class="bi bi-plus-circle"></i> Add New Journal Article
+                        <i class="bi bi-plus-circle"></i> Add New Periodical
                     </a>
                 </div>
             @endif
 
             @if($view === 'all-journals' && $allJournals->count() > 0)
                 <div class="results-header">
-                    <h3>All Journal Articles ({{ $allJournals->count() }})</h3>
+                    <h3>All Periodicals ({{ $allJournals->count() }})</h3>
                 </div>
                 @foreach($allJournals as $journal)
                     <div class="result-item" data-type="journal" data-id="{{ $journal->id }}" onclick="showJournalDetail({{ $journal->id }})">
@@ -422,7 +422,7 @@
 
             @if($view === 'edit-journal' && $allJournals->count() > 0)
                 <div class="results-header">
-                    <h3>Select a Journal Article to Edit ({{ $allJournals->count() }})</h3>
+                    <h3>Select a Periodical to Edit ({{ $allJournals->count() }})</h3>
                 </div>
                 @foreach($allJournals as $journal)
                     <div class="result-item" data-type="journal" data-id="{{ $journal->id }}">
@@ -453,7 +453,7 @@
 
             @if($view === 'delete-journal' && $allJournals->count() > 0)
                 <div class="results-header">
-                    <h3>Select a Journal Article to Delete ({{ $allJournals->count() }})</h3>
+                    <h3>Select a Periodical to Delete ({{ $allJournals->count() }})</h3>
                 </div>
                 @foreach($allJournals as $journal)
                     <div class="result-item" data-type="journal" data-id="{{ $journal->id }}">
@@ -481,7 +481,7 @@
                                         </button>
                                     </form>
                                 @else
-                                    <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Delete this journal article permanently?');">
+                                    <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Delete this periodical permanently?');">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="event.stopPropagation();">
                                             <i class="bi bi-trash"></i> Delete

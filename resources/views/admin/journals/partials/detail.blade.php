@@ -54,7 +54,7 @@
         </div>
         @if($journal->link)
             <div class="col-12 mb-2">
-                <div class="detail-label">Link of the Journal Article</div>
+                <div class="detail-label">Link of the Periodical</div>
                 <div class="detail-value"><a href="{{ $journal->link }}" target="_blank">{{ $journal->link }}</a></div>
             </div>
         @endif
