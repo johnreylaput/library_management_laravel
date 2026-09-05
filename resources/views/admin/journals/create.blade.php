@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-md-12 mb-3">
             <label>Author of the Article:</label>
-            <input type="text" name="authors" class="form-control" placeholder="e.g. Smith, John; Doe, Jane" required>
+            <input type="text" name="authors" class="form-control" required>
         </div>
         <div class="col-md-12 mb-3">
             <label>Title of the Article:</label>
@@ -38,7 +38,7 @@
         </div>
         <div class="col-md-12 mb-3">
             <label>Keyword:</label>
-            <input type="text" name="keyword" class="form-control" placeholder="e.g. education, psychology, research">
+            <input type="text" name="keyword" class="form-control">
         </div>
         <div class="col-md-12 mb-3">
             <label>Note:</label>
@@ -54,19 +54,24 @@
         </div>
         <div class="col-md-6 mb-3">
             <label>Pages</label>
-            <input type="text" name="pages" class="form-control" placeholder="e.g. 123-145">
+            <input type="text" name="pages" class="form-control">
         </div>
         <div class="col-md-6 mb-3">
             <label>Publication Date</label>
-            <input type="text" name="publication_date" class="form-control" placeholder="e.g. December 24, 2025">
+            <input type="text" name="publication_date" class="form-control">
         </div>
         <div class="col-md-6 mb-3">
             <label>ISSN</label>
-            <input type="text" name="issn" class="form-control" placeholder="e.g. 1234-5678">
+            <input type="text" name="issn" class="form-control">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label>Link</label>
+            <input type="url" name="link" class="form-control">
         </div>
         <div class="col-md-6 mb-3">
             <label>Borrowed</label>
             <select name="availability" class="form-select">
+                <option value="" selected></option>
                 <option value="Available">Available</option>
                 <option value="Unavailable">Unavailable</option>
                 <option value="Archived">Archived</option>
