@@ -14,11 +14,10 @@
         
         body {
             background-color: #1e3c72;
-            background-image: var(--bg-image);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), var(--bg-image);
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
-            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -28,14 +27,14 @@
         .login-card {
             background: #fff;
             border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             overflow: hidden;
             width: 100%;
             max-width: 1000px;
         }
         .login-header {
             background-color: #2a5298;
-            background-image: linear-gradient(135deg, rgba(30,60,114,0.85) 0%, rgba(42,82,152,0.85) 100%), var(--header-image);
+            background-image: linear-gradient(135deg, rgba(30,60,114,0.6) 0%, rgba(42,82,152,0.6) 100%), var(--header-image);
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
