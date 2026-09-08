@@ -123,8 +123,10 @@
                         <td>
                             @if($req->status === 'Approved')
                                 <span class="badge bg-success">Approved</span>
-                            @else
+                            @elseif($req->status === 'Rejected')
                                 <span class="badge bg-danger">Rejected</span>
+                            @elseif($req->status === 'Expired')
+                                <span class="badge bg-secondary">Expired</span>
                             @endif
                         </td>
                         <td>{{ $req->reviewer->full_name ?? 'N/A' }}</td>
