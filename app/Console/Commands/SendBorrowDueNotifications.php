@@ -18,8 +18,14 @@ class SendBorrowDueNotifications extends Command
         $today = Carbon::today();
         $nearDueThreshold = Carbon::today()->addDays(3);
 
+        $overdueBorrows = BorrowRecord::whereIn('status', ['Borrowed', 'Pending'])
+            ->where('due_date', '<', $today)
+            ->update(['status' => 'Overdue']);
+
+        $this->info("Marked {$overdueBorrows} borrow record(s) as Overdue.");
+
         $borrows = BorrowRecord::with(['member.user'])
-            ->whereIn('status', ['Borrowed', 'Pending'])
+            ->whereIn('status', ['Borrowed', 'Overdue'])
             ->get()
             ->filter(function ($borrow) use ($today, $nearDueThreshold) {
                 $dueDate = Carbon::parse($borrow->due_date);

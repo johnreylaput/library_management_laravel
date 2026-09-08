@@ -23,7 +23,12 @@
             <tr>
                 <td>#{{ $fine->borrow_id }}</td>
                 <td>{{ $fine->borrow->member->user->full_name ?? '-' }}</td>
-                <td>{{ $fine->borrow->book->title ?? '-' }}</td>
+                <td>
+                    @php
+                        $itemTitle = $fine->borrow?->book?->title ?? $fine->borrow?->journal?->title ?? $fine->borrow?->thesis?->title ?? '-';
+                    @endphp
+                    {{ $itemTitle }}
+                </td>
                 <td>{{ number_format($fine->amount, 2) }}</td>
                 <td>{{ $fine->reason ?? '-' }}</td>
                 <td>

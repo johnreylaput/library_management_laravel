@@ -40,7 +40,7 @@ class ReportController extends Controller
                 ];
             });
 
-        $overdueBorrows = BorrowRecord::where('status', 'Overdue')->with('member.user', 'book')->get();
+        $overdueBorrows = BorrowRecord::where('status', 'Overdue')->with('member.user', 'book', 'journal', 'thesis')->get();
 
         return view('admin.reports.index', compact('stats', 'topBooks', 'overdueBorrows'));
     }

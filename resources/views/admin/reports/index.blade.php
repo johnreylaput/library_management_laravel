@@ -71,8 +71,11 @@
                     </thead>
                     <tbody>
                         @foreach($overdueBorrows as $borrow)
+                            @php
+                                $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->title ?? 'Unknown Item';
+                            @endphp
                             <tr>
-                                <td>{{ $borrow->book->title ?? '-' }}</td>
+                                <td>{{ $itemTitle }}</td>
                                 <td>{{ $borrow->member->user->full_name ?? '-' }}</td>
                                 <td>{{ $borrow->due_date }}</td>
                             </tr>
