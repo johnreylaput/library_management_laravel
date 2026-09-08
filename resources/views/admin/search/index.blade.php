@@ -19,7 +19,7 @@
             <select name="type" class="form-select">
                 <option value="all" {{ ($type ?? 'all') == 'all' ? 'selected' : '' }}>All Resources</option>
                 <option value="books" {{ ($type ?? '') == 'books' ? 'selected' : '' }}>Books</option>
-                <option value="journals" {{ ($type ?? '') == 'journals' ? 'selected' : '' }}>Journals</option>
+                <option value="journals" {{ ($type ?? '') == 'journals' ? 'selected' : '' }}>Periodicals</option>
                 <option value="theses" {{ ($type ?? '') == 'theses' ? 'selected' : '' }}>Theses</option>
             </select>
         </div>
@@ -186,7 +186,7 @@
     @endif
 
     @if(($journals->count() ?? 0) > 0)
-        <div class="browse-section-title"><i class="bi bi-journal-arrow-down"></i> Journals</div>
+        <div class="browse-section-title"><i class="bi bi-journal-arrow-down"></i> Periodicals</div>
         <div class="resource-grid">
             @foreach($journals as $journal)
                 <div class="resource-card">

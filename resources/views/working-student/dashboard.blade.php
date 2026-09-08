@@ -46,7 +46,7 @@
     <div class="col-md-3">
         <div class="card bg-info text-white">
             <div class="card-body">
-                <h5 class="card-title"><i class="bi bi-journal-arrow-down"></i> Total Journals</h5>
+                <h5 class="card-title"><i class="bi bi-journal-arrow-down"></i> Total Periodicals</h5>
                 <h2>{{ $stats['total_journals'] }}</h2>
             </div>
         </div>

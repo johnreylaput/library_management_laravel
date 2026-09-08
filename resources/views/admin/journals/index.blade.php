@@ -1,9 +1,9 @@
 @extends('layout.app')
 
-@section('title', 'Journals')
+@section('title', 'Periodicals')
 
 @section('content')
-<h2 class="mb-4">Journals</h2>
+<h2 class="mb-4">Periodicals</h2>
 <div class="mb-3">
     <div class="btn-group">
         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

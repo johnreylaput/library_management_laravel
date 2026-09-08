@@ -61,5 +61,5 @@
     </div>
 </div>
 
-<a href="{{ route('search.index', ['type' => 'journals']) }}" class="btn btn-secondary">Back to Journals</a>
+<a href="{{ route('search.index', ['type' => 'journals']) }}" class="btn btn-secondary">Back to Periodicals</a>
 @endsection
