@@ -168,7 +168,6 @@ class DashboardController extends Controller
         $pendingBorrows = BorrowRecord::with(['member.user', 'book', 'journal', 'thesis'])->where('status', 'Pending')->latest()->take(5)->get();
         $pendingReservations = Reservation::with(['member.user', 'book', 'journal', 'thesis'])->where('status', 'Pending')->latest()->take(5)->get();
 
-        $today = now()->toDateString();
         $tomorrow = now()->addDay()->toDateString();
 
         $dueBorrows = BorrowRecord::with(['member.user', 'book'])
