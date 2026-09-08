@@ -104,14 +104,22 @@
                                         <br><small class="text-muted">Due: {{ $reservation->due_date }}</small>
                                         <span class="badge bg-info">Due Soon</span>
                                     </div>
-                                    <form action="{{ route('notifications.send') }}" method="POST" class="d-inline" onsubmit="return confirm(`Send reservation reminder to {{ $reservation->member->user->full_name ?? 'this member' }}?`)">
-                                        @csrf
-                                        <input type="hidden" name="type" value="reservation">
-                                        <input type="hidden" name="record_id" value="{{ $reservation->id }}">
-                                        <input type="hidden" name="title" value="Reservation Expiring Soon">
-                                        <input type="hidden" name="message" value="Your reservation for {{ $reservation->book->title ?? 'the book' }} is due on {{ $reservation->due_date }}. Please borrow it before the due date.">
-                                        <button type="submit" class="btn btn-primary btn-sm">Notify</button>
-                                    </form>
+                                    <div class="d-flex align-items-center">
+                                        <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Cancel this reservation? It will be removed from the pending list.')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm me-2">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('notifications.send') }}" method="POST" class="d-inline" onsubmit="return confirm(`Send reservation reminder to {{ $reservation->member->user->full_name ?? 'this member' }}?`)">
+                                            @csrf
+                                            <input type="hidden" name="type" value="reservation">
+                                            <input type="hidden" name="record_id" value="{{ $reservation->id }}">
+                                            <input type="hidden" name="title" value="Reservation Expiring Soon">
+                                            <input type="hidden" name="message" value="Your reservation for {{ $reservation->book->title ?? 'the book' }} is due on {{ $reservation->due_date }}. Please borrow it before the due date.">
+                                            <button type="submit" class="btn btn-primary btn-sm">Notify</button>
+                                        </form>
+                                    </div>
                                 </div>
                             @endforeach
                         </div>
