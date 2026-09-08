@@ -135,7 +135,6 @@
             @endif
             <form method="POST" action="{{ route('register') }}">
                 @csrf
-                <div class="section-title">Personal Information</div>
                 <div class="mb-3">
                     <label class="form-label">Full Name</label>
                     <div class="input-group">
@@ -143,13 +142,18 @@
                         <input type="text" name="full_name" class="form-control" value="{{ old('full_name') }}" required placeholder="Enter your full name">
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <label class="form-label">Email</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            <input type="email" name="email" class="form-control" value="{{ old('email') }}" required placeholder="Enter your email (e.g. yourname@gmail.com)">
-                        </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        <input type="email" name="email" class="form-control" value="{{ old('email') }}" required placeholder="Enter your email (e.g. yourname@gmail.com)">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person-check"></i></span>
+                        <input type="text" name="username" class="form-control" value="{{ old('username') }}" required placeholder="Choose a username">
                     </div>
                 </div>
                 <div class="row">
@@ -173,34 +177,6 @@
                             </button>
                         </div>
                     </div>
-                </div>
-                <div class="section-title mt-3">Academic Information</div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Course</label>
-                        <input type="text" name="course" class="form-control" value="{{ old('course') }}" placeholder="e.g. BSIT">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Year Level</label>
-                        <select name="year_level" class="form-select">
-                            <option value="">Select Year</option>
-                            <option value="1st Year" {{ old('year_level') == '1st Year' ? 'selected' : '' }}>1st Year</option>
-                            <option value="2nd Year" {{ old('year_level') == '2nd Year' ? 'selected' : '' }}>2nd Year</option>
-                            <option value="3rd Year" {{ old('year_level') == '3rd Year' ? 'selected' : '' }}>3rd Year</option>
-                            <option value="4th Year" {{ old('year_level') == '4th Year' ? 'selected' : '' }}>4th Year</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Contact Number</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                        <input type="text" name="contact_number" class="form-control" value="{{ old('contact_number') }}" placeholder="e.g. 09123456789">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Address</label>
-                    <textarea name="address" class="form-control" rows="2" placeholder="Enter your address">{{ old('address') }}</textarea>
                 </div>
                 <button type="submit" class="btn btn-register">Create Account</button>
             </form>
