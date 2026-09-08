@@ -16,7 +16,7 @@
             background-color: #1e3c72;
             background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), var(--bg-image);
             background-position: center;
-            background-size: cover;
+            background-size: contain;
             background-repeat: no-repeat;
             min-height: 100vh;
             display: flex;
@@ -36,7 +36,7 @@
         .register-header {
             background-color: #2a5298;
             background-image: linear-gradient(135deg, rgba(30,60,114,0.6) 0%, rgba(42,82,152,0.6) 100%), var(--header-image);
-            background-size: cover;
+            background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
             color: #fff;
