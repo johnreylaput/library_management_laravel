@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
                     'full_name' => $ws['full_name'],
                     'email' => $ws['email'],
                     'password' => Hash::make($ws['password']),
-                    'role' => 'Working-Student',
+                    'role' => 'Working.Student',
                     'status' => 'Active',
                 ]
             );

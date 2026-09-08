@@ -17,16 +17,17 @@ class DeletionRequestController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Librarian')->only(['index', 'approve', 'reject']);
+        $this->middleware(function ($request, $next) {
+            if (Auth::check() && Auth::user()->role === 'Librarian' && Auth::user()->username === 'maria.librarian') {
+                return $next($request);
+            }
+            return redirect()->route('dashboard')->with('error', 'Only maria.librarian is authorized to review deletion requests.');
+        })->only(['index', 'approve', 'reject']);
         $this->middleware('role:Working.Student')->only(['myRequests']);
     }
 
     public function index()
     {
-        if (Auth::user()->role !== 'Librarian') {
-            return redirect()->route('dashboard')->with('error', 'Only librarians can review deletion requests.');
-        }
-
         $pendingRequests = DeletionRequest::with(['user', 'reviewer'])
             ->where('status', 'Pending')
             ->latest()
@@ -53,10 +54,6 @@ class DeletionRequestController extends Controller
 
     public function approve($id)
     {
-        if (Auth::user()->role !== 'Librarian') {
-            return back()->with('error', 'Only librarians can approve deletion requests.');
-        }
-
         $request = DeletionRequest::findOrFail($id);
 
         if ($request->status === 'Expired') {
@@ -102,10 +99,6 @@ class DeletionRequestController extends Controller
 
     public function reject(Request $request, $id)
     {
-        if (Auth::user()->role !== 'Librarian') {
-            return back()->with('error', 'Only librarians can reject deletion requests.');
-        }
-
         $requestModel = DeletionRequest::findOrFail($id);
 
         if ($requestModel->status === 'Expired') {

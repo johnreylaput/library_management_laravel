@@ -59,9 +59,11 @@
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('users.index') }}"><i class="bi bi-people"></i> Users</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('librarians.index') }}"><i class="bi bi-person-badge"></i> Librarians</a></li>
             @endif
-            @if(Auth::check() && Auth::user()->role === 'Librarian')
+            @if(Auth::check() && Auth::user()->role === 'Librarian' && Auth::user()->username === 'maria.librarian')
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('users.index') }}"><i class="bi bi-people"></i> Users</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('deletion-requests.index') }}"><i class="bi bi-trash"></i> Review Deletion Requests</a></li>
+            @elseif(Auth::check() && Auth::user()->role === 'Librarian')
+                <li class="nav-item"><a class="nav-link text-white" href="{{ route('users.index') }}"><i class="bi bi-people"></i> Users</a></li>
             @endif
             @if(Auth::check() && Auth::user()->role === 'Working.Student')
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('users.index') }}"><i class="bi bi-people"></i> Users</a></li>
