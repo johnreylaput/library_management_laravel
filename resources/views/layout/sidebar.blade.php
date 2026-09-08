@@ -46,7 +46,7 @@
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('authors.index') }}"><i class="bi bi-person"></i> Authors</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('publishers.index') }}"><i class="bi bi-building"></i> Publishers</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('books.index') }}"><i class="bi bi-book"></i> Books</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="{{ route('journals.index') }}"><i class="bi bi-journal-arrow-down"></i> Journals</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{{ route('journals.index') }}"><i class="bi bi-journal-arrow-down"></i> Periodicals</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('theses.index') }}"><i class="bi bi-file-earmark-text"></i> Theses</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('borrow.index') }}"><i class="bi bi-journal-arrow-down"></i> Borrow</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('return.index') }}"><i class="bi bi-arrow-return-left"></i> Return</a></li>
