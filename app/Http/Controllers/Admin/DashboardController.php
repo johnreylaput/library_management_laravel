@@ -11,6 +11,9 @@ use App\Models\Fine;
 use App\Models\Reservation;
 use App\Models\ActivityLog;
 use App\Models\Notification;
+use App\Models\DeletionRequest;
+use App\Models\Journal;
+use App\Models\Thesis;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -104,6 +107,50 @@ class DashboardController extends Controller
             $welcomeType = $request->session()->pull('welcome_type', 'returning');
 
             return view('member.dashboard', compact('stats', 'borrows', 'reservations', 'fines', 'dueNotifications', 'receivedNotifications', 'welcomeType'));
+        }
+
+        if ($user->role === 'Working-Student') {
+            $stats = [
+                'total_books' => Book::count(),
+                'total_journals' => Journal::count(),
+                'total_theses' => Thesis::count(),
+                'my_borrowed' => BorrowRecord::where('borrowed_by', $user->id)->where('status', 'Borrowed')->count(),
+                'my_overdue' => BorrowRecord::where('borrowed_by', $user->id)->where('status', 'Overdue')->count(),
+                'my_reservations' => Reservation::where('status', 'Pending')->count(),
+                'my_deletion_requests' => DeletionRequest::where('user_id', $user->id)->count(),
+            ];
+
+            $myBorrows = BorrowRecord::with(['member.user', 'book', 'journal', 'thesis'])
+                ->where('borrowed_by', $user->id)
+                ->latest()
+                ->take(5)
+                ->get();
+
+            $myReservations = Reservation::with(['member.user', 'book', 'journal', 'thesis'])
+                ->where('status', 'Pending')
+                ->latest()
+                ->take(5)
+                ->get();
+
+            $myDeletionRequests = DeletionRequest::with(['user'])
+                ->where('user_id', $user->id)
+                ->latest()
+                ->take(5)
+                ->get();
+
+            $myActivityLogs = ActivityLog::where('user_id', $user->id)
+                ->latest()
+                ->take(10)
+                ->get();
+
+            $receivedNotifications = Notification::where('user_id', $user->id)
+                ->where('is_read', false)
+                ->where('created_at', '>=', now()->subHours(24))
+                ->latest()
+                ->take(5)
+                ->get();
+
+            return view('working-student.dashboard', compact('stats', 'myBorrows', 'myReservations', 'myDeletionRequests', 'myActivityLogs', 'receivedNotifications'));
         }
 
         $stats = [
