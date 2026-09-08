@@ -21,7 +21,7 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Admin,Librarian,Member,Working-Student');
+        $this->middleware('role:Admin,Librarian,Member,Working.Student');
     }
 
     public function index(Request $request)
@@ -109,7 +109,7 @@ class DashboardController extends Controller
             return view('member.dashboard', compact('stats', 'borrows', 'reservations', 'fines', 'dueNotifications', 'receivedNotifications', 'welcomeType'));
         }
 
-        if ($user->role === 'Working-Student') {
+        if ($user->role === 'Working.Student') {
             $stats = [
                 'total_books' => Book::count(),
                 'total_journals' => Journal::count(),

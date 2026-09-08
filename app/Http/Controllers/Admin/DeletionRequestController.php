@@ -18,7 +18,7 @@ class DeletionRequestController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('role:Librarian')->only(['index', 'approve', 'reject']);
-        $this->middleware('role:Working-Student')->only(['myRequests']);
+        $this->middleware('role:Working.Student')->only(['myRequests']);
     }
 
     public function index()

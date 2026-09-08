@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Working-Student Dashboard')
+@section('title', 'Working.Student Dashboard')
 
 @section('content')
 <div class="dashboard-header">
@@ -32,7 +32,7 @@
     </div>
 @endif
 
-<h1 class="mb-4"><i class="bi bi-speedometer2"></i> Working-Student Dashboard</h1>
+<h1 class="mb-4"><i class="bi bi-speedometer2"></i> Working.Student Dashboard</h1>
 
 <div class="row g-3 mb-4">
     <div class="col-md-3">

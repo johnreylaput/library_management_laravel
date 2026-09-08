@@ -12,7 +12,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Admin,Librarian,Working-Student');
+        $this->middleware('role:Admin,Librarian,Working.Student');
     }
 
     public function index()
@@ -38,7 +38,7 @@ class UserController extends Controller
 
             'password' => 'required|string|min:8',
 
-            'role' => 'required|in:Admin,Librarian,Member,Working-Student',
+            'role' => 'required|in:Admin,Librarian,Member,Working.Student',
 
             'status' => 'required|in:Active,Inactive',
         ]);
@@ -81,7 +81,7 @@ class UserController extends Controller
 
             'password' => 'nullable|string|min:8',
 
-            'role' => 'required|in:Admin,Librarian,Member,Working-Student',
+            'role' => 'required|in:Admin,Librarian,Member,Working.Student',
 
             'status' => 'required|in:Active,Inactive',
         ]);

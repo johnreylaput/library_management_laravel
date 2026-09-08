@@ -14,7 +14,7 @@ return new class extends Migration
                 'Admin',
                 'Librarian',
                 'Member',
-                'Working-Student'
+                'Working.Student'
             )
             NOT NULL
         ");

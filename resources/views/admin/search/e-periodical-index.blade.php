@@ -281,7 +281,7 @@
                                 <i class="bi bi-arrow-left"></i> Back to Browse Resources
                             </a>
                         @endif
-                        @if(Auth::check() && in_array(Auth::user()->role, ['Admin', 'Librarian', 'Working-Student']))
+                        @if(Auth::check() && in_array(Auth::user()->role, ['Admin', 'Librarian', 'Working.Student']))
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-gear"></i> Actions
@@ -473,7 +473,7 @@
                                 </div>
                             </div>
                             <div class="ms-3">
-                                @if(Auth::check() && Auth::user()->role === 'Working-Student')
+                                @if(Auth::check() && Auth::user()->role === 'Working.Student')
                                     <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Submit a deletion request for this journal? The librarian will review it.');">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="event.stopPropagation();">

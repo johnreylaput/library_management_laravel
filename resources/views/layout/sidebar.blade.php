@@ -34,7 +34,7 @@
             @else
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('search.index') }}"><i class="bi bi-search"></i> Browse Books</a></li>
             @endif
-            @if(Auth::check() && in_array(Auth::user()->role, ['Admin', 'Librarian', 'Working-Student']))
+            @if(Auth::check() && in_array(Auth::user()->role, ['Admin', 'Librarian', 'Working.Student']))
 
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{ route('members.index') }}">
@@ -63,7 +63,7 @@
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('users.index') }}"><i class="bi bi-people"></i> Users</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('deletion-requests.index') }}"><i class="bi bi-trash"></i> Review Deletion Requests</a></li>
             @endif
-            @if(Auth::check() && Auth::user()->role === 'Working-Student')
+            @if(Auth::check() && Auth::user()->role === 'Working.Student')
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('users.index') }}"><i class="bi bi-people"></i> Users</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('deletion-requests.my-requests') }}"><i class="bi bi-list-check"></i> My Deletion Requests</a></li>
             @endif

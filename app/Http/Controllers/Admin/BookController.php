@@ -16,8 +16,8 @@ class BookController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Admin,Librarian,Working-Student')->except(['create', 'store', 'edit', 'update', 'destroy', 'show']);
-        $this->middleware('role:Admin,Librarian,Working-Student')->only(['create', 'store', 'edit', 'update', 'destroy']);
+        $this->middleware('role:Admin,Librarian,Working.Student')->except(['create', 'store', 'edit', 'update', 'destroy', 'show']);
+        $this->middleware('role:Admin,Librarian,Working.Student')->only(['create', 'store', 'edit', 'update', 'destroy']);
     }
 
     public function index(Request $request)
@@ -121,7 +121,7 @@ class BookController extends Controller
 
     public function destroy($id)
     {
-        if (Auth::user()->role === 'Working-Student') {
+        if (Auth::user()->role === 'Working.Student') {
             $book = Book::findOrFail($id);
 
             $pendingRequest = DeletionRequest::where('item_type', Book::class)
@@ -147,7 +147,7 @@ class BookController extends Controller
                     'user_id' => $staff->id,
                     'type' => 'deletion_request',
                     'title' => 'New Deletion Request',
-                    'message' => Auth::user()->full_name . ' (Working-Student) requested deletion of book "' . $book->title . '" (ID: ' . $book->id . ')',
+                    'message' => Auth::user()->full_name . ' (Working.Student) requested deletion of book "' . $book->title . '" (ID: ' . $book->id . ')',
                     'sent_by' => Auth::id(),
                 ]);
             }

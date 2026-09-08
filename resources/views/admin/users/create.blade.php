@@ -28,7 +28,7 @@
             <option value="Admin">Admin</option>
             <option value="Librarian">Librarian</option>
             <option value="Member">Member</option>
-            <option value="Working-Student">Working Student</option>
+            <option value="Working.Student">Working Student</option>
         </select>
     </div>
     <div class="mb-3">

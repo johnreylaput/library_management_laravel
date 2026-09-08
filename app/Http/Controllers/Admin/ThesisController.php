@@ -18,8 +18,8 @@ class ThesisController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Admin,Librarian,Working-Student')->except(['create', 'store', 'edit', 'update', 'destroy', 'show']);
-        $this->middleware('role:Admin,Librarian,Working-Student')->only(['create', 'store', 'edit', 'update', 'destroy']);
+        $this->middleware('role:Admin,Librarian,Working.Student')->except(['create', 'store', 'edit', 'update', 'destroy', 'show']);
+        $this->middleware('role:Admin,Librarian,Working.Student')->only(['create', 'store', 'edit', 'update', 'destroy']);
     }
 
     public function index(Request $request)
@@ -131,7 +131,7 @@ class ThesisController extends Controller
 
     public function destroy($id)
     {
-        if (Auth::user()->role === 'Working-Student') {
+        if (Auth::user()->role === 'Working.Student') {
             $thesis = Thesis::findOrFail($id);
 
             $pendingRequest = DeletionRequest::where('item_type', Thesis::class)
@@ -157,7 +157,7 @@ class ThesisController extends Controller
                     'user_id' => $staff->id,
                     'type' => 'deletion_request',
                     'title' => 'New Deletion Request',
-                    'message' => Auth::user()->full_name . ' (Working-Student) requested deletion of thesis "' . $thesis->title . '" (ID: ' . $thesis->id . ')',
+                    'message' => Auth::user()->full_name . ' (Working.Student) requested deletion of thesis "' . $thesis->title . '" (ID: ' . $thesis->id . ')',
                     'sent_by' => Auth::id(),
                 ]);
             }

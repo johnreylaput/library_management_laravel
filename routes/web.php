@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/member/reserve', [MemberReservationController::class, 'store'])->name('member.reservation.store');
     Route::get('/member/reserve', [MemberReservationController::class, 'index'])->name('member.reservation.index');
 
-    Route::middleware('role:Admin,Librarian,Working-Student')->group(function () {
+    Route::middleware('role:Admin,Librarian,Working.Student')->group(function () {
         Route::resource('books', BookController::class);
         Route::resource('journals', JournalController::class);
         Route::resource('theses', ThesisController::class);
@@ -66,12 +66,12 @@ Route::middleware('auth')->group(function () {
             Route::post('/deletion-requests/{deletionRequest}/reject', [DeletionRequestController::class, 'reject'])->name('deletion-requests.reject');
         });
 
-        Route::middleware('role:Working-Student')->group(function () {
+        Route::middleware('role:Working.Student')->group(function () {
             Route::get('/my-deletion-requests', [DeletionRequestController::class, 'myRequests'])->name('deletion-requests.my-requests');
         });
     });
 
-    Route::middleware('role:Admin,Librarian,Working-Student')->group(function () {
+    Route::middleware('role:Admin,Librarian,Working.Student')->group(function () {
         Route::resource('borrow', BorrowController::class);
         Route::post('borrow/{borrow}/approve', [BorrowController::class, 'approve'])->name('borrow.approve');
         Route::post('borrow/{borrow}/reject', [BorrowController::class, 'reject'])->name('borrow.reject');
@@ -84,7 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/journals/{journal}', [JournalController::class, 'show'])->name('member.journals.show');
     Route::get('/theses/{thesis}', [ThesisController::class, 'show'])->name('member.theses.show');
 
-    Route::middleware('role:Admin,Librarian,Working-Student')->group(function () {
+    Route::middleware('role:Admin,Librarian,Working.Student')->group(function () {
         Route::resource('users', UserController::class);
     });
 

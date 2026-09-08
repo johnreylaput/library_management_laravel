@@ -94,8 +94,8 @@
                             <li>
                                 <form action="{{ route('books.destroy', $book->id) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm(@if(Auth::check() && Auth::user()->role === 'Working-Student')'Submit a deletion request for this book? The librarian will review it.'@else'Delete this book?'@endif)">
-                                        @if(Auth::check() && Auth::user()->role === 'Working-Student')
+                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm(@if(Auth::check() && Auth::user()->role === 'Working.Student')'Submit a deletion request for this book? The librarian will review it.'@else'Delete this book?'@endif)">
+                                        @if(Auth::check() && Auth::user()->role === 'Working.Student')
                                             <i class="bi bi-send"></i> Request Deletion
                                         @else
                                             <i class="bi bi-trash"></i> Delete
