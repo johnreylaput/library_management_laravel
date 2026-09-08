@@ -33,7 +33,7 @@ class DeletionRequestController extends Controller
             ->get();
 
         $resolvedRequests = DeletionRequest::with(['user', 'reviewer'])
-            ->whereIn('status', ['Approved', 'Rejected'])
+            ->whereIn('status', ['Approved', 'Rejected', 'Expired'])
             ->latest()
             ->take(20)
             ->get();
@@ -58,6 +58,10 @@ class DeletionRequestController extends Controller
         }
 
         $request = DeletionRequest::findOrFail($id);
+
+        if ($request->status === 'Expired') {
+            return back()->with('error', 'This request has expired and can no longer be processed.');
+        }
 
         if ($request->status !== 'Pending') {
             return back()->with('error', 'This request has already been processed.');
@@ -103,6 +107,10 @@ class DeletionRequestController extends Controller
         }
 
         $requestModel = DeletionRequest::findOrFail($id);
+
+        if ($requestModel->status === 'Expired') {
+            return back()->with('error', 'This request has expired and can no longer be processed.');
+        }
 
         if ($requestModel->status !== 'Pending') {
             return back()->with('error', 'This request has already been processed.');
