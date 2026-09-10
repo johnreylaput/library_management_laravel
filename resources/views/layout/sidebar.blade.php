@@ -65,6 +65,9 @@
             @elseif(Auth::check() && Auth::user()->role === 'Librarian')
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('users.index') }}"><i class="bi bi-people"></i> Users</a></li>
             @endif
+            @if(Auth::check() && (Auth::user()->role === 'Admin' || Auth::user()->role === 'Working.Student' || (Auth::user()->role === 'Librarian' && Auth::user()->username === 'maria.librarian')))
+                <li class="nav-item"><a class="nav-link text-white" href="{{ route('recently-deleted.index') }}"><i class="bi bi-arrow-counterclockwise"></i> Recently Deleted</a></li>
+            @endif
             @if(Auth::check() && Auth::user()->role === 'Working.Student')
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('users.index') }}"><i class="bi bi-people"></i> Users</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('deletion-requests.my-requests') }}"><i class="bi bi-list-check"></i> My Deletion Requests</a></li>

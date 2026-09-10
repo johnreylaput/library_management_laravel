@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\JournalController;
 use App\Http\Controllers\Admin\ThesisController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DeletionRequestController;
+use App\Http\Controllers\Admin\RecentlyDeletedController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Member\BorrowController as MemberBorrowController;
 use App\Http\Controllers\Member\ReservationController as MemberReservationController;
@@ -59,6 +60,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
         Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
         Route::get('/logs/data', [LogController::class, 'data'])->name('logs.data');
+        Route::get('/recently-deleted', [RecentlyDeletedController::class, 'index'])->name('recently-deleted.index');
+        Route::post('/recently-deleted/{type}/{id}/restore', [RecentlyDeletedController::class, 'restore'])->name('recently-deleted.restore');
         Route::post('/notifications/send', [DashboardController::class, 'sendNotification'])->name('notifications.send');
         Route::middleware('role:Librarian')->group(function () {
             Route::get('/deletion-requests', [DeletionRequestController::class, 'index'])->name('deletion-requests.index');

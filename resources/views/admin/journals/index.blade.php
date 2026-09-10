@@ -102,11 +102,11 @@
                             <li>
                                 <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm(@if(Auth::check() && Auth::user()->role === 'Working.Student')'Submit a deletion request for this journal? The librarian will review it.'@else'Delete this journal?'@endif)">
+                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm(@if(Auth::check() && Auth::user()->role === 'Working.Student')'Submit a deletion request for this periodical? maria.librarian will review it.'@else'Move this periodical to Recently Deleted? It can be restored later.'@endif)">
                                         @if(Auth::check() && Auth::user()->role === 'Working.Student')
                                             <i class="bi bi-send"></i> Request Deletion
                                         @else
-                                            <i class="bi bi-trash"></i> Delete
+                                            <i class="bi bi-trash"></i> Move to Recently Deleted
                                         @endif
                                     </button>
                                 </form>

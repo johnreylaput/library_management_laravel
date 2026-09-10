@@ -304,7 +304,12 @@
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'delete-journal']) }}">
-                                            <i class="bi bi-trash"></i> Delete Periodical
+                                            <i class="bi bi-{{ Auth::check() && Auth::user()->role === 'Working.Student' ? 'send' : 'trash' }}"></i>
+                                            @if(Auth::check() && Auth::user()->role === 'Working.Student')
+                                                Request Deletion
+                                            @else
+                                                Delete Periodical
+                                            @endif
                                         </a>
                                     </li>
                                 </ul>
@@ -453,7 +458,7 @@
 
             @if($view === 'delete-journal' && $allJournals->count() > 0)
                 <div class="results-header">
-                    <h3>Select a Periodical to Delete ({{ $allJournals->count() }})</h3>
+                    <h3>Select a Periodical to @if(Auth::check() && Auth::user()->role === 'Working.Student')Request for Deletion@elseMove to Recently Deleted@endif ({{ $allJournals->count() }})</h3>
                 </div>
                 @foreach($allJournals as $journal)
                     <div class="result-item" data-type="journal" data-id="{{ $journal->id }}">
@@ -474,17 +479,17 @@
                             </div>
                             <div class="ms-3">
                                 @if(Auth::check() && Auth::user()->role === 'Working.Student')
-                                    <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Submit a deletion request for this journal? The librarian will review it.');">
+                                    <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Submit a deletion request for this periodical? maria.librarian will review it.');">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="event.stopPropagation();">
                                             <i class="bi bi-send"></i> Request Deletion
                                         </button>
                                     </form>
                                 @else
-                                    <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Delete this periodical permanently?');">
+                                    <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Move this periodical to Recently Deleted? It can be restored later.');">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="event.stopPropagation();">
-                                            <i class="bi bi-trash"></i> Delete
+                                            <i class="bi bi-trash"></i> Move to Recently Deleted
                                         </button>
                                     </form>
                                 @endif

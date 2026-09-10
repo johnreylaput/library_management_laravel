@@ -162,10 +162,13 @@ class JournalController extends Controller
                 'status' => 'Pending',
             ]);
 
-            $staffUsers = User::whereIn('role', ['Admin', 'Librarian'])->get();
-            foreach ($staffUsers as $staff) {
+            $maria = User::where('username', 'maria.librarian')
+                ->where('role', 'Librarian')
+                ->first();
+
+            if ($maria) {
                 Notification::create([
-                    'user_id' => $staff->id,
+                    'user_id' => $maria->id,
                     'type' => 'deletion_request',
                     'title' => 'New Deletion Request',
                     'message' => Auth::user()->full_name.' (Working.Student) requested deletion of journal "'.$journal->title.'" (ID: '.$journal->id.')',
@@ -173,12 +176,12 @@ class JournalController extends Controller
                 ]);
             }
 
-            return back()->with('info', 'Deletion request for journal "'.$journal->title.'" has been submitted and is awaiting librarian approval.');
+            return back()->with('info', 'Deletion request for journal "'.$journal->title.'" has been submitted for maria.librarian review.');
         }
 
         $journal = Journal::findOrFail($id);
         $journal->delete();
 
-        return redirect()->route('journals.index')->with('success', 'Journal deleted successfully.');
+        return redirect()->route('journals.index')->with('success', 'Periodical moved to Recently Deleted successfully.');
     }
 }

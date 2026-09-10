@@ -111,9 +111,9 @@
                                     <i class="bi bi-exclamation-triangle"></i> {{ $req->rejection_reason }}
                                 </div>
                             @elseif($req->status === 'Approved')
-                                <span class="text-success"><i class="bi bi-check"></i> Item has been deleted.</span>
+                                <span class="text-success"><i class="bi bi-check"></i> Item was moved to Recently Deleted.</span>
                             @else
-                                <span class="text-muted">Awaiting librarian review...</span>
+                                <span class="text-muted">Awaiting maria.librarian review...</span>
                             @endif
                         </td>
                     </tr>

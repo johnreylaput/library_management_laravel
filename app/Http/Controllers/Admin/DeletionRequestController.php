@@ -64,10 +64,20 @@ class DeletionRequestController extends Controller
             return back()->with('error', 'This request has already been processed.');
         }
 
-        $modelClass = $request->item_type;
-        $item = $modelClass::find($request->item_id);
+        $modelClass = match ($request->item_type) {
+            Book::class => Book::class,
+            Journal::class => Journal::class,
+            Thesis::class => Thesis::class,
+            default => null,
+        };
 
-        if ($item) {
+        if (! $modelClass) {
+            abort(404);
+        }
+
+        $item = $modelClass::withTrashed()->findOrFail($request->item_id);
+
+        if (! $item->trashed()) {
             $item->delete();
         }
 
@@ -90,11 +100,11 @@ class DeletionRequestController extends Controller
             'user_id' => $request->user_id,
             'type' => 'deletion_request',
             'title' => 'Deletion Request Approved',
-            'message' => "Your deletion request for {$request->item_type} '{$request->title}' has been approved by " . Auth::user()->full_name . ". The item has been removed from the library records.",
+            'message' => "Your deletion request for {$request->item_type} '{$request->title}' has been approved by " . Auth::user()->full_name . ". The item was moved to Recently Deleted and can be restored by an authorized user.",
             'sent_by' => Auth::id(),
         ]);
 
-        return back()->with('success', "Deletion request for '{$request->title}' has been approved and the item has been deleted.");
+        return back()->with('success', "Deletion request for '{$request->title}' has been approved and the item was moved to Recently Deleted.");
     }
 
     public function reject(Request $request, $id)
