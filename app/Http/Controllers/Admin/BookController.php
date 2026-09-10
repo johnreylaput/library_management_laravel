@@ -77,14 +77,27 @@ class BookController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'isbn' => 'nullable|string|max:50',
-            'category_id' => 'nullable|exists:categories,id',
-            'author_id' => 'nullable|exists:authors,id',
-            'publisher_id' => 'nullable|exists:publishers,id',
+            'category_name' => 'nullable|string|max:255',
+            'author_name' => 'nullable|string|max:255',
+            'publisher_name' => 'nullable|string|max:255',
+            'publication_year' => 'nullable|integer',
+            'edition' => 'nullable|string|max:255',
+            'language' => 'nullable|string|max:255',
+            'pages' => 'nullable|integer',
             'quantity' => 'nullable|integer|min:1',
+            'available_quantity' => 'nullable|integer|min:0',
+            'shelf_location' => 'nullable|string|max:255',
+            'status' => 'nullable|in:Available,Unavailable,Archived',
         ]);
 
-        $validated['available_quantity'] = $validated['quantity'] ?? 1;
-        $validated['status'] = 'Available';
+        $validated['category_id'] = !empty($validated['category_name']) ? \App\Models\Category::firstOrCreate(['category_name' => $validated['category_name']])->id : null;
+        $validated['author_id'] = !empty($validated['author_name']) ? \App\Models\Author::firstOrCreate(['author_name' => $validated['author_name']])->id : null;
+        $validated['publisher_id'] = !empty($validated['publisher_name']) ? \App\Models\Publisher::firstOrCreate(['publisher_name' => $validated['publisher_name']])->id : null;
+
+        unset($validated['category_name'], $validated['author_name'], $validated['publisher_name']);
+
+        $validated['available_quantity'] = $validated['available_quantity'] ?? ($validated['quantity'] ?? 1);
+        $validated['status'] = $validated['status'] ?? 'Available';
 
         Book::create(array_merge($validated, ['added_by' => Auth::user()->section]));
 
@@ -106,13 +119,24 @@ class BookController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'isbn' => 'nullable|string|max:50',
-            'category_id' => 'nullable|exists:categories,id',
-            'author_id' => 'nullable|exists:authors,id',
-            'publisher_id' => 'nullable|exists:publishers,id',
+            'category_name' => 'nullable|string|max:255',
+            'author_name' => 'nullable|string|max:255',
+            'publisher_name' => 'nullable|string|max:255',
+            'publication_year' => 'nullable|integer',
+            'edition' => 'nullable|string|max:255',
+            'language' => 'nullable|string|max:255',
+            'pages' => 'nullable|integer',
             'quantity' => 'nullable|integer|min:1',
             'available_quantity' => 'nullable|integer|min:0',
+            'shelf_location' => 'nullable|string|max:255',
             'status' => 'nullable|in:Available,Unavailable,Archived',
         ]);
+
+        $validated['category_id'] = !empty($validated['category_name']) ? \App\Models\Category::firstOrCreate(['category_name' => $validated['category_name']])->id : null;
+        $validated['author_id'] = !empty($validated['author_name']) ? \App\Models\Author::firstOrCreate(['author_name' => $validated['author_name']])->id : null;
+        $validated['publisher_id'] = !empty($validated['publisher_name']) ? \App\Models\Publisher::firstOrCreate(['publisher_name' => $validated['publisher_name']])->id : null;
+
+        unset($validated['category_name'], $validated['author_name'], $validated['publisher_name']);
 
         $book->update(array_merge($validated, ['edited_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
 

@@ -21,34 +21,51 @@
         </div>
         <div class="col-md-6 mb-3">
             <label>Category</label>
-            <select name="category_id" class="form-select">
-                <option value="">Select Category</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->category_name }}</option>
-                @endforeach
-            </select>
+            <input type="text" name="category_name" class="form-control" placeholder="Enter category name">
         </div>
         <div class="col-md-6 mb-3">
             <label>Author</label>
-            <select name="author_id" class="form-select">
-                <option value="">Select Author</option>
-                @foreach($authors as $author)
-                    <option value="{{ $author->id }}">{{ $author->author_name }}</option>
-                @endforeach
-            </select>
+            <input type="text" name="author_name" class="form-control" placeholder="Enter author name">
         </div>
         <div class="col-md-6 mb-3">
             <label>Publisher</label>
-            <select name="publisher_id" class="form-select">
-                <option value="">Select Publisher</option>
-                @foreach($publishers as $publisher)
-                    <option value="{{ $publisher->id }}">{{ $publisher->publisher_name }}</option>
-                @endforeach
-            </select>
+            <input type="text" name="publisher_name" class="form-control" placeholder="Enter publisher name">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label>Publication Year</label>
+            <input type="number" name="publication_year" class="form-control" placeholder="e.g. 2024">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label>Edition</label>
+            <input type="text" name="edition" class="form-control" placeholder="e.g. 1st Edition">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label>Language</label>
+            <input type="text" name="language" class="form-control" placeholder="e.g. English">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label>Pages</label>
+            <input type="number" name="pages" class="form-control" placeholder="e.g. 300">
         </div>
         <div class="col-md-6 mb-3">
             <label>Quantity</label>
             <input type="number" name="quantity" class="form-control" value="1" min="1">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label>Available Quantity</label>
+            <input type="number" name="available_quantity" class="form-control" value="1" min="0">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label>Shelf Location</label>
+            <input type="text" name="shelf_location" class="form-control" placeholder="e.g. A-01">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label>Status</label>
+            <select name="status" class="form-select">
+                <option value="Available">Available</option>
+                <option value="Unavailable">Unavailable</option>
+                <option value="Archived">Archived</option>
+            </select>
         </div>
         <div class="col-12 mb-3">
             <label>Description</label>
