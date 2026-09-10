@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('item_type');
             $table->string('item_id');
             $table->string('title');
-            $table->enum('status', ['Pending', 'Approved', 'Rejected'])->default('Pending');
+            $table->enum('status', ['Pending', 'Approved', 'Rejected', 'Expired'])->default('Pending');
             $table->text('reason')->nullable();
             $table->text('rejection_reason')->nullable();
             $table->foreignId('reviewed_by')->nullable()->constrained('users')->nullOnDelete();
