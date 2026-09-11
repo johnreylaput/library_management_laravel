@@ -182,6 +182,6 @@ class JournalController extends Controller
         $journal = Journal::findOrFail($id);
         $journal->delete();
 
-        return redirect()->route('journals.index')->with('success', 'Periodical moved to Recently Deleted successfully.');
+        return redirect()->route('e-periodical.index', ['view' => 'delete-journal'])->with('success', 'Periodical moved to Recently Deleted successfully.');
     }
 }

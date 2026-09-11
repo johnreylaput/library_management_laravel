@@ -312,6 +312,17 @@
                                             @endif
                                         </a>
                                     </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('recently-deleted.index') }}">
+                                            <i class="bi bi-arrow-counterclockwise"></i> Recently Deleted
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('reports.index') }}">
+                                            <i class="bi bi-file-earmark-bar-graph"></i> Reports
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                             <a href="{{ route('journals.index') }}" class="btn btn-outline-secondary btn-sm">

@@ -44,7 +44,7 @@
                         </td>
                         <td>{{ $book->deleted_at?->format('M d, Y h:i A') ?? '-' }}</td>
                         <td>
-                            <form action="{{ route('recently-deleted.restore', ['type' => 'book', 'item' => $book->id]) }}" method="POST">
+                            <form action="{{ route('recently-deleted.restore', ['type' => 'book', 'id' => $book->id]) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-success">
                                     <i class="bi bi-arrow-counterclockwise"></i> Restore
@@ -96,7 +96,7 @@
                         </td>
                         <td>{{ $journal->deleted_at?->format('M d, Y h:i A') ?? '-' }}</td>
                         <td>
-                            <form action="{{ route('recently-deleted.restore', ['type' => 'journal', 'item' => $journal->id]) }}" method="POST">
+                            <form action="{{ route('recently-deleted.restore', ['type' => 'journal', 'id' => $journal->id]) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-success">
                                     <i class="bi bi-arrow-counterclockwise"></i> Restore
@@ -144,7 +144,7 @@
                         <td>{{ $thesis->category->category_name ?? '-' }}</td>
                         <td>{{ $thesis->deleted_at?->format('M d, Y h:i A') ?? '-' }}</td>
                         <td>
-                            <form action="{{ route('recently-deleted.restore', ['type' => 'thesis', 'item' => $thesis->id]) }}" method="POST">
+                            <form action="{{ route('recently-deleted.restore', ['type' => 'thesis', 'id' => $thesis->id]) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-success">
                                     <i class="bi bi-arrow-counterclockwise"></i> Restore
