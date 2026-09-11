@@ -469,7 +469,15 @@
 
             @if($view === 'delete-journal' && $allJournals->count() > 0)
                 <div class="results-header">
-                    <h3>Select a Periodical to @if(Auth::check() && Auth::user()->role === 'Working.Student')Request for Deletion@elseMove to Recently Deleted@endif ({{ $allJournals->count() }})</h3>
+                    <h3>
+                        Select a Periodical to
+                        @if(Auth::check() && Auth::user()->role === 'Working.Student')
+                            Request for Deletion
+                        @else
+                            Move to Recently Deleted
+                        @endif
+                        ({{ $allJournals->count() }})
+                    </h3>
                 </div>
                 @foreach($allJournals as $journal)
                     <div class="result-item" data-type="journal" data-id="{{ $journal->id }}">
