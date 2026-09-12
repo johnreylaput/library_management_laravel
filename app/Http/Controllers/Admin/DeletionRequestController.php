@@ -18,10 +18,10 @@ class DeletionRequestController extends Controller
     {
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
-            if (Auth::check() && Auth::user()->role === 'Librarian') {
+            if (Auth::check() && Auth::user()->role === 'Librarian' && Auth::user()->username === 'maria.librarian') {
                 return $next($request);
             }
-            return redirect()->route('dashboard')->with('error', 'Only Librarians are authorized to review deletion requests.');
+            return redirect()->route('dashboard')->with('error', 'Only maria.librarian is authorized to review deletion requests.');
         })->only(['index', 'approve', 'reject']);
         $this->middleware('role:Working.Student')->only(['myRequests']);
     }
