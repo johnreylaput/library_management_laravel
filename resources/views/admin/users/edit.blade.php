@@ -112,14 +112,32 @@
                 Role
             </label>
 
-            <input
+            <select
                 id="role"
                 name="role"
-                type="text"
-                class="form-control"
-                value="{{ old('role', $user->role) }}"
+                class="form-select"
                 required
             >
+                <option value="Admin"
+                    {{ old('role', $user->role) === 'Admin' ? 'selected' : '' }}>
+                    Admin
+                </option>
+
+                <option value="Librarian"
+                    {{ old('role', $user->role) === 'Librarian' ? 'selected' : '' }}>
+                    Librarian
+                </option>
+
+                <option value="Member"
+                    {{ old('role', $user->role) === 'Member' ? 'selected' : '' }}>
+                    Member
+                </option>
+
+                <option value="Working.Student"
+                    {{ old('role', $user->role) === 'Working.Student' ? 'selected' : '' }}>
+                    Working Student
+                </option>
+            </select>
 
             @error('role')
                 <div class="text-danger">
