@@ -24,38 +24,44 @@
         <tr>
             <th>User</th>
             <th>Role</th>
-            <th>Action</th>
-            <th>Description</th>
             <th>IP Address</th>
             <th>Time-In</th>
             <th>Time-Out</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($logs as $log)
-            <tr data-log-id="{{ $log->id }}">
-                <td>{{ $log->username }}</td>
-                <td>{{ $log->role }}</td>
-                <td>{{ $log->action }}</td>
-                <td>{{ $log->description }}</td>
-                <td>{{ $log->ip_address }}</td>
-                <td class="time-in">{{ $log->created_at->format('Y-m-d h:i:s A') }}</td>
-                <td class="time-out">{{ $log->created_at->format('Y-m-d h:i:s A') }}</td>
+        @foreach($sessions as $session)
+            <tr data-log-id="{{ $session['id'] }}">
+                <td>{{ $session['username'] }}</td>
+                <td>{{ $session['role'] }}</td>
+                <td>{{ $session['ip_address'] }}</td>
+                <td class="time-in">{{ $session['time_in'] ? $session['time_in']->format('Y-m-d h:i:s A') : '-' }}</td>
+                <td class="time-out">{{ $session['time_out'] ? $session['time_out']->format('Y-m-d h:i:s A') : 'Active' }}</td>
+                <td>
+                    @if($session['time_out'])
+                        <span class="badge bg-secondary">Logged Out</span>
+                    @else
+                        <span class="badge bg-success">Active</span>
+                    @endif
+                </td>
             </tr>
         @endforeach
     </tbody>
 </table>
 
 <div class="mt-3">
-    {{ $logs->links() }}
+    @if(method_exists($sessions, 'links'))
+        {{ $sessions->links() }}
+    @endif
 </div>
 @endsection
 
 @push('scripts')
 <script>
 let knownLogIds = new Set([
-    @foreach($logs as $log)
-        {{ $log->id }},
+    @foreach($sessions as $session)
+        {{ $session['id'] }},
     @endforeach
 ]);
 
@@ -86,7 +92,7 @@ async function fetchLogs() {
             headers: { 'Accept': 'application/json' }
         });
         if (!response.ok) throw new Error('Failed to fetch logs');
-        const logs = await response.json();
+        const sessions = await response.json();
 
         const tbody = document.querySelector('#logs-table tbody');
         if (!tbody) return;
@@ -94,21 +100,20 @@ async function fetchLogs() {
         const currentIds = new Set();
         let newCount = 0;
 
-        logs.forEach((log, index) => {
-            currentIds.add(log.id);
-            let row = document.querySelector(`tr[data-log-id="${log.id}"]`);
+        sessions.forEach((session, index) => {
+            currentIds.add(session.id);
+            let row = document.querySelector(`tr[data-log-id="${session.id}"]`);
 
             if (!row) {
                 row = document.createElement('tr');
-                row.setAttribute('data-log-id', log.id);
+                row.setAttribute('data-log-id', session.id);
                 row.innerHTML = `
-                    <td>${log.username || ''}</td>
-                    <td>${log.role || ''}</td>
-                    <td>${log.action || ''}</td>
-                    <td>${log.description || ''}</td>
-                    <td>${log.ip_address || ''}</td>
-                    <td class="time-in">${formatDateTime(log.created_at)}</td>
-                    <td class="time-out">${formatDateTime(log.created_at)}</td>
+                    <td>${session.username || ''}</td>
+                    <td>${session.role || ''}</td>
+                    <td>${session.ip_address || ''}</td>
+                    <td class="time-in">${formatDateTime(session.time_in)}</td>
+                    <td class="time-out">${session.time_out ? formatDateTime(session.time_out) : 'Active'}</td>
+                    <td>${session.time_out ? '<span class="badge bg-secondary">Logged Out</span>' : '<span class="badge bg-success">Active</span>'}</td>
                 `;
                 tbody.insertBefore(row, tbody.firstChild);
                 highlightRow(row);
@@ -116,11 +121,11 @@ async function fetchLogs() {
             } else {
                 const timeInCell = row.querySelector('.time-in');
                 const timeOutCell = row.querySelector('.time-out');
-                if (timeInCell && log.created_at) {
-                    timeInCell.textContent = formatDateTime(log.created_at);
+                if (timeInCell && session.time_in) {
+                    timeInCell.textContent = formatDateTime(session.time_in);
                 }
-                if (timeOutCell && log.created_at) {
-                    timeOutCell.textContent = formatDateTime(log.created_at);
+                if (timeOutCell) {
+                    timeOutCell.textContent = session.time_out ? formatDateTime(session.time_out) : 'Active';
                 }
             }
         });

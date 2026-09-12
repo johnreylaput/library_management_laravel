@@ -14,6 +14,7 @@ class ActivityLog extends Model
         'action',
         'description',
         'ip_address',
+        'session_id',
     ];
 
     public function user(): BelongsTo
