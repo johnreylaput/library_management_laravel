@@ -26,72 +26,30 @@ class LogController extends Controller
             });
         }
 
-        $sessions = $this->buildSessions($query->orderBy('created_at', 'desc')->get());
+        $logs = $query->latest()->paginate(50);
 
-        if ($search) {
-            $sessions = $sessions->filter(function ($session) use ($search) {
-                return str_contains(strtolower($session['username']), strtolower($search))
-                    || str_contains(strtolower($session['action']), strtolower($search))
-                    || str_contains(strtolower($session['description']), strtolower($search));
-            })->values();
-        }
-
-        return view('admin.logs.index', [
-            'sessions' => $sessions,
-        ]);
+        return view('admin.logs.index', compact('logs'));
     }
 
     public function data()
     {
         $logs = ActivityLog::query()
-            ->select('id', 'username', 'role', 'action', 'description', 'ip_address', 'session_id', 'created_at')
+            ->select('id', 'username', 'role', 'action', 'description', 'ip_address', 'created_at')
             ->latest()
             ->limit(50)
-            ->get();
-
-        $sessions = $this->buildSessions($logs);
-
-        return response()->json($sessions);
-    }
-
-    private function buildSessions($logs)
-    {
-        $sessions = [];
-        $openSessions = [];
-
-        foreach ($logs->sortBy('created_at') as $log) {
-            $sessionId = $log->session_id;
-
-            if (! $sessionId) {
-                continue;
-            }
-
-            if ($log->action === 'Login') {
-                $openSessions[$sessionId] = [
+            ->get()
+            ->map(function ($log) {
+                return [
                     'id' => $log->id,
-                    'session_id' => $sessionId,
                     'username' => $log->username,
                     'role' => $log->role,
-                    'ip_address' => $log->ip_address,
-                    'time_in' => $log->created_at,
-                    'time_out' => null,
-                    'action' => 'Login',
+                    'action' => $log->action,
                     'description' => $log->description,
+                    'ip_address' => $log->ip_address,
+                    'created_at' => $log->created_at ? $log->created_at->format('Y-m-d H:i:s') : null,
                 ];
-            } elseif ($log->action === 'Logout' && isset($openSessions[$sessionId])) {
-                $openSessions[$sessionId]['time_out'] = $log->created_at;
-                $openSessions[$sessionId]['description'] = $log->description;
-                $sessions[] = $openSessions[$sessionId];
-                unset($openSessions[$sessionId]);
-            }
-        }
+            });
 
-        foreach ($openSessions as $session) {
-            $sessions[] = $session;
-        }
-
-        return collect($sessions)->sortByDesc(function ($session) {
-            return $session['time_in'];
-        })->values();
+        return response()->json($logs);
     }
 }

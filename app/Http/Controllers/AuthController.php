@@ -72,7 +72,6 @@ class AuthController extends Controller
             'action' => 'Login',
             'description' => 'Logged in successfully',
             'ip_address' => $request->ip(),
-            'session_id' => $request->session()->getId(),
         ]);
 
         return redirect()->route('dashboard');
@@ -171,7 +170,6 @@ class AuthController extends Controller
                 'action' => 'Logout',
                 'description' => 'Logged out successfully',
                 'ip_address' => $request->ip(),
-                'session_id' => $request->session()->getId(),
             ]);
         }
 
