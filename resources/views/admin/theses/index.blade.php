@@ -94,7 +94,7 @@
                             <li>
                                 <form action="{{ route('theses.destroy', $thesis->id) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm(@if(Auth::check() && Auth::user()->role === 'Working.Student')'Submit a deletion request for this thesis? maria.librarian will review it.'@else'Move this thesis to Recently Deleted? It can be restored later.'@endif)">
+                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm(@if(Auth::check() && Auth::user()->role === 'Working.Student')'Submit a deletion request for this thesis? The librarian will review it.'@else'Move this thesis to Recently Deleted? It can be restored later.'@endif)">
                                         @if(Auth::check() && Auth::user()->role === 'Working.Student')
                                             <i class="bi bi-send"></i> Request Deletion
                                         @else

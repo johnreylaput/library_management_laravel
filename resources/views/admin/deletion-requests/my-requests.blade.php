@@ -113,7 +113,7 @@
                             @elseif($req->status === 'Approved')
                                 <span class="text-success"><i class="bi bi-check"></i> Item was moved to Recently Deleted.</span>
                             @else
-                                <span class="text-muted">Awaiting maria.librarian review...</span>
+                                <span class="text-muted">Awaiting librarian review...</span>
                             @endif
                         </td>
                     </tr>

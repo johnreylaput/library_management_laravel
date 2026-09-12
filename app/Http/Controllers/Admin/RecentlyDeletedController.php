@@ -16,9 +16,8 @@ class RecentlyDeletedController extends Controller
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
             $user = Auth::user();
-            $isMaria = $user && $user->role === 'Librarian' && $user->username === 'maria.librarian';
             $isAllowed = $user && (
-                in_array($user->role, ['Admin', 'Working.Student'], true) || $isMaria
+                in_array($user->role, ['Admin', 'Librarian', 'Working.Student'], true)
             );
 
             if (! $isAllowed) {
