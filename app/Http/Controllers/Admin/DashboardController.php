@@ -40,7 +40,7 @@ class DashboardController extends Controller
                     $q->where('member_id', $member->id);
                 })->count() : 0,
             ];
-            $borrows = $member ? BorrowRecord::with('book')->where('member_id', $member->id)->latest()->take(5)->get() : collect();
+            $borrows = $member ? BorrowRecord::with(['book', 'journal', 'thesis'])->where('member_id', $member->id)->latest()->take(5)->get() : collect();
             $reservations = $member ? Reservation::with('book')->where('member_id', $member->id)->latest()->take(5)->get() : collect();
             $fines = $member ? Fine::whereHas('borrow', function ($q) use ($member) {
                 $q->where('member_id', $member->id);
@@ -51,23 +51,23 @@ class DashboardController extends Controller
                 $today = now()->toDateString();
                 $tomorrow = now()->addDay()->toDateString();
 
-                $dueToday = BorrowRecord::with('book')->where('member_id', $member->id)
+                $dueToday = BorrowRecord::with(['book', 'journal', 'thesis'])->where('member_id', $member->id)
                     ->where('due_date', $today)
                     ->where('status', '!=', 'Returned')
                     ->get();
 
-                $dueTomorrow = BorrowRecord::with('book')->where('member_id', $member->id)
+                $dueTomorrow = BorrowRecord::with(['book', 'journal', 'thesis'])->where('member_id', $member->id)
                     ->where('due_date', $tomorrow)
                     ->where('status', '!=', 'Returned')
                     ->get();
 
-                $overdue = BorrowRecord::with('book')->where('member_id', $member->id)
+                $overdue = BorrowRecord::with(['book', 'journal', 'thesis'])->where('member_id', $member->id)
                     ->where('due_date', '<', $today)
                     ->where('status', '!=', 'Returned')
                     ->get();
 
                 foreach ($dueToday as $record) {
-                    $bookTitle = $record->book->title ?? 'Unknown';
+                    $bookTitle = $record->book?->title ?? $record->journal?->title ?? $record->thesis?->title ?? 'Unknown Item';
                     $dueNotifications->push([
                         'type' => 'danger',
                         'icon' => 'bi-calendar-check',
@@ -77,7 +77,7 @@ class DashboardController extends Controller
                 }
 
                 foreach ($dueTomorrow as $record) {
-                    $bookTitle = $record->book->title ?? 'Unknown';
+                    $bookTitle = $record->book?->title ?? $record->journal?->title ?? $record->thesis?->title ?? 'Unknown Item';
                     $dueNotifications->push([
                         'type' => 'warning',
                         'icon' => 'bi-exclamation-triangle',
@@ -87,7 +87,7 @@ class DashboardController extends Controller
                 }
 
                 foreach ($overdue as $record) {
-                    $bookTitle = $record->book->title ?? 'Unknown';
+                    $bookTitle = $record->book?->title ?? $record->journal?->title ?? $record->thesis?->title ?? 'Unknown Item';
                     $dueNotifications->push([
                         'type' => 'danger',
                         'icon' => 'bi-x-circle',
@@ -170,12 +170,12 @@ class DashboardController extends Controller
 
         $tomorrow = now()->addDay()->toDateString();
 
-        $dueBorrows = BorrowRecord::with(['member.user', 'book'])
+        $dueBorrows = BorrowRecord::with(['member.user', 'book', 'journal', 'thesis'])
             ->whereIn('status', ['Borrowed', 'Overdue'])
             ->where('due_date', '<=', $tomorrow)
             ->get();
 
-        $dueReservations = Reservation::with(['member.user', 'book'])
+        $dueReservations = Reservation::with(['member.user', 'book', 'journal', 'thesis'])
             ->where('status', 'Pending')
             ->where('due_date', '<=', $tomorrow)
             ->get();
