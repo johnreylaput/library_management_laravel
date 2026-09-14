@@ -34,13 +34,12 @@ class LogController extends Controller
     public function data()
     {
         $logs = ActivityLog::query()
-            ->select('id', 'username', 'role', 'action', 'description', 'ip_address', 'created_at')
             ->latest()
-            ->limit(50)
             ->get()
             ->map(function ($log) {
                 return [
                     'id' => $log->id,
+                    'user_id' => $log->user_id,
                     'username' => $log->username,
                     'role' => $log->role,
                     'action' => $log->action,
