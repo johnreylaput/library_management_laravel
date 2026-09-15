@@ -7,12 +7,32 @@
 <form method="POST" action="{{ route('authors.store') }}">
     @csrf
     <div class="mb-3">
-        <label>Author Name</label>
-        <input type="text" name="author_name" class="form-control" required>
+        <label class="form-label fw-bold">Author:</label>
+        <input type="text" name="author_name" class="form-control" placeholder="e.g. John Smith" required>
     </div>
     <div class="mb-3">
-        <label>Biography</label>
-        <textarea name="biography" class="form-control" rows="3"></textarea>
+        <label class="form-label fw-bold">Title:</label>
+        <input type="text" name="title" class="form-control" placeholder="e.g. Introduction to Programming">
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold">Edition:</label>
+        <input type="text" name="edition" class="form-control" placeholder="e.g. 1st Edition">
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold">Year:</label>
+        <input type="text" name="year" class="form-control" placeholder="e.g. 2024">
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold">Subject:</label>
+        <input type="text" name="subject" class="form-control" placeholder="e.g. Computer Science">
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold">Publication:</label>
+        <select name="publication" class="form-select">
+            <option value="">-- Select Publication --</option>
+            <option value="Foreign">Foreign</option>
+            <option value="Local">Local</option>
+        </select>
     </div>
     <button type="submit" class="btn btn-success">Save Author</button>
     <a href="{{ route('authors.index') }}" class="btn btn-secondary">Cancel</a>
