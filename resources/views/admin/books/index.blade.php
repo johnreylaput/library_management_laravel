@@ -37,7 +37,7 @@
                 <td>{{ $book->subject ?? '-' }}</td>
                 <td>{{ $book->publication ?? '-' }}</td>
                 <td>
-                    <a href="{{ route('books.show', $book->id) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
+                    <a href="{{ route('member.books.show', $book->id) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
                     <a href="{{ route('books.edit', $book->id) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
                     <form action="{{ route('books.destroy', $book->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this book?')">
                         @csrf @method('DELETE')
