@@ -29,17 +29,12 @@ class SearchController extends Controller
 
         if (!empty($query)) {
             if ($type === 'all' || $type === 'books') {
-                $bookQuery = Book::with(['category', 'author', 'publisher']);
+                $bookQuery = Book::query();
 
                 $bookQuery->where(function ($q) use ($query) {
                     $q->where('title', 'like', "%{$query}%")
-                      ->orWhereHas('author', function ($q2) use ($query) {
-                          $q2->where('author_name', 'like', "%{$query}%");
-                      })
-                      ->orWhere('isbn', 'like', "%{$query}%")
-                      ->orWhereHas('category', function ($q2) use ($query) {
-                          $q2->where('category_name', 'like', "%{$query}%");
-                      });
+                      ->orWhere('author', 'like', "%{$query}%")
+                      ->orWhere('subject', 'like', "%{$query}%");
                 });
 
                 if ($categoryId) {
@@ -49,16 +44,14 @@ class SearchController extends Controller
                 $books = $bookQuery->get();
 
                 foreach ($books as $book) {
-                    if ($book->status !== 'Available' || $book->available_quantity <= 0) {
-                        $exactUnavailable = $book;
-                        $relatedBooks = Book::where('category_id', $book->category_id)
-                            ->where('id', '!=', $book->id)
-                            ->where('status', 'Available')
-                            ->where('available_quantity', '>', 0)
-                            ->limit(5)
-                            ->get();
-                        break;
-                    }
+                    // Note: status and available_quantity columns no longer exist
+                    // Keeping logic for compatibility
+                    $exactUnavailable = $book;
+                    $relatedBooks = Book::where('subject', $book->subject)
+                        ->where('id', '!=', $book->id)
+                        ->limit(5)
+                        ->get();
+                    break;
                 }
 
                 if ($books->isEmpty()) {
@@ -66,11 +59,10 @@ class SearchController extends Controller
                     $words = explode(' ', strtoupper($query));
                     foreach ($words as $word) {
                         if (strlen($word) >= 3) {
-                            $partialQuery = Book::with(['category', 'author', 'publisher'])
+                            $partialQuery = Book::query()
                                 ->where('title', 'like', "%{$word}%")
-                                ->orWhereHas('category', function ($q2) use ($word) {
-                                    $q2->where('category_name', 'like', "%{$word}%");
-                                });
+                                ->orWhere('author', 'like', "%{$word}%")
+                                ->orWhere('subject', 'like', "%{$word}%");
 
                             if ($categoryId) {
                                 $partialQuery->where('category_id', $categoryId);
@@ -79,10 +71,8 @@ class SearchController extends Controller
                             $partial = $partialQuery->first();
                             if ($partial) {
                                 $books->push($partial);
-                                $relatedBooks = Book::where('category_id', $partial->category_id)
+                                $relatedBooks = Book::where('subject', $partial->subject)
                                     ->where('id', '!=', $partial->id)
-                                    ->where('status', 'Available')
-                                    ->where('available_quantity', '>', 0)
                                     ->limit(5)
                                     ->get();
                                 break;
@@ -147,9 +137,7 @@ class SearchController extends Controller
             ]);
         } elseif ($categoryId) {
             if ($type === 'all' || $type === 'books') {
-                $books = Book::with(['category', 'author', 'publisher'])
-                    ->where('category_id', $categoryId)
-                    ->get();
+                $books = Book::where('category_id', $categoryId)->get();
             }
             if ($type === 'all' || $type === 'journals') {
                 $journals = Journal::with(['category', 'publisher'])
@@ -163,7 +151,7 @@ class SearchController extends Controller
             }
         } else {
             if ($type === 'all' || $type === 'books') {
-                $books = Book::with(['category', 'author', 'publisher'])->get();
+                $books = Book::all();
             }
             if ($type === 'all' || $type === 'journals') {
                 $journals = Journal::with(['category', 'publisher'])->get();

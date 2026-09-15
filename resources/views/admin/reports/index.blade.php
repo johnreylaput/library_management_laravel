@@ -122,36 +122,23 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-dark text-white">
-                <h5 class="mb-0">Category Distribution</h5>
+                <h5 class="mb-0">Categories</h5>
             </div>
             <div class="card-body">
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Category</th>
-                            <th>Total Books</th>
-                            <th>Percentage</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            $totalCategoryBooks = $categoryStats->sum('books_count');
-                        @endphp
                         @foreach($categoryStats as $category)
                             <tr>
                                 <td>{{ $category->category_name ?? 'Uncategorized' }}</td>
-                                <td>{{ $category->books_count }}</td>
-                                <td>
-                                    @if($totalCategoryBooks > 0)
-                                        {{ round(($category->books_count / $totalCategoryBooks) * 100, 1) }}%
-                                    @else
-                                        0%
-                                    @endif
-                                </td>
                             </tr>
                         @endforeach
                         @if($categoryStats->isEmpty())
-                            <tr><td colspan="3" class="text-center text-muted">No categories available.</td></tr>
+                            <tr><td class="text-center text-muted">No categories available.</td></tr>
                         @endif
                     </tbody>
                 </table>
@@ -173,8 +160,8 @@
                             <th>#</th>
                             <th>Title</th>
                             <th>Author</th>
-                            <th>ISBN</th>
-                            <th>Category</th>
+                            <th>Subject</th>
+                            <th>Publication</th>
                             <th>Borrows</th>
                         </tr>
                     </thead>
@@ -183,9 +170,9 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item['book']->title ?? 'Unknown' }}</td>
-                                <td>{{ $item['book']->author->author_name ?? '-' }}</td>
-                                <td>{{ $item['book']->isbn ?? '-' }}</td>
-                                <td>{{ $item['book']->category->category_name ?? '-' }}</td>
+                                <td>{{ $item['book']->author ?? '-' }}</td>
+                                <td>{{ $item['book']->subject ?? '-' }}</td>
+                                <td>{{ $item['book']->publication ?? '-' }}</td>
                                 <td><span class="badge bg-primary">{{ $item['count'] }}</span></td>
                             </tr>
                         @empty

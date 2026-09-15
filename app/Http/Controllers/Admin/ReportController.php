@@ -45,7 +45,7 @@ class ReportController extends Controller
             ->limit(10)
             ->get()
             ->map(function ($item) {
-                $book = Book::with(['category', 'author', 'publisher'])->find($item->book_id);
+                $book = Book::find($item->book_id);
                 return [
                     'book' => $book,
                     'count' => $item->borrow_count,
@@ -106,9 +106,8 @@ class ReportController extends Controller
             ->limit(15)
             ->get();
 
-        $categoryStats = Category::withCount('books')
-            ->orderByDesc('books_count')
-            ->get();
+        // Category stats without books relationship (since books no longer have category_id)
+        $categoryStats = Category::all();
 
         $memberActivity = Member::with(['user'])
             ->withCount('borrowRecords')
