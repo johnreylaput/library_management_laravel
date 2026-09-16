@@ -47,12 +47,14 @@ class BookController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'author' => 'nullable|string|max:255',
+            'author' => 'required|string|max:255',
             'edition' => 'nullable|string|max:100',
             'year' => 'nullable|string|max:10',
             'subject' => 'nullable|string|max:255',
             'publication' => 'nullable|in:Foreign,Local',
         ]);
+
+        $validated['publication'] = $validated['publication'] ?: null;
 
         Book::create($validated);
 
@@ -70,12 +72,14 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'author' => 'nullable|string|max:255',
+            'author' => 'required|string|max:255',
             'edition' => 'nullable|string|max:100',
             'year' => 'nullable|string|max:10',
             'subject' => 'nullable|string|max:255',
             'publication' => 'nullable|in:Foreign,Local',
         ]);
+
+        $validated['publication'] = $validated['publication'] ?: null;
 
         $book->update($validated);
 
