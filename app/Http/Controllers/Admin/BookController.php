@@ -56,7 +56,7 @@ class BookController extends Controller
 
         $validated['publication'] = $validated['publication'] ?: null;
 
-        Book::create($validated);
+        Book::create(array_merge($validated, ['added_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
 
         return redirect()->route('books.index')->with('success', 'Book created successfully.');
     }
@@ -81,7 +81,7 @@ class BookController extends Controller
 
         $validated['publication'] = $validated['publication'] ?: null;
 
-        $book->update($validated);
+        $book->update(array_merge($validated, ['edited_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
 
         return redirect()->route('books.index')->with('success', 'Book updated successfully.');
     }

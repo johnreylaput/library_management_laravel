@@ -16,5 +16,7 @@ class Book extends Model
         'year',
         'subject',
         'publication',
+        'added_by',
+        'edited_by',
     ];
 }

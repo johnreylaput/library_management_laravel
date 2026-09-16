@@ -37,6 +37,14 @@
                     <option value="Local" {{ $book->publication === 'Local' ? 'selected' : '' }}>Local</option>
                 </select>
             </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Added By:</label>
+                <input type="text" class="form-control" value="{{ $book->added_by ?? 'N/A' }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Edited By:</label>
+                <input type="text" class="form-control" value="@php $editorText = $book->edited_by ?? 'N/A'; preg_match('/^(.+) \(([^)]+)\)$/', $editorText, $editorMatches); @endphp{{ $editorMatches[1] ?? $editorText }}" readonly>
+            </div>
         </form>
     </div>
 </div>

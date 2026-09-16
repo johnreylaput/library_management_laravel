@@ -28,8 +28,6 @@ return new class extends Migration
                 'book_cover',
                 'description',
                 'status',
-                'added_by',
-                'edited_by',
             ]);
             
             // Add new columns matching Author structure (if not exist)
