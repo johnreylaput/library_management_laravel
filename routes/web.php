@@ -83,10 +83,6 @@ Route::middleware('auth')->group(function () {
         Route::post('reservations/{reservation}/reject', [ReservationController::class, 'reject'])->name('reservations.reject');
     });
 
-    Route::get('/books/{book}', [BookController::class, 'show'])->name('member.books.show');
-    Route::get('/journals/{journal}', [JournalController::class, 'show'])->name('member.journals.show');
-    Route::get('/theses/{thesis}', [ThesisController::class, 'show'])->name('member.theses.show');
-
     Route::middleware('role:Admin,Librarian,Working.Student')->group(function () {
         Route::resource('users', UserController::class);
     });
