@@ -273,7 +273,7 @@
                        
                     </div>
                     <div class="text-center">
-                        <span class="fw-bold text-primary banner-index-title">PERIODICAL INDEX</span>
+                        <span class="fw-bold text-primary banner-index-title">IN-HOUSE-PERIODICAL INDEX</span>
                     </div>
                     <div class="d-flex gap-2">
                         @if(Auth::check() && Auth::user()->role === 'Member')
@@ -289,44 +289,28 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'add-journal']) }}">
-                                            <i class="bi bi-plus-circle"></i> Add Periodical
+                                            <i class="bi bi-plus-circle"></i> Add Journal Article
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'all-journals']) }}">
-                                            <i class="bi bi-journal-arrow-down"></i> View Periodical
+                                            <i class="bi bi-journal-arrow-down"></i> View Journal Article
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'edit-journal']) }}">
-                                            <i class="bi bi-pencil"></i> Edit Periodical
+                                            <i class="bi bi-pencil"></i> Edit Journal Article
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('e-periodical.index', ['view' => 'delete-journal']) }}">
-                                            <i class="bi bi-{{ Auth::check() && Auth::user()->role === 'Working.Student' ? 'send' : 'trash' }}"></i>
-                                            @if(Auth::check() && Auth::user()->role === 'Working.Student')
-                                                Request Deletion
-                                            @else
-                                                Delete Periodical
-                                            @endif
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('recently-deleted.index') }}">
-                                            <i class="bi bi-arrow-counterclockwise"></i> Recently Deleted
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('reports.index') }}">
-                                            <i class="bi bi-file-earmark-bar-graph"></i> Reports
+                                            <i class="bi bi-trash"></i> Delete Journal Article
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                             <a href="{{ route('journals.index') }}" class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-arrow-left"></i> Back to Periodicals Dashboard
+                                <i class="bi bi-arrow-left"></i> Back to Journals Dashboard
                             </a>
                         @endif
                     </div>
@@ -352,8 +336,8 @@
                     <div class="row g-3">
                         <div class="col-md-2">
                             <select name="type" class="form-select">
-                                <option value="all" {{ ($type ?? 'all') == 'all' ? 'selected' : '' }}>Databases</option>
-                                <option value="journals" {{ ($type ?? '') == 'journals' ? 'selected' : '' }}>Periodicals</option>
+                                <option value="all" {{ ($type ?? 'all') == 'all' ? 'selected' : '' }}>All Types</option>
+                                <option value="journals" {{ ($type ?? '') == 'journals' ? 'selected' : '' }}>Journals</option>
                                 <option value="theses" {{ ($type ?? '') == 'theses' ? 'selected' : '' }}>Theses</option>
                             </select>
                         </div>
@@ -370,7 +354,7 @@
                             </select>
                         </div>
                         <div class="col-md-5">
-                            <input type="text" name="q" class="form-control" placeholder="" value="{{ $query ?? '' }}">
+                            <input type="text" name="q" class="form-control" placeholder="Search by title, author, journal name, subject, keyword, DOI, ISSN..." value="{{ $query ?? '' }}">
                         </div>
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-primary w-100">
@@ -383,17 +367,17 @@
 
             @if($view === 'add-journal')
                 <div class="alert alert-info">
-                    <h5><i class="bi bi-plus-circle"></i> Add Periodical</h5>
-                    <p>Click the button below to add a new periodical.</p>
+                    <h5><i class="bi bi-plus-circle"></i> Add Journal Article</h5>
+                    <p>Click the button below to add a new journal article.</p>
                     <a href="{{ route('journals.create') }}" class="btn btn-primary">
-                        <i class="bi bi-plus-circle"></i> Add New Periodical
+                        <i class="bi bi-plus-circle"></i> Add New Journal Article
                     </a>
                 </div>
             @endif
 
             @if($view === 'all-journals' && $allJournals->count() > 0)
                 <div class="results-header">
-                    <h3>All Periodicals ({{ $allJournals->count() }})</h3>
+                    <h3>All Journal Articles ({{ $allJournals->count() }})</h3>
                 </div>
                 @foreach($allJournals as $journal)
                     <div class="result-item" data-type="journal" data-id="{{ $journal->id }}" onclick="showJournalDetail({{ $journal->id }})">
@@ -438,7 +422,7 @@
 
             @if($view === 'edit-journal' && $allJournals->count() > 0)
                 <div class="results-header">
-                    <h3>Select a Periodical to Edit ({{ $allJournals->count() }})</h3>
+                    <h3>Select a Journal Article to Edit ({{ $allJournals->count() }})</h3>
                 </div>
                 @foreach($allJournals as $journal)
                     <div class="result-item" data-type="journal" data-id="{{ $journal->id }}">
@@ -469,15 +453,7 @@
 
             @if($view === 'delete-journal' && $allJournals->count() > 0)
                 <div class="results-header">
-                    <h3>
-                        Select a Periodical to
-                        @if(Auth::check() && Auth::user()->role === 'Working.Student')
-                            Request for Deletion
-                        @else
-                            Move to Recently Deleted
-                        @endif
-                        ({{ $allJournals->count() }})
-                    </h3>
+                    <h3>Select a Journal Article to Delete ({{ $allJournals->count() }})</h3>
                 </div>
                 @foreach($allJournals as $journal)
                     <div class="result-item" data-type="journal" data-id="{{ $journal->id }}">
@@ -498,17 +474,17 @@
                             </div>
                             <div class="ms-3">
                                 @if(Auth::check() && Auth::user()->role === 'Working.Student')
-                                    <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Submit a deletion request for this periodical? maria.librarian will review it.');">
+                                    <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Submit a deletion request for this journal? The librarian will review it.');">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="event.stopPropagation();">
                                             <i class="bi bi-send"></i> Request Deletion
                                         </button>
                                     </form>
                                 @else
-                                    <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Move this periodical to Recently Deleted? It can be restored later.');">
+                                    <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline" onsubmit="event.stopPropagation(); return confirm('Delete this journal article permanently?');">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="event.stopPropagation();">
-                                            <i class="bi bi-trash"></i> Move to Recently Deleted
+                                            <i class="bi bi-trash"></i> Delete
                                         </button>
                                     </form>
                                 @endif
