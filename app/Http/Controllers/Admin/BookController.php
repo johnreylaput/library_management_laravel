@@ -76,11 +76,13 @@ class BookController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'accession_no' => 'nullable|string|max:50|unique:books,accession_no',
             'isbn' => 'nullable|string|max:50',
             'category_id' => 'nullable|exists:categories,id',
             'author_id' => 'nullable|exists:authors,id',
             'publisher_id' => 'nullable|exists:publishers,id',
             'quantity' => 'nullable|integer|min:1',
+            'description' => 'nullable|string',
         ]);
 
         $validated['available_quantity'] = $validated['quantity'] ?? 1;
@@ -105,6 +107,7 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'accession_no' => 'nullable|string|max:50|unique:books,accession_no,' . $book->id,
             'isbn' => 'nullable|string|max:50',
             'category_id' => 'nullable|exists:categories,id',
             'author_id' => 'nullable|exists:authors,id',
@@ -112,6 +115,7 @@ class BookController extends Controller
             'quantity' => 'nullable|integer|min:1',
             'available_quantity' => 'nullable|integer|min:0',
             'status' => 'nullable|in:Available,Unavailable,Archived',
+            'description' => 'nullable|string',
         ]);
 
         $book->update(array_merge($validated, ['edited_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
