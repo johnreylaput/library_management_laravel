@@ -11,7 +11,10 @@
         <select name="borrow_id" class="form-select" required>
             <option value="">Select Borrow Record</option>
             @foreach($borrows as $borrow)
-                <option value="{{ $borrow->id }}">{{ $borrow->member->user->full_name ?? $borrow->member_id }} - {{ $borrow->book->title ?? 'Book' }}</option>
+                @php
+                    $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->title ?? 'Unknown Item';
+                @endphp
+                <option value="{{ $borrow->id }}">{{ $borrow->member->user->full_name ?? $borrow->member_id }} - {{ $itemTitle }}</option>
             @endforeach
         </select>
     </div>

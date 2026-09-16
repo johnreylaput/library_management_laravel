@@ -3,6 +3,32 @@
 @section('title', 'My Deletion Requests')
 
 @section('content')
+@php
+    $deletionNotifications = \App\Models\Notification::where('user_id', auth()->id())
+        ->where('type', 'deletion_request')
+        ->where('is_read', false)
+        ->latest()
+        ->take(5)
+        ->get();
+@endphp
+
+@if($deletionNotifications->count() > 0)
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <h4 class="alert-heading"><i class="bi bi-bell"></i> Request Updates</h4>
+        @foreach($deletionNotifications as $notification)
+            @php
+                $alertType = str_contains($notification->title, 'Approved') ? 'alert-success' : 'alert-danger';
+                $icon = str_contains($notification->title, 'Approved') ? 'bi-check-circle' : 'bi-x-circle';
+            @endphp
+            <div class="mb-2 p-2 border rounded {{ $alertType }} bg-opacity-10">
+                <strong><i class="bi {{ $icon }}"></i> {{ $notification->title }}</strong>
+                <p class="mb-1">{{ $notification->message }}</p>
+                <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+            </div>
+        @endforeach
+    </div>
+@endif
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2><i class="bi bi-list-check"></i> My Deletion Requests</h2>
 </div>
@@ -71,6 +97,10 @@
                                 <span class="badge bg-danger">
                                     <i class="bi bi-x-circle"></i> Rejected
                                 </span>
+                            @elseif($req->status === 'Expired')
+                                <span class="badge bg-secondary">
+                                    <i class="bi bi-clock"></i> Expired
+                                </span>
                             @endif
                         </td>
                         <td>{{ $req->reviewer->full_name ?? 'N/A' }}</td>
@@ -81,7 +111,7 @@
                                     <i class="bi bi-exclamation-triangle"></i> {{ $req->rejection_reason }}
                                 </div>
                             @elseif($req->status === 'Approved')
-                                <span class="text-success"><i class="bi bi-check"></i> Item has been deleted.</span>
+                                <span class="text-success"><i class="bi bi-check"></i> Item was moved to Recently Deleted.</span>
                             @else
                                 <span class="text-muted">Awaiting librarian review...</span>
                             @endif

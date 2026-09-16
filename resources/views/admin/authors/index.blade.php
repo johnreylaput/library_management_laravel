@@ -9,8 +9,12 @@
 <table class="table table-striped table-bordered">
     <thead class="table-dark">
         <tr>
-            <th>Name</th>
-            <th>Biography</th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Edition</th>
+            <th>Year</th>
+            <th>Subject</th>
+            <th>Publication</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -18,7 +22,11 @@
         @foreach($authors as $author)
             <tr>
                 <td>{{ $author->author_name }}</td>
-                <td>{{ Str::limit($author->biography ?? '-', 100) }}</td>
+                <td>{{ $author->title ?? '-' }}</td>
+                <td>{{ $author->edition ?? '-' }}</td>
+                <td>{{ $author->year ?? '-' }}</td>
+                <td>{{ $author->subject ?? '-' }}</td>
+                <td>{{ $author->publication ?? '-' }}</td>
                 <td>
                     <a href="{{ route('authors.show', $author->id) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
                     <a href="{{ route('authors.edit', $author->id) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>

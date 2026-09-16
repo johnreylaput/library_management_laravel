@@ -33,3 +33,4 @@ npx
 npx.cmd
 npx.ps1
 install_tools.bat
+/database/database.sqlite

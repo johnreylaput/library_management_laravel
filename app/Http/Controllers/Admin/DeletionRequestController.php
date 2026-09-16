@@ -17,23 +17,24 @@ class DeletionRequestController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Librarian')->only(['index', 'approve', 'reject']);
-        $this->middleware('role:Working-Student')->only(['myRequests']);
+        $this->middleware(function ($request, $next) {
+            if (Auth::check() && Auth::user()->role === 'Librarian' && Auth::user()->username === 'maria.librarian') {
+                return $next($request);
+            }
+            return redirect()->route('dashboard')->with('error', 'Only maria.librarian is authorized to review deletion requests.');
+        })->only(['index', 'approve', 'reject']);
+        $this->middleware('role:Working.Student')->only(['myRequests']);
     }
 
     public function index()
     {
-        if (Auth::user()->role !== 'Librarian') {
-            return redirect()->route('dashboard')->with('error', 'Only librarians can review deletion requests.');
-        }
-
         $pendingRequests = DeletionRequest::with(['user', 'reviewer'])
             ->where('status', 'Pending')
             ->latest()
             ->get();
 
         $resolvedRequests = DeletionRequest::with(['user', 'reviewer'])
-            ->whereIn('status', ['Approved', 'Rejected'])
+            ->whereIn('status', ['Approved', 'Rejected', 'Expired'])
             ->latest()
             ->take(20)
             ->get();
@@ -53,20 +54,30 @@ class DeletionRequestController extends Controller
 
     public function approve($id)
     {
-        if (Auth::user()->role !== 'Librarian') {
-            return back()->with('error', 'Only librarians can approve deletion requests.');
-        }
-
         $request = DeletionRequest::findOrFail($id);
+
+        if ($request->status === 'Expired') {
+            return back()->with('error', 'This request has expired and can no longer be processed.');
+        }
 
         if ($request->status !== 'Pending') {
             return back()->with('error', 'This request has already been processed.');
         }
 
-        $modelClass = $request->item_type;
-        $item = $modelClass::find($request->item_id);
+        $modelClass = match ($request->item_type) {
+            Book::class => Book::class,
+            Journal::class => Journal::class,
+            Thesis::class => Thesis::class,
+            default => null,
+        };
 
-        if ($item) {
+        if (! $modelClass) {
+            abort(404);
+        }
+
+        $item = $modelClass::withTrashed()->findOrFail($request->item_id);
+
+        if (! $item->trashed()) {
             $item->delete();
         }
 
@@ -89,20 +100,20 @@ class DeletionRequestController extends Controller
             'user_id' => $request->user_id,
             'type' => 'deletion_request',
             'title' => 'Deletion Request Approved',
-            'message' => "Your deletion request for {$request->item_type} '{$request->title}' has been approved by " . Auth::user()->full_name . ". The item has been removed from the library records.",
+            'message' => "Your deletion request for {$request->item_type} '{$request->title}' has been approved by " . Auth::user()->full_name . ". The item was moved to Recently Deleted and can be restored by an authorized user.",
             'sent_by' => Auth::id(),
         ]);
 
-        return back()->with('success', "Deletion request for '{$request->title}' has been approved and the item has been deleted.");
+        return back()->with('success', "Deletion request for '{$request->title}' has been approved and the item was moved to Recently Deleted.");
     }
 
     public function reject(Request $request, $id)
     {
-        if (Auth::user()->role !== 'Librarian') {
-            return back()->with('error', 'Only librarians can reject deletion requests.');
-        }
-
         $requestModel = DeletionRequest::findOrFail($id);
+
+        if ($requestModel->status === 'Expired') {
+            return back()->with('error', 'This request has expired and can no longer be processed.');
+        }
 
         if ($requestModel->status !== 'Pending') {
             return back()->with('error', 'This request has already been processed.');

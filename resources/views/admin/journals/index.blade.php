@@ -1,24 +1,24 @@
 @extends('layout.app')
 
-@section('title', 'Journals')
+@section('title', 'Periodicals')
 
 @section('content')
-<h2 class="mb-4">Journals</h2>
+<h2 class="mb-4">Periodicals</h2>
 <div class="mb-3">
     <div class="btn-group">
         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-plus-circle"></i> Add Journal Article
+            <i class="bi bi-plus-circle"></i> Add Periodical
         </button>
         <ul class="dropdown-menu">
             <li>
                 <a class="dropdown-item" href="{{ route('journals.create') }}">
-                    <i class="bi bi-plus-circle"></i> Add New Journal Article
+                    <i class="bi bi-plus-circle"></i> Add New Periodical
                 </a>
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
                 <a class="dropdown-item" href="{{ route('journals.index') }}">
-                    <i class="bi bi-list"></i> View All Journal Articles
+                    <i class="bi bi-list"></i> View All Periodicals
                 </a>
             </li>
         </ul>
@@ -102,11 +102,11 @@
                             <li>
                                 <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm(@if(Auth::check() && Auth::user()->role === 'Working-Student')'Submit a deletion request for this journal? The librarian will review it.'@else'Delete this journal?'@endif)">
-                                        @if(Auth::check() && Auth::user()->role === 'Working-Student')
+                                    <button type="submit" class="dropdown-item text-danger" onclick="return confirm(@if(Auth::check() && Auth::user()->role === 'Working.Student')'Submit a deletion request for this periodical? The librarian will review it.'@else'Move this periodical to Recently Deleted? It can be restored later.'@endif)">
+                                        @if(Auth::check() && Auth::user()->role === 'Working.Student')
                                             <i class="bi bi-send"></i> Request Deletion
                                         @else
-                                            <i class="bi bi-trash"></i> Delete
+                                            <i class="bi bi-trash"></i> Move to Recently Deleted
                                         @endif
                                     </button>
                                 </form>

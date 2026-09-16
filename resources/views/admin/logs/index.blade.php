@@ -3,7 +3,14 @@
 @section('title', 'Activity Logs')
 
 @section('content')
-<h2 class="mb-4">Activity Logs</h2>
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h2 class="mb-1">Activity Logs</h2>
+    </div>
+    <button onclick="window.print()" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-printer"></i> Print Logs
+    </button>
+</div>
 
 <form method="GET" action="{{ route('logs.index') }}" class="row g-2 mb-3">
     <div class="col-md-6">

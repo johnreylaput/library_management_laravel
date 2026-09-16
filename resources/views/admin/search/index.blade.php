@@ -13,13 +13,13 @@
 <form action="{{ route('search.index') }}" method="GET" class="mb-4">
     <div class="row g-3">
         <div class="col-md-5">
-            <input type="text" name="q" class="form-control" placeholder="Search by title, author, ISBN, DOI, subject, or institution..." value="{{ $query ?? '' }}">
+            <input type="text" name="q" class="form-control" placeholder="Search by title, author, subject, publication..." value="{{ $query ?? '' }}">
         </div>
         <div class="col-md-3">
             <select name="type" class="form-select">
                 <option value="all" {{ ($type ?? 'all') == 'all' ? 'selected' : '' }}>All Resources</option>
                 <option value="books" {{ ($type ?? '') == 'books' ? 'selected' : '' }}>Books</option>
-                <option value="journals" {{ ($type ?? '') == 'journals' ? 'selected' : '' }}>Journals</option>
+                <option value="journals" {{ ($type ?? '') == 'journals' ? 'selected' : '' }}>Periodicals</option>
                 <option value="theses" {{ ($type ?? '') == 'theses' ? 'selected' : '' }}>Theses</option>
             </select>
         </div>
@@ -153,40 +153,29 @@
             @foreach($books as $book)
                 <div class="resource-card">
                     <div class="card-cover">
-                        @if($book->book_cover)
-                            <img src="{{ asset('storage/' . $book->book_cover) }}" alt="{{ $book->title }}">
-                        @else
-                            <i class="bi bi-book"></i>
-                        @endif
+                        <i class="bi bi-book"></i>
                     </div>
                     <div class="card-body">
                         <div class="card-title">{{ $book->title }}</div>
-                        <div class="resource-meta"><strong>Author:</strong> {{ $book->author->author_name ?? 'N/A' }}</div>
-                        <div class="resource-meta"><strong>ISBN:</strong> {{ $book->isbn ?? 'N/A' }}</div>
-                        <div class="resource-meta"><strong>Category:</strong> {{ $book->category->category_name ?? 'Uncategorized' }}</div>
-                        <div class="resource-meta"><strong>Year:</strong> {{ $book->publication_year ?? 'N/A' }}</div>
+                        <div class="resource-meta"><strong>Author:</strong> {{ $book->author ?? 'N/A' }}</div>
+                        <div class="resource-meta"><strong>Edition:</strong> {{ $book->edition ?? 'N/A' }}</div>
+                        <div class="resource-meta"><strong>Year:</strong> {{ $book->year ?? 'N/A' }}</div>
+                        <div class="resource-meta"><strong>Subject:</strong> {{ $book->subject ?? 'N/A' }}</div>
+                        <div class="resource-meta"><strong>Publication:</strong> {{ $book->publication ?? 'N/A' }}</div>
                         <div class="resource-badges">
-                            <span class="badge bg-{{ ($book->available_quantity > 0 && $book->status === 'Available') ? 'success' : 'danger' }}">
-                                {{ $book->status ?? 'Unavailable' }}
-                            </span>
-                            @if($book->available_quantity > 0)
-                                <span class="badge bg-info">Available ({{ $book->available_quantity }})</span>
+                            @if($book->publication)
+                                <span class="badge bg-info">{{ $book->publication }}</span>
                             @endif
                         </div>
                         <a href="{{ route('member.books.show', $book->id) }}" class="btn btn-primary btn-sm">View Details</a>
                     </div>
-                    @if($book->description)
-                        <div class="px-3 pb-3">
-                            <div class="card-description">{{ $book->description }}</div>
-                        </div>
-                    @endif
                 </div>
             @endforeach
         </div>
     @endif
 
     @if(($journals->count() ?? 0) > 0)
-        <div class="browse-section-title"><i class="bi bi-journal-arrow-down"></i> Journals</div>
+        <div class="browse-section-title"><i class="bi bi-journal-arrow-down"></i> Periodicals</div>
         <div class="resource-grid">
             @foreach($journals as $journal)
                 <div class="resource-card">
@@ -247,24 +236,16 @@
         @foreach($featured as $fb)
             <div class="resource-card">
                 <div class="card-cover">
-                    @if($fb->book_cover)
-                        <img src="{{ asset('storage/' . $fb->book_cover) }}" alt="{{ $fb->title }}">
-                    @else
-                        <i class="bi bi-book"></i>
-                    @endif
+                    <i class="bi bi-book"></i>
                 </div>
                 <div class="card-body">
                     <div class="card-title">{{ $fb->title }}</div>
-                    <div class="resource-meta"><strong>Author:</strong> {{ $fb->author->author_name ?? 'N/A' }}</div>
-                    <div class="resource-meta"><strong>ISBN:</strong> {{ $fb->isbn ?? 'N/A' }}</div>
-                    <div class="resource-meta"><strong>Category:</strong> {{ $fb->category->category_name ?? 'Uncategorized' }}</div>
-                    <div class="resource-meta"><strong>Year:</strong> {{ $fb->publication_year ?? 'N/A' }}</div>
+                    <div class="resource-meta"><strong>Author:</strong> {{ $fb->author ?? 'N/A' }}</div>
+                    <div class="resource-meta"><strong>Subject:</strong> {{ $fb->subject ?? 'N/A' }}</div>
+                    <div class="resource-meta"><strong>Publication:</strong> {{ $fb->publication ?? 'N/A' }}</div>
                     <div class="resource-badges">
-                        <span class="badge bg-{{ ($fb->available_quantity > 0 && $fb->status === 'Available') ? 'success' : 'danger' }}">
-                            {{ $fb->status ?? 'Unavailable' }}
-                        </span>
-                        @if($fb->available_quantity > 0)
-                            <span class="badge bg-info">Available ({{ $fb->available_quantity }})</span>
+                        @if($fb->publication)
+                            <span class="badge bg-info">{{ $fb->publication }}</span>
                         @endif
                     </div>
                     <a href="{{ route('member.books.show', $fb->id) }}" class="btn btn-outline-primary btn-sm">View Details</a>

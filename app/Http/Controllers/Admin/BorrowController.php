@@ -20,7 +20,7 @@ class BorrowController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Admin,Librarian,Working-Student');
+        $this->middleware('role:Admin,Librarian,Working.Student');
     }
 
     public function index()
@@ -32,7 +32,7 @@ class BorrowController extends Controller
     public function create()
     {
         $members = Member::with('user')->get();
-        $users = User::whereIn('role', ['Admin', 'Librarian', 'Working-Student'])->get();
+        $users = User::whereIn('role', ['Admin', 'Librarian', 'Working.Student'])->get();
         return view('admin.borrow.create', compact('members', 'users'));
     }
 
@@ -123,7 +123,7 @@ class BorrowController extends Controller
         $borrow = BorrowRecord::with(['member.user', 'book'])->findOrFail($id);
         $members = Member::with('user')->get();
         $books = Book::all();
-        $users = User::whereIn('role', ['Admin', 'Librarian', 'Working-Student'])->get();
+        $users = User::whereIn('role', ['Admin', 'Librarian', 'Working.Student'])->get();
         return view('admin.borrow.edit', compact('borrow', 'members', 'books', 'users'));
     }
 

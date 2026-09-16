@@ -105,34 +105,26 @@ class AuthController extends Controller
                 'unique:users,email',
             ],
 
+            'username' => [
+                'required',
+                'string',
+                'max:50',
+                'unique:users,username',
+            ],
+
             'password' => [
                 'required',
                 'string',
                 'min:8',
                 'confirmed',
             ],
-
-            'course' => ['nullable', 'string', 'max:100'],
-            'year_level' => ['nullable', 'string', 'max:50'],
-            'contact_number' => ['nullable', 'string', 'max:50'],
-            'address' => ['nullable', 'string', 'max:255'],
         ]);
 
         DB::transaction(function () use ($validated, $request, &$user) {
 
-            $baseUsername = explode('@', $validated['email'])[0];
-
-            $username = $baseUsername;
-            $counter = 1;
-
-            while (User::where('username', $username)->exists()) {
-                $username = $baseUsername . $counter;
-                $counter++;
-            }
-
             $user = User::create([
                 'full_name' => $validated['full_name'],
-                'username' => $username,
+                'username' => $validated['username'],
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
                 'role' => 'Member',
@@ -141,21 +133,7 @@ class AuthController extends Controller
 
             Member::create([
                 'user_id' => $user->id,
-
-                'member_no' => 'MEM-' . str_pad(
-                    $user->id,
-                    6,
-                    '0',
-                    STR_PAD_LEFT
-                ),
-
-                'course' => $validated['course'] ?? null,
-
-                'year_level' => $validated['year_level'] ?? null,
-
-                'contact_number' => $validated['contact_number'] ?? null,
-
-                'address' => $validated['address'] ?? null,
+                'member_no' => 'MEM-' . str_pad($user->id, 6, '0', STR_PAD_LEFT),
             ]);
 
             ActivityLog::create([

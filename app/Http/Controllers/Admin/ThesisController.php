@@ -18,8 +18,8 @@ class ThesisController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Admin,Librarian,Working-Student')->except(['create', 'store', 'edit', 'update', 'destroy', 'show']);
-        $this->middleware('role:Admin,Librarian,Working-Student')->only(['create', 'store', 'edit', 'update', 'destroy']);
+        $this->middleware('role:Admin,Librarian,Working.Student')->except(['create', 'store', 'edit', 'update', 'destroy', 'show']);
+        $this->middleware('role:Admin,Librarian,Working.Student')->only(['create', 'store', 'edit', 'update', 'destroy']);
     }
 
     public function index(Request $request)
@@ -131,7 +131,7 @@ class ThesisController extends Controller
 
     public function destroy($id)
     {
-        if (Auth::user()->role === 'Working-Student') {
+        if (Auth::user()->role === 'Working.Student') {
             $thesis = Thesis::findOrFail($id);
 
             $pendingRequest = DeletionRequest::where('item_type', Thesis::class)
@@ -151,23 +151,24 @@ class ThesisController extends Controller
                 'status' => 'Pending',
             ]);
 
-            $staffUsers = User::whereIn('role', ['Admin', 'Librarian'])->get();
-            foreach ($staffUsers as $staff) {
+            $librarians = User::where('role', 'Librarian')->get();
+
+            foreach ($librarians as $librarian) {
                 Notification::create([
-                    'user_id' => $staff->id,
+                    'user_id' => $librarian->id,
                     'type' => 'deletion_request',
                     'title' => 'New Deletion Request',
-                    'message' => Auth::user()->full_name . ' (Working-Student) requested deletion of thesis "' . $thesis->title . '" (ID: ' . $thesis->id . ')',
+                    'message' => Auth::user()->full_name . ' (Working.Student) requested deletion of thesis "' . $thesis->title . '" (ID: ' . $thesis->id . ')',
                     'sent_by' => Auth::id(),
                 ]);
             }
 
-            return back()->with('info', 'Deletion request for thesis "' . $thesis->title . '" has been submitted and is awaiting librarian approval.');
+            return back()->with('info', 'Deletion request for thesis "' . $thesis->title . '" has been submitted for librarian review.');
         }
 
         $thesis = Thesis::findOrFail($id);
         $thesis->delete();
 
-        return redirect()->route('theses.index')->with('success', 'Thesis deleted successfully.');
+        return redirect()->route('theses.index')->with('success', 'Thesis moved to Recently Deleted successfully.');
     }
 }

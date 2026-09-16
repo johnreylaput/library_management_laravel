@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="dashboard-header">
-    <img src="{{ asset('images/lgn.png') }}" alt="Library Management System" class="dashboard-logo">
+    <img src="{{ asset('images/templib.png') }}" alt="Library Management System" class="dashboard-logo">
 </div>
 @if(isset($receivedNotifications) && $receivedNotifications->count() > 0)
     @php
@@ -109,7 +109,7 @@
                 <ul class="list-group list-group-flush">
                     @forelse($borrows as $borrow)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ $borrow->book->title ?? 'Book' }}
+                            {{ $borrow->book->title ?? ($borrow->journal->title ?? ($borrow->thesis->title ?? 'Item')) }}
                             <span class="badge bg-{{ $borrow->status === 'Returned' ? 'success' : ($borrow->status === 'Overdue' ? 'danger' : 'warning') }}">
                                 {{ $borrow->status }}
                             </span>

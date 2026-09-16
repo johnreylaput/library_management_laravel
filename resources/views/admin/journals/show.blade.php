@@ -43,7 +43,7 @@
                     <p class="mt-3"><strong>Keyword:</strong> {{ $journal->keyword }}</p>
                 @endif
                 @if($journal->link)
-                    <p class="mt-3"><strong>Link of the Journal Article:</strong> <a href="{{ $journal->link }}" target="_blank">{{ $journal->link }}</a></p>
+                    <p class="mt-3"><strong>Link of the Periodical:</strong> <a href="{{ $journal->link }}" target="_blank">{{ $journal->link }}</a></p>
                 @endif
                 <p class="mt-3"><strong>Added By:</strong> {{ $journal->added_by ?? '-' }}</p>
                 <p class="mb-1"><strong>Edited By:</strong>
@@ -61,5 +61,32 @@
     </div>
 </div>
 
-<a href="{{ route('search.index', ['type' => 'journals']) }}" class="btn btn-secondary">Back to Journals</a>
+@if(Auth::check() && Auth::user()->role === 'Member')
+    <div class="card mt-4">
+        <div class="card-body">
+            <div class="d-flex gap-2">
+                <form action="{{ route('member.borrow.store') }}" method="POST" onsubmit="return confirm('Request to borrow {{ addslashes($journal->title) }}?');">
+                    @csrf
+                    <input type="hidden" name="journal_id" value="{{ $journal->id }}">
+                    <input type="hidden" name="borrow_date" value="{{ date('Y-m-d') }}">
+                    <input type="hidden" name="due_date" value="{{ date('Y-m-d', strtotime('+3 days')) }}">
+                    <button type="submit" class="btn btn-success" @if($journal->availability !== 'Available') disabled @endif>
+                        <i class="bi bi-journal-arrow-down"></i> Borrow
+                    </button>
+                </form>
+                <form action="{{ route('member.reservation.store') }}" method="POST" onsubmit="return confirm('Request to reserve {{ addslashes($journal->title) }}?');">
+                    @csrf
+                    <input type="hidden" name="journal_id" value="{{ $journal->id }}">
+                    <input type="hidden" name="reservation_date" value="{{ date('Y-m-d') }}">
+                    <input type="hidden" name="due_date" value="{{ date('Y-m-d', strtotime('+3 days')) }}">
+                    <button type="submit" class="btn btn-warning" @if($journal->availability !== 'Available') disabled @endif>
+                        <i class="bi bi-calendar-check"></i> Reserve
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+@endif
+
+<a href="{{ route('search.index', ['type' => 'journals']) }}" class="btn btn-secondary">Back to Periodicals</a>
 @endsection

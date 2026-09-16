@@ -20,14 +20,15 @@ use App\Http\Controllers\Admin\JournalController;
 use App\Http\Controllers\Admin\ThesisController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DeletionRequestController;
+use App\Http\Controllers\Admin\RecentlyDeletedController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Member\BorrowController as MemberBorrowController;
 use App\Http\Controllers\Member\ReservationController as MemberReservationController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:5,1');
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', function () {
@@ -46,7 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/member/reserve', [MemberReservationController::class, 'store'])->name('member.reservation.store');
     Route::get('/member/reserve', [MemberReservationController::class, 'index'])->name('member.reservation.index');
 
-    Route::middleware('role:Admin,Librarian,Working-Student')->group(function () {
+    Route::middleware('role:Admin,Librarian,Working.Student')->group(function () {
         Route::resource('books', BookController::class);
         Route::resource('journals', JournalController::class);
         Route::resource('theses', ThesisController::class);
@@ -59,6 +60,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
         Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
         Route::get('/logs/data', [LogController::class, 'data'])->name('logs.data');
+        Route::get('/recently-deleted', [RecentlyDeletedController::class, 'index'])->name('recently-deleted.index');
+        Route::post('/recently-deleted/{type}/{id}/restore', [RecentlyDeletedController::class, 'restore'])->name('recently-deleted.restore');
         Route::post('/notifications/send', [DashboardController::class, 'sendNotification'])->name('notifications.send');
         Route::middleware('role:Librarian')->group(function () {
             Route::get('/deletion-requests', [DeletionRequestController::class, 'index'])->name('deletion-requests.index');
@@ -66,12 +69,12 @@ Route::middleware('auth')->group(function () {
             Route::post('/deletion-requests/{deletionRequest}/reject', [DeletionRequestController::class, 'reject'])->name('deletion-requests.reject');
         });
 
-        Route::middleware('role:Working-Student')->group(function () {
+        Route::middleware('role:Working.Student')->group(function () {
             Route::get('/my-deletion-requests', [DeletionRequestController::class, 'myRequests'])->name('deletion-requests.my-requests');
         });
     });
 
-    Route::middleware('role:Admin,Librarian,Working-Student')->group(function () {
+    Route::middleware('role:Admin,Librarian,Working.Student')->group(function () {
         Route::resource('borrow', BorrowController::class);
         Route::post('borrow/{borrow}/approve', [BorrowController::class, 'approve'])->name('borrow.approve');
         Route::post('borrow/{borrow}/reject', [BorrowController::class, 'reject'])->name('borrow.reject');
@@ -80,11 +83,12 @@ Route::middleware('auth')->group(function () {
         Route::post('reservations/{reservation}/reject', [ReservationController::class, 'reject'])->name('reservations.reject');
     });
 
+    // Member-specific show routes (for browsing)
     Route::get('/books/{book}', [BookController::class, 'show'])->name('member.books.show');
     Route::get('/journals/{journal}', [JournalController::class, 'show'])->name('member.journals.show');
     Route::get('/theses/{thesis}', [ThesisController::class, 'show'])->name('member.theses.show');
 
-    Route::middleware('role:Admin,Librarian,Working-Student')->group(function () {
+    Route::middleware('role:Admin,Librarian,Working.Student')->group(function () {
         Route::resource('users', UserController::class);
     });
 

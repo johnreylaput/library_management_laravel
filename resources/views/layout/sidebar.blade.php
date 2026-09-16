@@ -34,7 +34,7 @@
             @else
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('search.index') }}"><i class="bi bi-search"></i> Browse Books</a></li>
             @endif
-            @if(Auth::check() && in_array(Auth::user()->role, ['Admin', 'Librarian', 'Working-Student']))
+            @if(Auth::check() && in_array(Auth::user()->role, ['Admin', 'Librarian', 'Working.Student']))
 
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{ route('members.index') }}">
@@ -46,7 +46,7 @@
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('authors.index') }}"><i class="bi bi-person"></i> Authors</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('publishers.index') }}"><i class="bi bi-building"></i> Publishers</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('books.index') }}"><i class="bi bi-book"></i> Books</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="{{ route('journals.index') }}"><i class="bi bi-journal-arrow-down"></i> Journals</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{{ route('journals.index') }}"><i class="bi bi-journal-arrow-down"></i> Periodicals</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('theses.index') }}"><i class="bi bi-file-earmark-text"></i> Theses</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('borrow.index') }}"><i class="bi bi-journal-arrow-down"></i> Borrow</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('return.index') }}"><i class="bi bi-arrow-return-left"></i> Return</a></li>
@@ -59,11 +59,16 @@
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('users.index') }}"><i class="bi bi-people"></i> Users</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('librarians.index') }}"><i class="bi bi-person-badge"></i> Librarians</a></li>
             @endif
-            @if(Auth::check() && Auth::user()->role === 'Librarian')
+            @if(Auth::check() && Auth::user()->role === 'Librarian' && Auth::user()->username === 'maria.librarian')
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('users.index') }}"><i class="bi bi-people"></i> Users</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('deletion-requests.index') }}"><i class="bi bi-trash"></i> Review Deletion Requests</a></li>
+            @elseif(Auth::check() && Auth::user()->role === 'Librarian')
+                <li class="nav-item"><a class="nav-link text-white" href="{{ route('users.index') }}"><i class="bi bi-people"></i> Users</a></li>
             @endif
-            @if(Auth::check() && Auth::user()->role === 'Working-Student')
+            @if(Auth::check() && (Auth::user()->role === 'Admin' || Auth::user()->role === 'Librarian' || Auth::user()->role === 'Working.Student'))
+                <li class="nav-item"><a class="nav-link text-white" href="{{ route('recently-deleted.index') }}"><i class="bi bi-arrow-counterclockwise"></i> Recently Deleted</a></li>
+            @endif
+            @if(Auth::check() && Auth::user()->role === 'Working.Student')
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('users.index') }}"><i class="bi bi-people"></i> Users</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('deletion-requests.my-requests') }}"><i class="bi bi-list-check"></i> My Deletion Requests</a></li>
             @endif

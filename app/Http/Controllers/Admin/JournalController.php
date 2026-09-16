@@ -16,8 +16,8 @@ class JournalController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Admin,Librarian,Working-Student')->except(['create', 'store', 'edit', 'update', 'destroy', 'show']);
-        $this->middleware('role:Admin,Librarian,Working-Student')->only(['create', 'store', 'edit', 'update', 'destroy']);
+        $this->middleware('role:Admin,Librarian,Working.Student')->except(['create', 'store', 'edit', 'update', 'destroy', 'show']);
+        $this->middleware('role:Admin,Librarian,Working.Student')->only(['create', 'store', 'edit', 'update', 'destroy']);
     }
 
     public function index(Request $request)
@@ -73,17 +73,13 @@ class JournalController extends Controller
             'issue' => 'nullable|string|max:50',
             'pages' => 'nullable|string|max:50',
             'publication_date' => 'nullable|date',
-            'doi' => 'nullable|string|max:255',
             'issn' => 'nullable|string|max:20',
             'link' => 'nullable|url|max:500',
             'category_id' => 'nullable|integer',
             'publisher_id' => 'nullable|integer',
-            'publisher_text' => 'nullable|string|max:255',
             'abstract' => 'nullable|string',
             'description' => 'nullable|string',
-            'database_collection' => 'nullable|string|max:255',
             'availability' => 'nullable|in:Available,Unavailable,Archived',
-            'subjects' => 'nullable|string|max:500',
             'keyword' => 'nullable|string|max:255',
         ]);
 
@@ -121,18 +117,14 @@ class JournalController extends Controller
             'issue' => 'nullable|string|max:50',
             'pages' => 'nullable|string|max:50',
             'publication_date' => 'nullable|date',
-            'doi' => 'nullable|string|max:255',
             'issn' => 'nullable|string|max:20',
             'link' => 'nullable|url|max:500',
             'category_id' => 'nullable|integer',
             'publisher_id' => 'nullable|integer',
-            'publisher_text' => 'nullable|string|max:255',
             'abstract' => 'nullable|string',
             'description' => 'nullable|string',
             'status' => 'nullable|in:Available,Unavailable,Archived',
-            'database_collection' => 'nullable|string|max:255',
             'availability' => 'nullable|in:Available,Unavailable,Archived',
-            'subjects' => 'nullable|string|max:500',
             'keyword' => 'nullable|string|max:255',
         ]);
 
@@ -150,7 +142,7 @@ class JournalController extends Controller
 
     public function destroy($id)
     {
-        if (Auth::user()->role === 'Working-Student') {
+        if (Auth::user()->role === 'Working.Student') {
             $journal = Journal::findOrFail($id);
 
             $pendingRequest = DeletionRequest::where('item_type', Journal::class)
@@ -170,23 +162,24 @@ class JournalController extends Controller
                 'status' => 'Pending',
             ]);
 
-            $staffUsers = User::whereIn('role', ['Admin', 'Librarian'])->get();
-            foreach ($staffUsers as $staff) {
+            $librarians = User::where('role', 'Librarian')->get();
+
+            foreach ($librarians as $librarian) {
                 Notification::create([
-                    'user_id' => $staff->id,
+                    'user_id' => $librarian->id,
                     'type' => 'deletion_request',
                     'title' => 'New Deletion Request',
-                    'message' => Auth::user()->full_name.' (Working-Student) requested deletion of journal "'.$journal->title.'" (ID: '.$journal->id.')',
+                    'message' => Auth::user()->full_name.' (Working.Student) requested deletion of journal "'.$journal->title.'" (ID: '.$journal->id.')',
                     'sent_by' => Auth::id(),
                 ]);
             }
 
-            return back()->with('info', 'Deletion request for journal "'.$journal->title.'" has been submitted and is awaiting librarian approval.');
+            return back()->with('info', 'Deletion request for journal "'.$journal->title.'" has been submitted for librarian review.');
         }
 
         $journal = Journal::findOrFail($id);
         $journal->delete();
 
-        return redirect()->route('journals.index')->with('success', 'Journal deleted successfully.');
+        return redirect()->route('e-periodical.index', ['view' => 'delete-journal'])->with('success', 'Periodical moved to Recently Deleted successfully.');
     }
 }

@@ -11,7 +11,7 @@ class EPeriodicalActionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_edit_and_delete_views_load_journal_entries(): void
+    public function test_edit_and_recently_deleted_views_load_journal_entries(): void
     {
         $user = User::factory()->create([
             'role' => 'Admin',
@@ -39,7 +39,7 @@ class EPeriodicalActionsTest extends TestCase
         $deleteResponse->assertStatus(200)
             ->assertSee('Select a Journal Article to Delete')
             ->assertSee('Feature Test Journal')
-            ->assertSee('Delete');
+            ->assertSee('Move to Recently Deleted');
     }
 
     public function test_librarian_and_working_student_can_add_journal_to_database(): void

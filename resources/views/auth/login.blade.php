@@ -8,17 +8,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root {
-            --bg-image: url('{{ asset('images/bg.png') }}');
-            --header-image: url('{{ asset('images/lgn.png') }}');
+            --bg-image: url('{{ asset('images/templib.png') }}');
+            --header-image: url('{{ asset('images/templib.png') }}');
         }
         
         body {
             background-color: #1e3c72;
-            background-image: var(--bg-image);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), var(--bg-image);
             background-position: center;
-            background-size: cover;
+            background-size: contain;
             background-repeat: no-repeat;
-            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -28,15 +27,15 @@
         .login-card {
             background: #fff;
             border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             overflow: hidden;
             width: 100%;
             max-width: 1000px;
         }
         .login-header {
             background-color: #2a5298;
-            background-image: linear-gradient(135deg, rgba(30,60,114,0.85) 0%, rgba(42,82,152,0.85) 100%), var(--header-image);
-            background-size: cover;
+            background-image: linear-gradient(135deg, rgba(30,60,114,0.6) 0%, rgba(42,82,152,0.6) 100%), var(--header-image);
+            background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
             color: #fff;
@@ -119,7 +118,7 @@
 <body>
     <div class="login-card">
         <div class="login-header">
-            <img src="{{ asset('images/lgn.png') }}" alt="Library Management System" class="login-logo">
+            <img src="{{ asset('images/templib.png') }}" alt="Library Management System" class="login-logo">
         </div>
         <div class="login-body">
             @if($errors->any())

@@ -52,7 +52,7 @@
                         <td>{{ $req->user->full_name ?? 'Unknown' }} <small class="text-muted">({{ $req->user->username ?? '' }})</small></td>
                         <td>{{ $req->created_at->format('Y-m-d h:i A') }}</td>
                         <td>
-                            <form action="{{ route('deletion-requests.approve', $req->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Approve deletion of {{ addslashes($req->title) }}?')">
+                            <form action="{{ route('deletion-requests.approve', $req->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Approve deletion of {{ addslashes($req->title) }}? The item will be moved to Recently Deleted and can be restored.')">
                                 @csrf
                                 <button type="submit" class="btn btn-success btn-sm">
                                     <i class="bi bi-check-circle"></i> Approve
@@ -123,8 +123,10 @@
                         <td>
                             @if($req->status === 'Approved')
                                 <span class="badge bg-success">Approved</span>
-                            @else
+                            @elseif($req->status === 'Rejected')
                                 <span class="badge bg-danger">Rejected</span>
+                            @elseif($req->status === 'Expired')
+                                <span class="badge bg-secondary">Expired</span>
                             @endif
                         </td>
                         <td>{{ $req->reviewer->full_name ?? 'N/A' }}</td>

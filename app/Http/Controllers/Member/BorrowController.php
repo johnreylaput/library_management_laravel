@@ -22,17 +22,27 @@ class BorrowController extends Controller
     public function index(Request $request)
     {
         $selectedBookId = $request->query('book_id');
+        $selectedJournalId = $request->query('journal_id');
         $selectedBook = null;
+        $selectedJournal = null;
 
         if ($selectedBookId) {
             $selectedBook = Book::with(['category', 'author', 'publisher'])->findOrFail($selectedBookId);
+        }
+
+        if ($selectedJournalId) {
+            $selectedJournal = Journal::with(['category', 'publisher'])->findOrFail($selectedJournalId);
         }
 
         $books = Book::with(['category', 'author', 'publisher'])
             ->orderBy('title')
             ->get();
 
-        return view('member.borrow.index', compact('books', 'selectedBook'));
+        $journals = Journal::with(['category', 'publisher'])
+            ->orderBy('title')
+            ->get();
+
+        return view('member.borrow.index', compact('books', 'selectedBook', 'journals', 'selectedJournal'));
     }
 
     public function store(Request $request)

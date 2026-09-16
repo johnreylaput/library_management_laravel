@@ -10,6 +10,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('borrow:send-due-notifications')->daily();
+        $schedule->command('deletion-requests:expire')->hourly();
+        $schedule->command('records:expire-overdue')->daily();
     }
 
     protected function commands(): void

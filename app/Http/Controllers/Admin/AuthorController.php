@@ -11,7 +11,7 @@ class AuthorController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Admin,Librarian,Working-Student');
+        $this->middleware('role:Admin,Librarian,Working.Student');
     }
 
     public function index()
@@ -31,7 +31,11 @@ class AuthorController extends Controller
         $this->middleware('role:Admin');
         $validated = $request->validate([
             'author_name' => 'required|string|max:150',
-            'biography' => 'nullable|string',
+            'title' => 'nullable|string|max:255',
+            'edition' => 'nullable|string|max:100',
+            'year' => 'nullable|string|max:10',
+            'subject' => 'nullable|string|max:255',
+            'publication' => 'nullable|in:Foreign,Local',
         ]);
 
         Author::create($validated);
@@ -58,7 +62,11 @@ class AuthorController extends Controller
         $author = Author::findOrFail($id);
         $validated = $request->validate([
             'author_name' => 'required|string|max:150',
-            'biography' => 'nullable|string',
+            'title' => 'nullable|string|max:255',
+            'edition' => 'nullable|string|max:100',
+            'year' => 'nullable|string|max:10',
+            'subject' => 'nullable|string|max:255',
+            'publication' => 'nullable|in:Foreign,Local',
         ]);
 
         $author->update($validated);
