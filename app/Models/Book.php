@@ -10,12 +10,22 @@ class Book extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'accession_no',
+        'isbn',
         'title',
-        'author',
+        'category_id',
+        'author_id',
+        'publisher_id',
+        'publication_year',
         'edition',
-        'year',
-        'subject',
-        'publication',
+        'language',
+        'pages',
+        'quantity',
+        'available_quantity',
+        'shelf_location',
+        'book_cover',
+        'description',
+        'status',
         'added_by',
         'edited_by',
     ];
