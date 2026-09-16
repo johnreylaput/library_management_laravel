@@ -42,6 +42,12 @@ return new class extends Migration
             if (!Schema::hasColumn('books', 'year')) {
                 $table->string('year', 10)->nullable()->after('edition');
             }
+            if (!Schema::hasColumn('books', 'subject')) {
+                $table->string('subject', 255)->nullable();
+            }
+            if (!Schema::hasColumn('books', 'publication')) {
+                $table->enum('publication', ['Foreign', 'Local'])->nullable();
+            }
         });
     }
 
