@@ -37,15 +37,9 @@ class SearchController extends Controller
                       ->orWhere('subject', 'like', "%{$query}%");
                 });
 
-                if ($categoryId) {
-                    $bookQuery->where('category_id', $categoryId);
-                }
-
                 $books = $bookQuery->get();
 
                 foreach ($books as $book) {
-                    // Note: status and available_quantity columns no longer exist
-                    // Keeping logic for compatibility
                     $exactUnavailable = $book;
                     $relatedBooks = Book::where('subject', $book->subject)
                         ->where('id', '!=', $book->id)
@@ -63,10 +57,6 @@ class SearchController extends Controller
                                 ->where('title', 'like', "%{$word}%")
                                 ->orWhere('author', 'like', "%{$word}%")
                                 ->orWhere('subject', 'like', "%{$word}%");
-
-                            if ($categoryId) {
-                                $partialQuery->where('category_id', $categoryId);
-                            }
 
                             $partial = $partialQuery->first();
                             if ($partial) {
@@ -137,7 +127,7 @@ class SearchController extends Controller
             ]);
         } elseif ($categoryId) {
             if ($type === 'all' || $type === 'books') {
-                $books = Book::where('category_id', $categoryId)->get();
+                $books = Book::all();
             }
             if ($type === 'all' || $type === 'journals') {
                 $journals = Journal::with(['category', 'publisher'])
@@ -203,7 +193,6 @@ class SearchController extends Controller
                           ->orWhere('issue', 'like', "%{$query}%")
                           ->orWhere('pages', 'like', "%{$query}%")
                           ->orWhere('subjects', 'like', "%{$query}%")
-                          ->orWhere('keyword', 'like', "%{$query}%")
                           ->orWhere('database_collection', 'like', "%{$query}%");
                     });
                 } elseif ($searchField === 'doi') {

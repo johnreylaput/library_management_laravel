@@ -21,12 +21,12 @@
             <div class="col-md-6">
                 @if($borrow->book)
                     <h5>Book Information</h5>
+                    <p><strong>Author:</strong> {{ $borrow->book->author ?? '-' }}</p>
                     <p><strong>Title:</strong> {{ $borrow->book->title ?? '-' }}</p>
-                    <p><strong>ISBN:</strong> {{ $borrow->book->isbn ?? '-' }}</p>
-                    <p><strong>Author:</strong> {{ $borrow->book->author->author_name ?? '-' }}</p>
-                    <p><strong>Category:</strong> {{ $borrow->book->category->category_name ?? '-' }}</p>
-                    <p><strong>Status:</strong> {{ $borrow->book->status ?? '-' }}</p>
-                    <p><strong>Available Quantity:</strong> {{ $borrow->book->available_quantity ?? 0 }}</p>
+                    <p><strong>Edition:</strong> {{ $borrow->book->edition ?? '-' }}</p>
+                    <p><strong>Year:</strong> {{ $borrow->book->year ?? '-' }}</p>
+                    <p><strong>Subject:</strong> {{ $borrow->book->subject ?? '-' }}</p>
+                    <p><strong>Publication:</strong> {{ $borrow->book->publication ?? '-' }}</p>
                 @elseif($borrow->journal)
                     <h5>Journal Information</h5>
                     <p><strong>Title:</strong> {{ $borrow->journal->title ?? '-' }}</p>

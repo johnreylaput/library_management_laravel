@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ActivityLog;
 use App\Models\Book;
 use App\Models\Member;
 use App\Models\Notification;
@@ -12,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\RequestStatusMail;
 use Illuminate\Support\Facades\Mail;
+use App\Models\ActivityLog;
 
 class ReservationController extends Controller
 {
@@ -55,19 +55,17 @@ class ReservationController extends Controller
             return back()->with('error', 'Book not found.')->withInput();
         }
 
-        if ($book->available_quantity <= 0 || $book->status !== 'Available') {
-            $recommendations = Book::where('category_id', $book->category_id)
-                ->where('id', '!=', $book->id)
-                ->where('status', 'Available')
-                ->where('available_quantity', '>', 0)
-                ->take(5)
-                ->get();
+        $isBorrowed = BorrowRecord::where('book_id', $book->id)
+            ->whereIn('status', ['Borrowed', 'Pending'])->exists();
+
+        if ($isBorrowed) {
+            $recommendations = Book::where('id', '!=', $book->id)->take(5)->get();
 
             if ($recommendations->isEmpty()) {
-                return back()->with('error', 'The book "' . $book->title . '" is not available and no related books were found.')->withInput();
+                return back()->with('error', 'The book "' . $book->title . '" is currently borrowed and no related books were found.')->withInput();
             }
 
-            return back()->with('error', 'The book "' . $book->title . '" is currently unavailable. Here are some related books you may consider:')->with('recommendations', $recommendations)->withInput();
+            return back()->with('error', 'The book "' . $book->title . '" is currently borrowed. Here are some related books you may consider:')->with('recommendations', $recommendations)->withInput();
         }
 
         $reservationDate = \Carbon\Carbon::parse($request->reservation_date ?? now()->toDateString());
@@ -115,11 +113,11 @@ class ReservationController extends Controller
             $q->where('full_name', 'like', '%' . $request->member_input . '%');
         })->orWhere('member_no', 'like', '%' . $request->member_input . '%')->first();
 
-        $book = Book::where('title', 'like', '%' . $request->book_input . '%')->first();
-
         if (!$member) {
             return back()->with('error', 'Member not found. Please check the name or member number.')->withInput();
         }
+
+        $book = Book::where('title', 'like', '%' . $request->book_input . '%')->first();
 
         if (!$book) {
             return back()->with('error', 'Book not found. Please check the title.')->withInput();

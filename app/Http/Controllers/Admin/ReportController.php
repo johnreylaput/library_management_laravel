@@ -106,7 +106,6 @@ class ReportController extends Controller
             ->limit(15)
             ->get();
 
-        // Category stats without books relationship (since books no longer have category_id)
         $categoryStats = Category::all();
 
         $memberActivity = Member::with(['user'])

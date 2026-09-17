@@ -16,46 +16,31 @@ class BookController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Admin,Librarian,Working-Student')->except(['create', 'store', 'edit', 'update', 'destroy', 'show']);
-        $this->middleware('role:Admin,Librarian,Working-Student')->only(['create', 'store', 'edit', 'update', 'destroy']);
+        $this->middleware('role:Admin,Librarian,Working.Student')->except(['create', 'store', 'edit', 'update', 'destroy', 'show']);
+        $this->middleware('role:Admin,Librarian,Working.Student')->only(['create', 'store', 'edit', 'update', 'destroy']);
     }
 
     public function index(Request $request)
     {
         $search = $request->get('q');
-        $categoryId = $request->get('category');
-
-        $query = Book::with(['category', 'author', 'publisher']);
+        $query = Book::query();
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhereHas('author', function ($q2) use ($search) {
-                      $q2->where('author_name', 'like', "%{$search}%");
-                  })
-                  ->orWhere('isbn', 'like', "%{$search}%");
+                  ->orWhere('author', 'like', "%{$search}%")
+                  ->orWhere('subject', 'like', "%{$search}%");
             });
         }
 
-        if ($categoryId) {
-            $query->where('category_id', $categoryId);
-        }
-
         $books = $query->get();
-        $categories = Category::all();
-
-        return view('admin.books.index', compact('books', 'categories', 'search', 'categoryId'));
+        return view('admin.books.index', compact('books', 'search'));
     }
 
     public function show($id)
     {
-        $book = Book::with(['category', 'author', 'publisher'])->findOrFail($id);
-        $relatedBooks = Book::where('category_id', $book->category_id)
-            ->where('id', '!=', $book->id)
-            ->where('status', 'Available')
-            ->where('available_quantity', '>', 0)
-            ->limit(5)
-            ->get();
+        $book = Book::findOrFail($id);
+        $relatedBooks = Book::where('id', '!=', $book->id)->take(5)->get();
 
         if (request()->query('ajax') == '1') {
             return view('admin.books.partials.detail', compact('book', 'relatedBooks'))->render();
@@ -66,29 +51,22 @@ class BookController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
-        $authors = \App\Models\Author::all();
-        $publishers = \App\Models\Publisher::all();
-        return view('admin.books.create', compact('categories', 'authors', 'publishers'));
+        $authors = \App\Models\Author::orderBy('author_name')->get();
+        return view('admin.books.create', compact('authors'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'accession_no' => 'nullable|string|max:50|unique:books,accession_no',
-            'isbn' => 'nullable|string|max:50',
-            'category_id' => 'nullable|exists:categories,id',
-            'author_id' => 'nullable|exists:authors,id',
-            'publisher_id' => 'nullable|exists:publishers,id',
-            'quantity' => 'nullable|integer|min:1',
-            'description' => 'nullable|string',
+            'author' => 'required|string|max:255',
+            'edition' => 'nullable|string|max:100',
+            'year' => 'nullable|string|max:10',
+            'subject' => 'nullable|string|max:255',
+            'publication' => 'required|in:Foreign,Local',
         ]);
 
-        $validated['available_quantity'] = $validated['quantity'] ?? 1;
-        $validated['status'] = 'Available';
-
-        Book::create(array_merge($validated, ['added_by' => Auth::user()->section]));
+        Book::create(array_merge($validated, ['added_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
 
         return redirect()->route('books.index')->with('success', 'Book created successfully.');
     }
@@ -96,10 +74,8 @@ class BookController extends Controller
     public function edit($id)
     {
         $book = Book::findOrFail($id);
-        $categories = Category::all();
-        $authors = \App\Models\Author::all();
-        $publishers = \App\Models\Publisher::all();
-        return view('admin.books.edit', compact('book', 'categories', 'authors', 'publishers'));
+        $authors = \App\Models\Author::orderBy('author_name')->get();
+        return view('admin.books.edit', compact('book', 'authors'));
     }
 
     public function update(Request $request, $id)
@@ -107,15 +83,11 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'accession_no' => 'nullable|string|max:50|unique:books,accession_no,' . $book->id,
-            'isbn' => 'nullable|string|max:50',
-            'category_id' => 'nullable|exists:categories,id',
-            'author_id' => 'nullable|exists:authors,id',
-            'publisher_id' => 'nullable|exists:publishers,id',
-            'quantity' => 'nullable|integer|min:1',
-            'available_quantity' => 'nullable|integer|min:0',
-            'status' => 'nullable|in:Available,Unavailable,Archived',
-            'description' => 'nullable|string',
+            'author' => 'required|string|max:255',
+            'edition' => 'nullable|string|max:100',
+            'year' => 'nullable|string|max:10',
+            'subject' => 'nullable|string|max:255',
+            'publication' => 'required|in:Foreign,Local',
         ]);
 
         $book->update(array_merge($validated, ['edited_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
@@ -125,7 +97,7 @@ class BookController extends Controller
 
     public function destroy($id)
     {
-        if (Auth::user()->role === 'Working-Student') {
+        if (Auth::user()->role === 'Working.Student') {
             $book = Book::findOrFail($id);
 
             $pendingRequest = DeletionRequest::where('item_type', Book::class)
@@ -151,7 +123,7 @@ class BookController extends Controller
                     'user_id' => $staff->id,
                     'type' => 'deletion_request',
                     'title' => 'New Deletion Request',
-                    'message' => Auth::user()->full_name . ' (Working-Student) requested deletion of book "' . $book->title . '" (ID: ' . $book->id . ')',
+                    'message' => Auth::user()->full_name . ' requested deletion of book "' . $book->title . '" (ID: ' . $book->id . ')',
                     'sent_by' => Auth::id(),
                 ]);
             }

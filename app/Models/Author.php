@@ -8,10 +8,5 @@ class Author extends Model
 {
     protected $fillable = [
         'author_name',
-        'title',
-        'edition',
-        'year',
-        'subject',
-        'publication',
     ];
 }

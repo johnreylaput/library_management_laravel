@@ -10,32 +10,12 @@
     <div class="card-body">
         <form>
             <div class="mb-3">
-                <label class="form-label fw-bold">Author:</label>
+                <label class="form-label fw-bold">Author Name:</label>
                 <input type="text" class="form-control" value="{{ $author->author_name }}" readonly>
             </div>
             <div class="mb-3">
-                <label class="form-label fw-bold">Title:</label>
-                <input type="text" class="form-control" value="{{ $author->title ?? 'N/A' }}" readonly>
-            </div>
-            <div class="mb-3">
-                <label class="form-label fw-bold">Edition:</label>
-                <input type="text" class="form-control" value="{{ $author->edition ?? 'N/A' }}" readonly>
-            </div>
-            <div class="mb-3">
-                <label class="form-label fw-bold">Year:</label>
-                <input type="text" class="form-control" value="{{ $author->year ?? 'N/A' }}" readonly>
-            </div>
-            <div class="mb-3">
-                <label class="form-label fw-bold">Subject:</label>
-                <input type="text" class="form-control" value="{{ $author->subject ?? 'N/A' }}" readonly>
-            </div>
-            <div class="mb-3">
-                <label class="form-label fw-bold">Publication:</label>
-                <select class="form-select" disabled>
-                    <option value="">-- Select Publication --</option>
-                    <option value="Foreign" {{ $author->publication === 'Foreign' ? 'selected' : '' }}>Foreign</option>
-                    <option value="Local" {{ $author->publication === 'Local' ? 'selected' : '' }}>Local</option>
-                </select>
+                <label class="form-label fw-bold">Biography:</label>
+                <textarea class="form-control" rows="4" readonly>{{ $author->biography ?? 'N/A' }}</textarea>
             </div>
         </form>
     </div>

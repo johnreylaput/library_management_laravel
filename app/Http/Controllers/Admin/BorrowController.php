@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ActivityLog;
-use App\Models\BorrowRecord;
 use App\Models\Book;
-use App\Models\Member;
-use App\Models\Notification;
-use App\Models\User;
+use App\Models\BorrowRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\BorrowConfirmationMail;
 use App\Mail\RequestStatusMail;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Member;
+use App\Models\Notification;
+use App\Models\User;
+use App\Models\ActivityLog;
 
 class BorrowController extends Controller
 {
@@ -61,25 +61,17 @@ class BorrowController extends Controller
             return back()->with('error', 'Book not found.')->withInput();
         }
 
-        if ($book->available_quantity <= 0 || $book->status !== 'Available') {
-            $recommendations = Book::where('category_id', $book->category_id)
-                ->where('id', '!=', $book->id)
-                ->where('status', 'Available')
-                ->where('available_quantity', '>', 0)
-                ->take(5)
-                ->get();
+        $isBorrowed = BorrowRecord::where('book_id', $book->id)
+            ->whereIn('status', ['Borrowed', 'Pending'])->exists();
+
+        if ($isBorrowed) {
+            $recommendations = Book::where('id', '!=', $book->id)->take(5)->get();
 
             if ($recommendations->isEmpty()) {
-                return back()->with('error', 'The book "' . $book->title . '" is not available and no related books were found.')->withInput();
+                return back()->with('error', 'The book "' . $book->title . '" is currently borrowed and no related books were found.')->withInput();
             }
 
-            return back()->with('error', 'The book "' . $book->title . '" is currently unavailable. Here are some related books you may consider:')->with('recommendations', $recommendations)->withInput();
-        }
-
-        $book->decrement('available_quantity');
-
-        if ($book->available_quantity <= 0) {
-            $book->update(['status' => 'Unavailable']);
+            return back()->with('error', 'The book "' . $book->title . '" is currently borrowed. Here are some related books you may consider:')->with('recommendations', $recommendations)->withInput();
         }
 
         $borrowDate = \Carbon\Carbon::parse($validated['borrow_date']);
@@ -173,14 +165,11 @@ class BorrowController extends Controller
         if ($borrow->book_id) {
             $book = $borrow->book;
 
-            if ($book->available_quantity <= 0 || $book->status !== 'Available') {
-                return redirect()->route('borrow.index')->with('error', 'The book "' . $book->title . '" is no longer available. Please handle the request manually.');
-            }
+            $isBorrowed = BorrowRecord::where('book_id', $book->id)
+                ->whereIn('status', ['Borrowed', 'Pending'])->exists();
 
-            $book->decrement('available_quantity');
-
-            if ($book->available_quantity <= 0) {
-                $book->update(['status' => 'Unavailable']);
+            if ($isBorrowed && $borrow->id != BorrowRecord::where('book_id', $book->id)->whereIn('status', ['Borrowed', 'Pending'])->value('id')) {
+                return redirect()->route('borrow.index')->with('error', 'The book "' . $book->title . '" is already borrowed. Please handle it manually.');
             }
         }
 

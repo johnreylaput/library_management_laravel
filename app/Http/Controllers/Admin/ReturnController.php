@@ -51,14 +51,6 @@ class ReturnController extends Controller
 
         $borrow->update(['status' => 'Returned']);
 
-        $book = $borrow->book;
-        if ($book && $validated['condition_status'] === 'Good') {
-            $book->increment('available_quantity');
-            if ($book->available_quantity > 0) {
-                $book->update(['status' => 'Available']);
-            }
-        }
-
         return redirect()->route('return.index')->with('success', 'Book returned successfully.');
     }
 

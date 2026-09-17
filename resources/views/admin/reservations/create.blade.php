@@ -20,9 +20,9 @@
                             <div class="card h-100">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $rec->title }}</h5>
-                                    <p class="card-text mb-1"><strong>Author:</strong> {{ $rec->author->author_name ?? 'N/A' }}</p>
-                                    <p class="card-text mb-1"><strong>Category:</strong> {{ $rec->category->category_name ?? 'Uncategorized' }}</p>
-                                    <p class="card-text mb-2"><strong>Available:</strong> {{ $rec->available_quantity }}</p>
+                                    <p class="card-text mb-1"><strong>Author:</strong> {{ $rec->author ?? 'N/A' }}</p>
+                                    <p class="card-text mb-1"><strong>Subject:</strong> {{ $rec->subject ?? 'N/A' }}</p>
+                                    <p class="card-text mb-1"><strong>Publication:</strong> {{ $rec->publication ?? 'N/A' }}</p>
                                     <form method="POST" action="{{ route('reservations.store') }}" class="d-inline">
                                         @csrf
                                         <input type="hidden" name="member_input" value="{{ old('member_input') }}">

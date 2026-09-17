@@ -27,15 +27,14 @@ class BorrowController extends Controller
         $selectedJournal = null;
 
         if ($selectedBookId) {
-            $selectedBook = Book::with(['category', 'author', 'publisher'])->findOrFail($selectedBookId);
+            $selectedBook = Book::findOrFail($selectedBookId);
         }
 
         if ($selectedJournalId) {
             $selectedJournal = Journal::with(['category', 'publisher'])->findOrFail($selectedJournalId);
         }
 
-        $books = Book::with(['category', 'author', 'publisher'])
-            ->orderBy('title')
+        $books = Book::orderBy('title')
             ->get();
 
         $journals = Journal::with(['category', 'publisher'])
@@ -69,7 +68,7 @@ class BorrowController extends Controller
 
         if ($request->book_id) {
             $type = 'book';
-            $item = Book::with(['category', 'author', 'publisher'])->findOrFail($request->book_id);
+            $item = Book::findOrFail($request->book_id);
             $title = $item->title;
         } elseif ($request->journal_id) {
             $type = 'journal';

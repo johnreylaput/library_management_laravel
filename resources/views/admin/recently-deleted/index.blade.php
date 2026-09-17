@@ -19,12 +19,12 @@
         <table class="table table-striped table-hover mb-0">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>ISBN</th>
                     <th>Author</th>
-                    <th>Category</th>
-                    <th>Available</th>
-                    <th>Status</th>
+                    <th>Title</th>
+                    <th>Edition</th>
+                    <th>Year</th>
+                    <th>Subject</th>
+                    <th>Publication</th>
                     <th>Deleted At</th>
                     <th>Actions</th>
                 </tr>
@@ -32,16 +32,12 @@
             <tbody>
                 @forelse($books as $book)
                     <tr>
-                        <td>{{ $book->title }}</td>
-                        <td>{{ $book->isbn ?? '-' }}</td>
-                        <td>{{ $book->author->author_name ?? '-' }}</td>
-                        <td>{{ $book->category->category_name ?? '-' }}</td>
-                        <td>{{ $book->available_quantity ?? '-' }}</td>
-                        <td>
-                            <span class="badge bg-{{ $book->status === 'Available' ? 'success' : 'secondary' }}">
-                                {{ $book->status ?? '-' }}
-                            </span>
-                        </td>
+                        <td>{{ $book->author ?? '-' }}</td>
+                        <td>{{ $book->title ?? '-' }}</td>
+                        <td>{{ $book->edition ?? '-' }}</td>
+                        <td>{{ $book->year ?? '-' }}</td>
+                        <td>{{ $book->subject ?? '-' }}</td>
+                        <td>{{ $book->publication ?? '-' }}</td>
                         <td>{{ $book->deleted_at?->format('M d, Y h:i A') ?? '-' }}</td>
                         <td>
                             <form action="{{ route('recently-deleted.restore', ['type' => 'book', 'id' => $book->id]) }}" method="POST">
@@ -84,7 +80,7 @@
             <tbody>
                 @forelse($journals as $journal)
                     <tr>
-                        <td>{{ $journal->title }}</td>
+                        <td>{{ $journal->title ?? '-' }}</td>
                         <td>{{ $journal->journal_name ?? '-' }}</td>
                         <td>{{ $journal->authors ?? '-' }}</td>
                         <td>{{ $journal->issn ?? '-' }}</td>
@@ -136,7 +132,7 @@
             <tbody>
                 @forelse($theses as $thesis)
                     <tr>
-                        <td>{{ $thesis->title }}</td>
+                        <td>{{ $thesis->title ?? '-' }}</td>
                         <td>{{ $thesis->authors ?? '-' }}</td>
                         <td>{{ $thesis->institution ?? '-' }}</td>
                         <td>{{ $thesis->thesis_type ?? '-' }}</td>

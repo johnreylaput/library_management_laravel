@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ActivityLog;
 use App\Models\Book;
 use App\Models\Journal;
 use App\Models\Thesis;
@@ -31,7 +30,6 @@ class RecentlyDeletedController extends Controller
     public function index()
     {
         $books = Book::onlyTrashed()
-            ->with(['category', 'author', 'publisher'])
             ->latest('deleted_at')
             ->latest('id')
             ->get();

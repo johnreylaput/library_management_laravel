@@ -25,11 +25,10 @@ class ReservationController extends Controller
         $selectedBook = null;
 
         if ($selectedBookId) {
-            $selectedBook = Book::with(['category', 'author', 'publisher'])->findOrFail($selectedBookId);
+            $selectedBook = Book::findOrFail($selectedBookId);
         }
 
-        $books = Book::with(['category', 'author', 'publisher'])
-            ->orderBy('title')
+        $books = Book::orderBy('title')
             ->get();
 
         return view('member.reservation.index', compact('books', 'selectedBook'));
@@ -58,7 +57,7 @@ class ReservationController extends Controller
 
         if ($request->book_id) {
             $type = 'book';
-            $item = Book::with(['category', 'author', 'publisher'])->findOrFail($request->book_id);
+            $item = Book::findOrFail($request->book_id);
             $title = $item->title;
         } elseif ($request->journal_id) {
             $type = 'journal';

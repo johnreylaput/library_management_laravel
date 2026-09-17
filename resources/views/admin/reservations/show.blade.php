@@ -21,12 +21,12 @@
             <div class="col-md-6">
                 @if($reservation->book)
                     <h5>Book Information</h5>
+                    <p><strong>Author:</strong> {{ $reservation->book->author ?? '-' }}</p>
                     <p><strong>Title:</strong> {{ $reservation->book->title ?? '-' }}</p>
-                    <p><strong>ISBN:</strong> {{ $reservation->book->isbn ?? '-' }}</p>
-                    <p><strong>Author:</strong> {{ $reservation->book->author->author_name ?? '-' }}</p>
-                    <p><strong>Category:</strong> {{ $reservation->book->category->category_name ?? '-' }}</p>
-                    <p><strong>Status:</strong> {{ $reservation->book->status ?? '-' }}</p>
-                    <p><strong>Available Quantity:</strong> {{ $reservation->book->available_quantity ?? 0 }}</p>
+                    <p><strong>Edition:</strong> {{ $reservation->book->edition ?? '-' }}</p>
+                    <p><strong>Year:</strong> {{ $reservation->book->year ?? '-' }}</p>
+                    <p><strong>Subject:</strong> {{ $reservation->book->subject ?? '-' }}</p>
+                    <p><strong>Publication:</strong> {{ $reservation->book->publication ?? '-' }}</p>
                 @elseif($reservation->journal)
                     <h5>Journal Information</h5>
                     <p><strong>Title:</strong> {{ $reservation->journal->title ?? '-' }}</p>
