@@ -134,7 +134,9 @@ async function fetchLogs() {
     }
 }
 
-setInterval(fetchLogs, 1000);
-fetchLogs();
+// Auto-refresh disabled: logs load on initial page render.
+// Uncomment the lines below to re-enable live polling.
+// setInterval(fetchLogs, 1000);
+// fetchLogs();
 </script>
 @endpush
