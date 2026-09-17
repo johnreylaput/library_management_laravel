@@ -22,7 +22,6 @@
 </form>
 
 <div class="d-flex justify-content-between align-items-center mb-2">
-    <span class="text-muted small" id="log-status">Live updating...</span>
     <span class="badge bg-success" id="new-badge" style="display:none;">New entries</span>
 </div>
 
