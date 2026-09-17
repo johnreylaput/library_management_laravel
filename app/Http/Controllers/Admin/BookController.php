@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Author;
 use App\Models\Book;
 use App\Models\DeletionRequest;
 use App\Models\User;
@@ -54,9 +53,7 @@ class BookController extends Controller
 
     public function create()
     {
-        $authors = Author::orderBy('author_name')->get();
-
-        return view('admin.books.create', compact('authors'));
+        return view('admin.books.create');
     }
 
     public function store(Request $request)
@@ -75,9 +72,8 @@ class BookController extends Controller
     public function edit($id)
     {
         $book = Book::findOrFail($id);
-        $authors = Author::orderBy('author_name')->get();
 
-        return view('admin.books.edit', compact('book', 'authors'));
+        return view('admin.books.edit', compact('book'));
     }
 
     public function update(Request $request, $id)

@@ -8,12 +8,7 @@
     @csrf
     <div class="mb-3">
         <label class="form-label fw-bold">Author:</label>
-        <select name="author" class="form-select" required>
-            <option value="">Select Author</option>
-            @foreach($authors as $author)
-                <option value="{{ $author->author_name }}" @selected(old('author') === $author->author_name)>{{ $author->author_name }}</option>
-            @endforeach
-        </select>
+        <input type="text" name="author" class="form-control" value="{{ old('author') }}" required>
         @error('author')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
     </div>
     <div class="mb-3">

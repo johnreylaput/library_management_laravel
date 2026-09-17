@@ -8,15 +8,7 @@
     @csrf @method('PUT')
     <div class="mb-3">
         <label class="form-label fw-bold">Author:</label>
-        <select name="author" class="form-select" required>
-            <option value="">Select Author</option>
-            @if($book->author && !$authors->contains('author_name', $book->author))
-                <option value="{{ $book->author }}" selected>{{ $book->author }}</option>
-            @endif
-            @foreach($authors as $author)
-                <option value="{{ $author->author_name }}" @selected(old('author', $book->author) === $author->author_name)>{{ $author->author_name }}</option>
-            @endforeach
-        </select>
+        <input type="text" name="author" class="form-control" value="{{ old('author', $book->author) }}" required>
         @error('author')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
     </div>
     <div class="mb-3">
