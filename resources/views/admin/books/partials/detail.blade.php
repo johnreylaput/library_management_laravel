@@ -5,6 +5,14 @@
             <div class="detail-value">{{ $book->author ?? 'N/A' }}</div>
         </div>
         <div class="col-md-6 mb-2">
+            <div class="detail-label">Title</div>
+            <div class="detail-value">{{ $book->title ?? 'N/A' }}</div>
+        </div>
+        <div class="col-md-6 mb-2">
+            <div class="detail-label">Edition</div>
+            <div class="detail-value">{{ $book->edition ?? 'N/A' }}</div>
+        </div>
+        <div class="col-md-6 mb-2">
             <div class="detail-label">Year</div>
             <div class="detail-value">{{ $book->year ?? 'N/A' }}</div>
         </div>

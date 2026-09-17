@@ -157,6 +157,8 @@
                     </div>
                     <div class="card-body">
                         <div class="card-title">{{ $book->author ?? 'N/A' }}</div>
+                        <div class="resource-meta"><strong>Title:</strong> {{ $book->title ?? 'Untitled Book' }}</div>
+                        <div class="resource-meta"><strong>Edition:</strong> {{ $book->edition ?? 'N/A' }}</div>
                         <div class="resource-meta"><strong>Year:</strong> {{ $book->year ?? 'N/A' }}</div>
                         <div class="resource-meta"><strong>Subject:</strong> {{ $book->subject ?? 'N/A' }}</div>
                         <div class="resource-meta"><strong>Publication:</strong> {{ $book->publication ?? 'N/A' }}</div>

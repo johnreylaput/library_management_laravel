@@ -19,11 +19,11 @@
     <thead class="table-dark">
         <tr>
             <th>Author</th>
-            <th>Subject</th>
+            <th>Title</th>
+            <th>Edition</th>
             <th>Year</th>
+            <th>Subject</th>
             <th>Publication</th>
-            <th>Added By</th>
-            <th>Edited By</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -31,20 +31,11 @@
         @foreach($books as $book)
             <tr>
                 <td>{{ $book->author ?? '-' }}</td>
-                <td>{{ $book->subject ?? '-' }}</td>
+                <td>{{ $book->title ?? '-' }}</td>
+                <td>{{ $book->edition ?? '-' }}</td>
                 <td>{{ $book->year ?? '-' }}</td>
+                <td>{{ $book->subject ?? '-' }}</td>
                 <td>{{ $book->publication ?? '-' }}</td>
-                <td>{{ $book->added_by ?? '-' }}</td>
-                <td>
-                    @php
-                        $editorText = $book->edited_by ?? '-';
-                        preg_match('/^(.+) \(([^)]+)\)$/', $editorText, $editorMatches);
-                    @endphp
-                    {{ $editorMatches[1] ?? $editorText }}
-                    @if(isset($editorMatches[2]))
-                        <span class="badge bg-info">{{ $editorMatches[2] }}</span>
-                    @endif
-                </td>
                 <td>
                     <a href="{{ route('member.books.show', $book->id) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
                     <a href="{{ route('books.edit', $book->id) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>

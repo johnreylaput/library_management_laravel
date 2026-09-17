@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
@@ -12,25 +11,20 @@ class Book extends Model
 
     protected $fillable = [
         'author',
-        'subject',
+        'title',
+        'edition',
         'year',
+        'subject',
         'publication',
         'added_by',
         'edited_by',
     ];
 
-    public function category(): BelongsTo
+    protected function casts(): array
     {
-        return $this->belongsTo(Category::class);
+        return [
+            'year' => 'integer',
+        ];
     }
 
-    public function author(): BelongsTo
-    {
-        return $this->belongsTo(Author::class);
-    }
-
-    public function publisher(): BelongsTo
-    {
-        return $this->belongsTo(Publisher::class);
-    }
 }

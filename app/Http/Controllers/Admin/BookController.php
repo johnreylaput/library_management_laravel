@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Author;
 use App\Models\Book;
-use App\Models\Category;
 use App\Models\DeletionRequest;
 use App\Models\User;
 use App\Models\Notification;
@@ -28,6 +28,8 @@ class BookController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('author', 'like', "%{$search}%")
+                  ->orWhere('title', 'like', "%{$search}%")
+                  ->orWhere('edition', 'like', "%{$search}%")
                   ->orWhere('subject', 'like', "%{$search}%")
                   ->orWhere('year', 'like', "%{$search}%")
                   ->orWhere('publication', 'like', "%{$search}%");
@@ -52,15 +54,19 @@ class BookController extends Controller
 
     public function create()
     {
-        return view('admin.books.create');
+        $authors = Author::orderBy('author_name')->get();
+
+        return view('admin.books.create', compact('authors'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'author' => 'required|string|max:255',
+            'author' => 'required|string|max:150',
+            'title' => 'required|string|max:255',
+            'edition' => 'required|string|max:100',
             'subject' => 'required|string|max:255',
-            'year' => 'required|string|max:10',
+            'year' => ['required', 'integer', 'between:1,' . now()->year],
             'publication' => 'required|in:Foreign,Local',
         ]);
 
@@ -72,16 +78,20 @@ class BookController extends Controller
     public function edit($id)
     {
         $book = Book::findOrFail($id);
-        return view('admin.books.edit', compact('book'));
+        $authors = Author::orderBy('author_name')->get();
+
+        return view('admin.books.edit', compact('book', 'authors'));
     }
 
     public function update(Request $request, $id)
     {
         $book = Book::findOrFail($id);
         $validated = $request->validate([
-            'author' => 'required|string|max:255',
+            'author' => 'required|string|max:150',
+            'title' => 'required|string|max:255',
+            'edition' => 'required|string|max:100',
             'subject' => 'required|string|max:255',
-            'year' => 'required|string|max:10',
+            'year' => ['required', 'integer', 'between:1,' . now()->year],
             'publication' => 'required|in:Foreign,Local',
         ]);
 
@@ -108,7 +118,7 @@ class BookController extends Controller
                 'user_id' => Auth::id(),
                 'item_type' => Book::class,
                 'item_id' => $book->id,
-            'title' => $book->author,
+            'title' => $book->title,
             'status' => 'Pending',
             ]);
 
@@ -118,12 +128,12 @@ class BookController extends Controller
                     'user_id' => $staff->id,
                     'type' => 'deletion_request',
                 'title' => 'New Deletion Request',
-                'message' => Auth::user()->full_name . ' requested deletion of book by ' . $book->author . ' (ID: ' . $book->id . ')',
+                'message' => Auth::user()->full_name . ' requested deletion of book "' . $book->title . '" (ID: ' . $book->id . ')',
                     'sent_by' => Auth::id(),
                 ]);
             }
 
-            return back()->with('info', 'Deletion request for book by ' . $book->author . ' has been submitted and is awaiting librarian approval.');
+            return back()->with('info', 'Deletion request for "' . $book->title . '" has been submitted and is awaiting librarian approval.');
         }
 
         $book = Book::findOrFail($id);

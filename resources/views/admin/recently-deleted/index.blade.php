@@ -20,8 +20,10 @@
             <thead>
                 <tr>
                     <th>Author</th>
-                    <th>Subject</th>
+                    <th>Title</th>
+                    <th>Edition</th>
                     <th>Year</th>
+                    <th>Subject</th>
                     <th>Publication</th>
                     <th>Deleted At</th>
                     <th>Actions</th>
@@ -31,8 +33,10 @@
                 @forelse($books as $book)
                     <tr>
                         <td>{{ $book->author ?? '-' }}</td>
-                        <td>{{ $book->subject ?? '-' }}</td>
+                        <td>{{ $book->title ?? '-' }}</td>
+                        <td>{{ $book->edition ?? '-' }}</td>
                         <td>{{ $book->year ?? '-' }}</td>
+                        <td>{{ $book->subject ?? '-' }}</td>
                         <td>{{ $book->publication ?? '-' }}</td>
                         <td>{{ $book->deleted_at?->format('M d, Y h:i A') ?? '-' }}</td>
                         <td>
@@ -46,7 +50,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center text-muted py-4">No recently deleted books.</td>
+                        <td colspan="8" class="text-center text-muted py-4">No recently deleted books.</td>
                     </tr>
                 @endforelse
             </tbody>

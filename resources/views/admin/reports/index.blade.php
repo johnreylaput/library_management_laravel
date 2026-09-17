@@ -158,8 +158,10 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Title</th>
                             <th>Author</th>
+                            <th>Title</th>
+                            <th>Edition</th>
+                            <th>Year</th>
                             <th>Subject</th>
                             <th>Publication</th>
                             <th>Borrows</th>
@@ -169,14 +171,16 @@
                         @forelse($topBooks as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item['book']->title ?? 'Unknown' }}</td>
                                 <td>{{ $item['book']->author ?? '-' }}</td>
+                                <td>{{ $item['book']->title ?? 'Unknown' }}</td>
+                                <td>{{ $item['book']->edition ?? '-' }}</td>
+                                <td>{{ $item['book']->year ?? '-' }}</td>
                                 <td>{{ $item['book']->subject ?? '-' }}</td>
                                 <td>{{ $item['book']->publication ?? '-' }}</td>
                                 <td><span class="badge bg-primary">{{ $item['count'] }}</span></td>
                             </tr>
                         @empty
-                            <tr><td colspan="6" class="text-center text-muted">No borrowing records yet.</td></tr>
+                            <tr><td colspan="8" class="text-center text-muted">No borrowing records yet.</td></tr>
                         @endforelse
                     </tbody>
                 </table>

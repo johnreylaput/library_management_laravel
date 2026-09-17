@@ -86,8 +86,8 @@
             <table class="table table-striped mb-0">
                 <thead class="table-dark">
                     <tr>
-                        <th>Title</th>
                         <th>Author</th>
+                        <th>Title</th>
                         <th>Edition</th>
                         <th>Year</th>
                         <th>Subject</th>
@@ -98,8 +98,8 @@
                 <tbody>
                     @forelse($books as $book)
                         <tr>
-                            <td>{{ $book->title }}</td>
                             <td>{{ $book->author ?? 'N/A' }}</td>
+                            <td>{{ $book->title ?? '-' }}</td>
                             <td>{{ $book->edition ?? '-' }}</td>
                             <td>{{ $book->year ?? '-' }}</td>
                             <td>{{ $book->subject ?? '-' }}</td>
