@@ -68,8 +68,6 @@ class RecentlyDeletedController extends Controller
 
         $label = ucfirst($type);
 
-        // Books are identified by their author (they no longer carry a
-        // title); journals and theses still use their title.
         $itemLabel = $type === 'book' ? $item->author : $item->title;
         $itemLabel = $itemLabel ?: '#' . $item->id;
 
@@ -91,5 +89,39 @@ class RecentlyDeletedController extends Controller
         return redirect()
             ->route($destination)
             ->with('success', "{$label} restored successfully and returned to its catalog section.");
+    }
+
+    public function destroy(string $type, int $id)
+    {
+        $model = match ($type) {
+            'book' => Book::class,
+            'journal' => Journal::class,
+            'thesis' => Thesis::class,
+            default => null,
+        };
+
+        if (! $model) {
+            abort(404);
+        }
+
+        $item = $model::withTrashed()->findOrFail($id);
+        $label = ucfirst($type);
+        $itemLabel = $type === 'book' ? $item->author : $item->title;
+        $itemLabel = $itemLabel ?: '#' . $item->id;
+
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'username' => Auth::user()->username,
+            'role' => Auth::user()->role,
+            'action' => 'Permanently Delete Item',
+            'description' => "Permanently deleted {$label} '{$itemLabel}' (ID: {$item->id})",
+            'ip_address' => request()->ip(),
+        ]);
+
+        $item->forceDelete();
+
+        return redirect()
+            ->route('recently-deleted.index')
+            ->with('success', "{$label} has been permanently deleted.");
     }
 }

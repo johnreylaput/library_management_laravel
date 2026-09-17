@@ -40,10 +40,16 @@
                         <td>{{ $book->publication ?? '-' }}</td>
                         <td>{{ $book->deleted_at?->format('M d, Y h:i A') ?? '-' }}</td>
                         <td>
-                            <form action="{{ route('recently-deleted.restore', ['type' => 'book', 'id' => $book->id]) }}" method="POST">
+                            <form action="{{ route('recently-deleted.restore', ['type' => 'book', 'id' => $book->id]) }}" method="POST" class="d-inline">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-success">
                                     <i class="bi bi-arrow-counterclockwise"></i> Restore
+                                </button>
+                            </form>
+                            <form action="{{ route('recently-deleted.destroy', ['type' => 'book', 'id' => $book->id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Permanently delete this book? This action cannot be undone.')">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash"></i> Delete
                                 </button>
                             </form>
                         </td>
@@ -92,10 +98,16 @@
                         </td>
                         <td>{{ $journal->deleted_at?->format('M d, Y h:i A') ?? '-' }}</td>
                         <td>
-                            <form action="{{ route('recently-deleted.restore', ['type' => 'journal', 'id' => $journal->id]) }}" method="POST">
+                            <form action="{{ route('recently-deleted.restore', ['type' => 'journal', 'id' => $journal->id]) }}" method="POST" class="d-inline">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-success">
                                     <i class="bi bi-arrow-counterclockwise"></i> Restore
+                                </button>
+                            </form>
+                            <form action="{{ route('recently-deleted.destroy', ['type' => 'journal', 'id' => $journal->id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Permanently delete this journal? This action cannot be undone.')">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash"></i> Delete
                                 </button>
                             </form>
                         </td>
@@ -140,10 +152,16 @@
                         <td>{{ $thesis->category->category_name ?? '-' }}</td>
                         <td>{{ $thesis->deleted_at?->format('M d, Y h:i A') ?? '-' }}</td>
                         <td>
-                            <form action="{{ route('recently-deleted.restore', ['type' => 'thesis', 'id' => $thesis->id]) }}" method="POST">
+                            <form action="{{ route('recently-deleted.restore', ['type' => 'thesis', 'id' => $thesis->id]) }}" method="POST" class="d-inline">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-success">
                                     <i class="bi bi-arrow-counterclockwise"></i> Restore
+                                </button>
+                            </form>
+                            <form action="{{ route('recently-deleted.destroy', ['type' => 'thesis', 'id' => $thesis->id]) }}" method="POST" class="d-inline" onsubmit="return confirm('Permanently delete this thesis? This action cannot be undone.')">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash"></i> Delete
                                 </button>
                             </form>
                         </td>

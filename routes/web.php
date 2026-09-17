@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/logs/data', [LogController::class, 'data'])->name('logs.data');
         Route::get('/recently-deleted', [RecentlyDeletedController::class, 'index'])->name('recently-deleted.index');
         Route::post('/recently-deleted/{type}/{id}/restore', [RecentlyDeletedController::class, 'restore'])->name('recently-deleted.restore');
+        Route::post('/recently-deleted/{type}/{id}/delete', [RecentlyDeletedController::class, 'destroy'])->name('recently-deleted.destroy');
         Route::post('/notifications/send', [DashboardController::class, 'sendNotification'])->name('notifications.send');
         Route::middleware('role:Librarian')->group(function () {
             Route::get('/deletion-requests', [DeletionRequestController::class, 'index'])->name('deletion-requests.index');
