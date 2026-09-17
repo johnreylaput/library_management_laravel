@@ -6,24 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->string('added_by')->nullable()->after('updated_at');
-            $table->string('edited_by')->nullable()->after('added_by');
+            $table->dropForeign(['author_id']);
+            $table->dropColumn('author_id');
+            $table->string('author', 150)->nullable()->after('title');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->dropColumn(['added_by', 'edited_by']);
+            $table->dropColumn('author');
+            $table->foreignId('author_id')->nullable()->constrained()->nullOnDelete()->after('title');
         });
     }
 };
