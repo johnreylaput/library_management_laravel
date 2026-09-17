@@ -101,7 +101,8 @@ async function fetchLogs() {
         const currentIds = new Set();
         let newCount = 0;
 
-        logs.forEach((log, index) => {
+        for (let i = logs.length - 1; i >= 0; i--) {
+            const log = logs[i];
             currentIds.add(log.id);
             let row = document.querySelector(`tr[data-log-id="${log.id}"]`);
 
@@ -130,7 +131,7 @@ async function fetchLogs() {
                     timeOutCell.textContent = formatDateTime(log.created_at);
                 }
             }
-        });
+        }
 
         document.querySelectorAll('#logs-table tbody tr').forEach(row => {
             const id = parseInt(row.getAttribute('data-log-id'));
