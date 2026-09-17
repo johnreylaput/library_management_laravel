@@ -139,7 +139,8 @@ class DashboardController extends Controller
                 ->get();
 
             $myActivityLogs = ActivityLog::where('user_id', $user->id)
-                ->latest()
+                ->orderByDesc('created_at')
+                ->orderByDesc('id')
                 ->take(10)
                 ->get();
 
@@ -164,7 +165,7 @@ class DashboardController extends Controller
             'pending_reservation_requests' => Reservation::where('status', 'Pending')->count(),
         ];
 
-        $recentLogs = ActivityLog::latest()->take(10)->get();
+        $recentLogs = ActivityLog::orderByDesc('created_at')->orderByDesc('id')->take(10)->get();
         $pendingBorrows = BorrowRecord::with(['member.user', 'book', 'journal', 'thesis'])->where('status', 'Pending')->latest()->take(5)->get();
         $pendingReservations = Reservation::with(['member.user', 'book', 'journal', 'thesis'])->where('status', 'Pending')->latest()->take(5)->get();
 

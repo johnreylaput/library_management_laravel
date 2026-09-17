@@ -28,7 +28,10 @@ class LogController extends Controller
 
         $logs = $query->orderByDesc('created_at')->orderByDesc('id')->paginate(50);
 
-        return view('admin.logs.index', compact('logs'));
+        return response()->view('admin.logs.index', compact('logs'))
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', 'Sat, 01 Jan 1990 00:00:00 GMT');
     }
 
     public function data()
@@ -50,6 +53,9 @@ class LogController extends Controller
                 ];
             });
 
-        return response()->json($logs);
+        return response()->json($logs)
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', 'Sat, 01 Jan 1990 00:00:00 GMT');
     }
 }

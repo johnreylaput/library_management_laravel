@@ -152,7 +152,7 @@ async function fetchLogs() {
     }
 }
 
-setInterval(fetchLogs, 3000);
+setInterval(fetchLogs, 1000);
 fetchLogs();
 </script>
 @endpush
