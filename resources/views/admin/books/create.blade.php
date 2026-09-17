@@ -11,24 +11,16 @@
         <input type="text" name="author" class="form-control" placeholder="e.g. John Smith" required>
     </div>
     <div class="mb-3">
-        <label class="form-label fw-bold">Title:</label>
-        <input type="text" name="title" class="form-control" placeholder="e.g. Introduction to Programming" required>
-    </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Edition:</label>
-        <input type="text" name="edition" class="form-control" placeholder="e.g. 1st Edition">
+        <label class="form-label fw-bold">Subject:</label>
+        <input type="text" name="subject" class="form-control" placeholder="e.g. Computer Science" required>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold">Year:</label>
-        <input type="text" name="year" class="form-control" placeholder="e.g. 2024">
-    </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Subject:</label>
-        <input type="text" name="subject" class="form-control" placeholder="e.g. Computer Science">
+        <input type="text" name="year" class="form-control" placeholder="e.g. 2024" required>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold">Publication:</label>
-        <select name="publication" class="form-select">
+        <select name="publication" class="form-select" required>
             <option value="">-- Select Publication --</option>
             <option value="Foreign">Foreign</option>
             <option value="Local">Local</option>

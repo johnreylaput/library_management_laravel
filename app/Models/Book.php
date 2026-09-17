@@ -11,11 +11,9 @@ class Book extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'title',
         'author',
-        'edition',
-        'year',
         'subject',
+        'year',
         'publication',
         'added_by',
         'edited_by',

@@ -11,24 +11,16 @@
         <input type="text" name="author" class="form-control" value="{{ $book->author ?? '' }}" placeholder="e.g. John Smith" required>
     </div>
     <div class="mb-3">
-        <label class="form-label fw-bold">Title:</label>
-        <input type="text" name="title" class="form-control" value="{{ $book->title }}" placeholder="e.g. Introduction to Programming" required>
-    </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Edition:</label>
-        <input type="text" name="edition" class="form-control" value="{{ $book->edition ?? '' }}" placeholder="e.g. 1st Edition">
+        <label class="form-label fw-bold">Subject:</label>
+        <input type="text" name="subject" class="form-control" value="{{ $book->subject ?? '' }}" placeholder="e.g. Computer Science" required>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold">Year:</label>
-        <input type="text" name="year" class="form-control" value="{{ $book->year ?? '' }}" placeholder="e.g. 2024">
-    </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Subject:</label>
-        <input type="text" name="subject" class="form-control" value="{{ $book->subject ?? '' }}" placeholder="e.g. Computer Science">
+        <input type="text" name="year" class="form-control" value="{{ $book->year ?? '' }}" placeholder="e.g. 2024" required>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold">Publication:</label>
-        <select name="publication" class="form-select">
+        <select name="publication" class="form-select" required>
             <option value="">-- Select Publication --</option>
             <option value="Foreign" {{ $book->publication === 'Foreign' ? 'selected' : '' }}>Foreign</option>
             <option value="Local" {{ $book->publication === 'Local' ? 'selected' : '' }}>Local</option>

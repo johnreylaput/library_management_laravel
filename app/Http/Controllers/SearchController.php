@@ -32,9 +32,10 @@ class SearchController extends Controller
                 $bookQuery = Book::query();
 
                 $bookQuery->where(function ($q) use ($query) {
-                    $q->where('title', 'like', "%{$query}%")
-                      ->orWhere('author', 'like', "%{$query}%")
-                      ->orWhere('subject', 'like', "%{$query}%");
+                    $q->where('author', 'like', "%{$query}%")
+                      ->orWhere('subject', 'like', "%{$query}%")
+                      ->orWhere('year', 'like', "%{$query}%")
+                      ->orWhere('publication', 'like', "%{$query}%");
                 });
 
                 $books = $bookQuery->get();
@@ -54,9 +55,10 @@ class SearchController extends Controller
                     foreach ($words as $word) {
                         if (strlen($word) >= 3) {
                             $partialQuery = Book::query()
-                                ->where('title', 'like', "%{$word}%")
-                                ->orWhere('author', 'like', "%{$word}%")
-                                ->orWhere('subject', 'like', "%{$word}%");
+                                ->where('author', 'like', "%{$word}%")
+                                ->orWhere('subject', 'like', "%{$word}%")
+                                ->orWhere('year', 'like', "%{$word}%")
+                                ->orWhere('publication', 'like', "%{$word}%");
 
                             $partial = $partialQuery->first();
                             if ($partial) {

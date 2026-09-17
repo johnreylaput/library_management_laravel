@@ -33,10 +33,8 @@
                 @forelse($books as $book)
                     <tr>
                         <td>{{ $book->author ?? '-' }}</td>
-                        <td>{{ $book->title ?? '-' }}</td>
-                        <td>{{ $book->edition ?? '-' }}</td>
-                        <td>{{ $book->year ?? '-' }}</td>
                         <td>{{ $book->subject ?? '-' }}</td>
+                        <td>{{ $book->year ?? '-' }}</td>
                         <td>{{ $book->publication ?? '-' }}</td>
                         <td>{{ $book->deleted_at?->format('M d, Y h:i A') ?? '-' }}</td>
                         <td>

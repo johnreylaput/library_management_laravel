@@ -27,9 +27,10 @@ class BookController extends Controller
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('author', 'like', "%{$search}%")
-                  ->orWhere('subject', 'like', "%{$search}%");
+                $q->where('author', 'like', "%{$search}%")
+                  ->orWhere('subject', 'like', "%{$search}%")
+                  ->orWhere('year', 'like', "%{$search}%")
+                  ->orWhere('publication', 'like', "%{$search}%");
             });
         }
 
@@ -57,11 +58,9 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
-            'edition' => 'nullable|string|max:100',
-            'year' => 'required|string|max:10',
             'subject' => 'required|string|max:255',
+            'year' => 'required|string|max:10',
             'publication' => 'required|in:Foreign,Local',
         ]);
 
@@ -80,11 +79,9 @@ class BookController extends Controller
     {
         $book = Book::findOrFail($id);
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
-            'edition' => 'nullable|string|max:100',
-            'year' => 'required|string|max:10',
             'subject' => 'required|string|max:255',
+            'year' => 'required|string|max:10',
             'publication' => 'required|in:Foreign,Local',
         ]);
 
@@ -111,8 +108,8 @@ class BookController extends Controller
                 'user_id' => Auth::id(),
                 'item_type' => Book::class,
                 'item_id' => $book->id,
-                'title' => $book->title,
-                'status' => 'Pending',
+            'title' => $book->author,
+            'status' => 'Pending',
             ]);
 
             $staffUsers = User::whereIn('role', ['Admin', 'Librarian'])->get();
@@ -120,13 +117,13 @@ class BookController extends Controller
                 Notification::create([
                     'user_id' => $staff->id,
                     'type' => 'deletion_request',
-                    'title' => 'New Deletion Request',
-                    'message' => Auth::user()->full_name . ' requested deletion of book "' . $book->title . '" (ID: ' . $book->id . ')',
+                'title' => 'New Deletion Request',
+                'message' => Auth::user()->full_name . ' requested deletion of book by ' . $book->author . ' (ID: ' . $book->id . ')',
                     'sent_by' => Auth::id(),
                 ]);
             }
 
-            return back()->with('info', 'Deletion request for book "' . $book->title . '" has been submitted and is awaiting librarian approval.');
+            return back()->with('info', 'Deletion request for book by ' . $book->author . ' has been submitted and is awaiting librarian approval.');
         }
 
         $book = Book::findOrFail($id);

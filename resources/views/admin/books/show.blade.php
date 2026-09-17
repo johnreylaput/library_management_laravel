@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', $book->title)
+@section('title', 'View Book')
 
 @section('content')
 <div class="card mb-4">
@@ -14,20 +14,12 @@
                 <input type="text" class="form-control" value="{{ $book->author ?? 'N/A' }}" readonly>
             </div>
             <div class="mb-3">
-                <label class="form-label fw-bold">Title:</label>
-                <input type="text" class="form-control" value="{{ $book->title }}" readonly>
-            </div>
-            <div class="mb-3">
-                <label class="form-label fw-bold">Edition:</label>
-                <input type="text" class="form-control" value="{{ $book->edition ?? 'N/A' }}" readonly>
+                <label class="form-label fw-bold">Subject:</label>
+                <input type="text" class="form-control" value="{{ $book->subject ?? 'N/A' }}" readonly>
             </div>
             <div class="mb-3">
                 <label class="form-label fw-bold">Year:</label>
                 <input type="text" class="form-control" value="{{ $book->year ?? 'N/A' }}" readonly>
-            </div>
-            <div class="mb-3">
-                <label class="form-label fw-bold">Subject:</label>
-                <input type="text" class="form-control" value="{{ $book->subject ?? 'N/A' }}" readonly>
             </div>
             <div class="mb-3">
                 <label class="form-label fw-bold">Publication:</label>
