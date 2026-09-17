@@ -61,16 +61,13 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'author' => 'required|string|max:150',
-            'title' => 'required|string|max:255',
-            'edition' => 'required|string|max:100',
-            'subject' => 'required|string|max:255',
-            'year' => ['required', 'integer', 'between:1,' . now()->year],
-            'publication' => 'required|in:Foreign,Local',
-        ]);
+        $validated = $request->validate($this->bookRules());
+        $auditUser = $this->auditUser();
 
-        Book::create(array_merge($validated, ['added_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
+        Book::create(array_merge($validated, [
+            'added_by' => $auditUser,
+            'edited_by' => $auditUser,
+        ]));
 
         return redirect()->route('books.index')->with('success', 'Book created successfully.');
     }
@@ -86,18 +83,30 @@ class BookController extends Controller
     public function update(Request $request, $id)
     {
         $book = Book::findOrFail($id);
-        $validated = $request->validate([
-            'author' => 'required|string|max:150',
-            'title' => 'required|string|max:255',
-            'edition' => 'required|string|max:100',
-            'subject' => 'required|string|max:255',
-            'year' => ['required', 'integer', 'between:1,' . now()->year],
-            'publication' => 'required|in:Foreign,Local',
-        ]);
+        $validated = $request->validate($this->bookRules());
 
-        $book->update(array_merge($validated, ['edited_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
+        $book->update(array_merge($validated, ['edited_by' => $this->auditUser()]));
 
         return redirect()->route('books.index')->with('success', 'Book updated successfully.');
+    }
+
+    private function bookRules(): array
+    {
+        return [
+            'author' => ['bail', 'required', 'string', 'max:150', 'not_regex:/^\s*$/'],
+            'title' => ['bail', 'required', 'string', 'max:255'],
+            'edition' => ['bail', 'required', 'string', 'max:100'],
+            'year' => ['bail', 'required', 'integer', 'between:1,' . now()->year],
+            'subject' => ['bail', 'required', 'string', 'max:255', 'not_regex:/^\s*$/'],
+            'publication' => ['bail', 'required', 'in:Foreign,Local'],
+        ];
+    }
+
+    private function auditUser(): string
+    {
+        $user = Auth::user();
+
+        return $user->full_name ?: $user->username;
     }
 
     public function destroy($id)

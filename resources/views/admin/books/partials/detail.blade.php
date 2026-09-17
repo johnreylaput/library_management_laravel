@@ -24,5 +24,13 @@
             <div class="detail-label">Publication</div>
             <div class="detail-value">{{ $book->publication ?? 'N/A' }}</div>
         </div>
+        <div class="col-md-6 mb-2">
+            <div class="detail-label">Added By</div>
+            <div class="detail-value">{{ $book->added_by ?? 'N/A' }}</div>
+        </div>
+        <div class="col-md-6 mb-2">
+            <div class="detail-label">Edited By</div>
+            <div class="detail-value">{{ $book->edited_by ?? 'N/A' }}</div>
+        </div>
     </div>
 </div>

@@ -24,6 +24,8 @@
             <th>Year</th>
             <th>Subject</th>
             <th>Publication</th>
+            <th>Added By</th>
+            <th>Edited By</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -36,6 +38,8 @@
                 <td>{{ $book->year ?? '-' }}</td>
                 <td>{{ $book->subject ?? '-' }}</td>
                 <td>{{ $book->publication ?? '-' }}</td>
+                <td>{{ $book->added_by ?? '-' }}</td>
+                <td>{{ $book->edited_by ?? '-' }}</td>
                 <td>
                     <a href="{{ route('member.books.show', $book->id) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
                     <a href="{{ route('books.edit', $book->id) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
