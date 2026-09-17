@@ -26,7 +26,7 @@ class LogController extends Controller
             });
         }
 
-        $logs = $query->latest()->paginate(50);
+        $logs = $query->orderByDesc('created_at')->orderByDesc('id')->paginate(50);
 
         return view('admin.logs.index', compact('logs'));
     }
@@ -34,7 +34,8 @@ class LogController extends Controller
     public function data()
     {
         $logs = ActivityLog::query()
-            ->latest()
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->get()
             ->map(function ($log) {
                 return [
