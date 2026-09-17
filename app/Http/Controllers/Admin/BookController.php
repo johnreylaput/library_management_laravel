@@ -51,8 +51,7 @@ class BookController extends Controller
 
     public function create()
     {
-        $authors = \App\Models\Author::orderBy('author_name')->get();
-        return view('admin.books.create', compact('authors'));
+        return view('admin.books.create');
     }
 
     public function store(Request $request)
@@ -61,8 +60,8 @@ class BookController extends Controller
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'edition' => 'nullable|string|max:100',
-            'year' => 'nullable|string|max:10',
-            'subject' => 'nullable|string|max:255',
+            'year' => 'required|string|max:10',
+            'subject' => 'required|string|max:255',
             'publication' => 'required|in:Foreign,Local',
         ]);
 
@@ -74,8 +73,7 @@ class BookController extends Controller
     public function edit($id)
     {
         $book = Book::findOrFail($id);
-        $authors = \App\Models\Author::orderBy('author_name')->get();
-        return view('admin.books.edit', compact('book', 'authors'));
+        return view('admin.books.edit', compact('book'));
     }
 
     public function update(Request $request, $id)
@@ -85,8 +83,8 @@ class BookController extends Controller
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'edition' => 'nullable|string|max:100',
-            'year' => 'nullable|string|max:10',
-            'subject' => 'nullable|string|max:255',
+            'year' => 'required|string|max:10',
+            'subject' => 'required|string|max:255',
             'publication' => 'required|in:Foreign,Local',
         ]);
 

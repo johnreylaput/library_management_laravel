@@ -8,12 +8,7 @@
     @csrf @method('PUT')
     <div class="mb-3">
         <label class="form-label fw-bold">Author:</label>
-        <select name="author" class="form-select" required>
-            <option value="">-- Select Author --</option>
-            @foreach($authors as $author)
-                <option value="{{ $author->author_name }}" {{ $book->author === $author->author_name ? 'selected' : '' }}>{{ $author->author_name }}</option>
-            @endforeach
-        </select>
+        <input type="text" name="author" class="form-control" value="{{ $book->author ?? '' }}" placeholder="e.g. John Smith" required>
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold">Title:</label>
