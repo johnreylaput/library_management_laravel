@@ -60,12 +60,6 @@
 
 @push('scripts')
 <script>
-let knownLogIds = new Set([
-    @foreach($logs as $log)
-        {{ $log->id }},
-    @endforeach
-]);
-
 function formatDateTime(dateStr) {
     if (!dateStr) return '-';
     const d = new Date(dateStr.replace(' ', 'T') + '+08:00');
@@ -98,12 +92,10 @@ async function fetchLogs() {
         const tbody = document.querySelector('#logs-table tbody');
         if (!tbody) return;
 
-        const currentIds = new Set();
         let newCount = 0;
 
         for (let i = logs.length - 1; i >= 0; i--) {
             const log = logs[i];
-            currentIds.add(log.id);
             let row = document.querySelector(`tr[data-log-id="${log.id}"]`);
 
             if (!row) {
@@ -132,15 +124,6 @@ async function fetchLogs() {
                 }
             }
         }
-
-        document.querySelectorAll('#logs-table tbody tr').forEach(row => {
-            const id = parseInt(row.getAttribute('data-log-id'));
-            if (!currentIds.has(id)) {
-                row.remove();
-            }
-        });
-
-        knownLogIds = currentIds;
 
         const badge = document.getElementById('new-badge');
         if (newCount > 0 && badge) {
