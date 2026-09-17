@@ -19,10 +19,8 @@
     <thead class="table-dark">
         <tr>
             <th>Author</th>
-            <th>Title</th>
-            <th>Edition</th>
-            <th>Year</th>
             <th>Subject</th>
+            <th>Year</th>
             <th>Publication</th>
             <th>Added By</th>
             <th>Edited By</th>
@@ -33,10 +31,8 @@
         @foreach($books as $book)
             <tr>
                 <td>{{ $book->author ?? '-' }}</td>
-                <td>{{ $book->title }}</td>
-                <td>{{ $book->edition ?? '-' }}</td>
-                <td>{{ $book->year ?? '-' }}</td>
                 <td>{{ $book->subject ?? '-' }}</td>
+                <td>{{ $book->year ?? '-' }}</td>
                 <td>{{ $book->publication ?? '-' }}</td>
                 <td>{{ $book->added_by ?? '-' }}</td>
                 <td>

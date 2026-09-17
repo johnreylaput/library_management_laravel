@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Book;
 use App\Models\Journal;
 use App\Models\Thesis;
@@ -66,12 +67,18 @@ class RecentlyDeletedController extends Controller
         $item->restore();
 
         $label = ucfirst($type);
+
+        // Books are identified by their author (they no longer carry a
+        // title); journals and theses still use their title.
+        $itemLabel = $type === 'book' ? $item->author : $item->title;
+        $itemLabel = $itemLabel ?: '#' . $item->id;
+
         ActivityLog::create([
             'user_id' => Auth::id(),
             'username' => Auth::user()->username,
             'role' => Auth::user()->role,
             'action' => 'Restore Deleted Item',
-            'description' => "Restored {$label} '{$item->title}' (ID: {$item->id})",
+            'description' => "Restored {$label} '{$itemLabel}' (ID: {$item->id})",
             'ip_address' => request()->ip(),
         ]);
 

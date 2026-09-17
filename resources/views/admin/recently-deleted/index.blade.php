@@ -20,10 +20,8 @@
             <thead>
                 <tr>
                     <th>Author</th>
-                    <th>Title</th>
-                    <th>Edition</th>
-                    <th>Year</th>
                     <th>Subject</th>
+                    <th>Year</th>
                     <th>Publication</th>
                     <th>Deleted At</th>
                     <th>Actions</th>
@@ -48,7 +46,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="text-center text-muted py-4">No recently deleted books.</td>
+                        <td colspan="6" class="text-center text-muted py-4">No recently deleted books.</td>
                     </tr>
                 @endforelse
             </tbody>
