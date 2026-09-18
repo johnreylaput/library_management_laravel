@@ -164,6 +164,11 @@ class ThesisSeeder extends Seeder
             ],
         ];
 
+        $researchMap = [
+            'PhD' => 'Doctoral Thesis',
+            'Masters' => 'Masteral Thesis',
+        ];
+
         foreach ($theses as $thesisData) {
             $category = $categories->get($thesisData['category']);
             $author = $authors->get($thesisData['author']);
@@ -179,7 +184,7 @@ class ThesisSeeder extends Seeder
                         'authors' => $thesisData['authors'],
                         'author' => $thesisData['author'],
                         'thesis_type' => $thesisData['thesis_type'],
-                        'research' => $thesisData['thesis_type'],
+                        'research' => $researchMap[$thesisData['thesis_type']] ?? $thesisData['thesis_type'],
                         'year' => $thesisData['year'],
                         'date_published' => $thesisData['year'],
                         'pages' => $thesisData['pages'],

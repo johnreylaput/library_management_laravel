@@ -26,7 +26,17 @@
         </div>
         <div class="col-md-4 mb-3">
             <label>Research</label>
-            <input type="text" name="research" class="form-control" value="{{ old('research', $thesis->research) }}" placeholder="e.g. PhD, Masters">
+            <select name="research" class="form-select">
+                <option value="">Select Research Type</option>
+                <option value="Thesis" {{ old('research', $thesis->research) === 'Thesis' ? 'selected' : '' }}>Thesis</option>
+                <option value="Capstone" {{ old('research', $thesis->research) === 'Capstone' ? 'selected' : '' }}>Capstone</option>
+                <option value="Feasibility Study" {{ old('research', $thesis->research) === 'Feasibility Study' ? 'selected' : '' }}>Feasibility Study</option>
+                <option value="Marketing Research" {{ old('research', $thesis->research) === 'Marketing Research' ? 'selected' : '' }}>Marketing Research</option>
+                <option value="Undergraduate" {{ old('research', $thesis->research) === 'Undergraduate' ? 'selected' : '' }}>Undergraduate</option>
+                <option value="Masteral Thesis" {{ old('research', $thesis->research) === 'Masteral Thesis' ? 'selected' : '' }}>Masteral Thesis</option>
+                <option value="Doctoral Thesis" {{ old('research', $thesis->research) === 'Doctoral Thesis' ? 'selected' : '' }}>Doctoral Thesis</option>
+                <option value="University Research" {{ old('research', $thesis->research) === 'University Research' ? 'selected' : '' }}>University Research</option>
+            </select>
         </div>
         <div class="col-md-4 mb-3">
             <label>Institution</label>

@@ -25,7 +25,17 @@
         </div>
         <div class="col-md-4 mb-3">
             <label>Research</label>
-            <input type="text" name="research" class="form-control" placeholder="e.g. PhD, Masters">
+            <select name="research" class="form-select">
+                <option value="">Select Research Type</option>
+                <option value="Thesis">Thesis</option>
+                <option value="Capstone">Capstone</option>
+                <option value="Feasibility Study">Feasibility Study</option>
+                <option value="Marketing Research">Marketing Research</option>
+                <option value="Undergraduate">Undergraduate</option>
+                <option value="Masteral Thesis">Masteral Thesis</option>
+                <option value="Doctoral Thesis">Doctoral Thesis</option>
+                <option value="University Research">University Research</option>
+            </select>
         </div>
         <div class="col-md-4 mb-3">
             <label>Institution</label>

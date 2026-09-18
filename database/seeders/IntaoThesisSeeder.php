@@ -40,6 +40,11 @@ class IntaoThesisSeeder extends Seeder
         $author = $authors->get($thesisData['author']);
         $publisher = $publishers->get($thesisData['publisher']);
 
+        $researchMap = [
+            'PhD' => 'Doctoral Thesis',
+            'Masters' => 'Masteral Thesis',
+        ];
+
         if ($category && $author && $publisher) {
             Thesis::updateOrCreate(
                 [
@@ -50,7 +55,7 @@ class IntaoThesisSeeder extends Seeder
                     'authors' => $thesisData['authors'],
                     'author' => $thesisData['author'],
                     'thesis_type' => $thesisData['thesis_type'],
-                    'research' => $thesisData['thesis_type'],
+                    'research' => $researchMap[$thesisData['thesis_type']] ?? $thesisData['thesis_type'],
                     'year' => $thesisData['year'],
                     'date_published' => $thesisData['year'],
                     'pages' => $thesisData['pages'],
