@@ -21,12 +21,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('theses', function (Blueprint $table) {
-            $table->text('authors')->nullable()->after('title');
-            $table->string('thesis_type', 100)->nullable()->after('author');
-            $table->year('year')->nullable()->after('institution');
-            $table->string('subjects', 500)->nullable()->after('availability');
-            $table->text('abstract')->nullable()->after('link');
-        });
+        // Old fields are not restored
     }
 };

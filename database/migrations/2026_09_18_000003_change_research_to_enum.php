@@ -14,7 +14,7 @@ return new class extends Migration
                 'Capstone',
                 'Feasibility Study',
                 'Marketing Research',
-                'Undergraduate',
+                'Undergraduate Thesis',
                 'Masteral Thesis',
                 'Doctoral Thesis',
                 'University Research',
