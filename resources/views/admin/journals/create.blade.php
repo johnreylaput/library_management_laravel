@@ -59,8 +59,7 @@
         <div class="col-md-6 mb-3">
             <label>Borrowed</label>
             <select name="availability" class="form-select">
-                <option value="" selected></option>
-                <option value="Available">Available</option>
+                <option value="Available" selected>Available</option>
                 <option value="Unavailable">Unavailable</option>
                 <option value="Archived">Archived</option>
             </select>

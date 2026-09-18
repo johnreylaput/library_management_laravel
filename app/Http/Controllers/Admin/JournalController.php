@@ -92,6 +92,7 @@ class JournalController extends Controller
         unset($validated['journal_name_source']);
 
         $validated['status'] = 'Available';
+        $validated['availability'] = $validated['availability'] ?? 'Available';
 
         Journal::create(array_merge($validated, ['added_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
 
@@ -134,6 +135,8 @@ class JournalController extends Controller
             $validated['journal_name'] = $validated['journal_name_source'];
         }
         unset($validated['journal_name_source']);
+
+        $validated['availability'] = $validated['availability'] ?? 'Available';
 
         $journal->update(array_merge($validated, ['edited_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
 
