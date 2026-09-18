@@ -37,7 +37,7 @@
                 @elseif($borrow->thesis)
                     <h5>Thesis Information</h5>
                     <p><strong>Title:</strong> {{ $borrow->thesis->title ?? '-' }}</p>
-                    <p><strong>Authors:</strong> {{ $borrow->thesis->authors ?? '-' }}</p>
+                    <p><strong>Author:</strong> {{ $borrow->thesis->author ?? '-' }}</p>
                     <p><strong>Institution:</strong> {{ $borrow->thesis->institution ?? '-' }}</p>
                     <p><strong>Category:</strong> {{ $borrow->thesis->category->category_name ?? '-' }}</p>
                     <p><strong>Availability:</strong> {{ $borrow->thesis->availability ?? '-' }}</p>

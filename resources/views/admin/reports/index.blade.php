@@ -246,7 +246,7 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item['thesis']->title ?? 'Unknown' }}</td>
-                                <td>{{ \Illuminate\Support\Str::limit($item['thesis']->authors ?? '-', 20) }}</td>
+                                <td>{{ $item['thesis']->author ?? '-' }}</td>
                                 <td>{{ $item['thesis']->institution ?? '-' }}</td>
                                 <td>{{ $item['thesis']->category->category_name ?? '-' }}</td>
                                 <td><span class="badge bg-success">{{ $item['count'] }}</span></td>

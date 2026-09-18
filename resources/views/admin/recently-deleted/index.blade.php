@@ -132,11 +132,9 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Authors</th>
                     <th>Author</th>
                     <th>Research</th>
                     <th>Institution</th>
-                    <th>Year</th>
                     <th>Date Published</th>
                     <th>Category</th>
                     <th>Deleted At</th>
@@ -147,12 +145,10 @@
                 @forelse($theses as $thesis)
                     <tr>
                         <td>{{ $thesis->title ?? '-' }}</td>
-                        <td>{{ $thesis->authors ?? '-' }}</td>
                         <td>{{ $thesis->author ?? '-' }}</td>
                         <td>{{ $thesis->research ?? '-' }}</td>
                         <td>{{ $thesis->institution ?? '-' }}</td>
-                        <td>{{ $thesis->year ?? '-' }}</td>
-                        <td>{{ $thesis->date_published ?? '-' }}</td>
+                        <td>{{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : '-' }}</td>
                         <td>{{ $thesis->category->category_name ?? '-' }}</td>
                         <td>{{ $thesis->deleted_at?->format('M d, Y h:i A') ?? '-' }}</td>
                         <td>

@@ -545,7 +545,7 @@
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="result-meta">
-                                        <strong>Author:</strong> {{ $thesis->authors ?? 'N/A' }}
+                                        <strong>Author:</strong> {{ $thesis->author ?? 'N/A' }}
                                     </div>
                                     <div class="result-meta">
                                         <strong>Title:</strong> {{ $thesis->title }}
@@ -554,15 +554,15 @@
                                         <strong>Source:</strong> {{ $thesis->institution ?? 'N/A' }}
                                     </div>
                                     <div class="result-meta">
-                                        <strong>Thesis Type:</strong> {{ $thesis->thesis_type ?? 'N/A' }} |
-                                        <strong>Year:</strong> {{ $thesis->year ?? 'N/A' }} |
+                                        <strong>Research:</strong> {{ $thesis->research ?? 'N/A' }} |
+                                        <strong>Date Published:</strong> {{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : 'N/A' }} |
                                         <strong>Pages:</strong> {{ $thesis->pages ?? 'N/A' }}
                                     </div>
                                     <div class="result-meta">
-                                        <strong>Abstract:</strong> {{ \Illuminate\Support\Str::limit($thesis->abstract, 250) ?: 'No abstract available.' }}
+                                        <strong>Summary:</strong> {{ \Illuminate\Support\Str::limit($thesis->summary, 250) ?: 'No summary available.' }}
                                     </div>
                                     <div class="result-meta">
-                                        <strong>Subject:</strong> {{ $thesis->subjects ?? ($thesis->category->category_name ?? 'N/A') }}
+                                        <strong>Subject:</strong> {{ $thesis->subjects_keywords ?? ($thesis->category->category_name ?? 'N/A') }}
                                     </div>
                                     <div class="result-meta">
                                         <strong>Note:</strong> {{ \Illuminate\Support\Str::limit($thesis->description, 250) ?: 'No additional note available.' }}

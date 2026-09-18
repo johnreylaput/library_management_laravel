@@ -37,7 +37,7 @@
                 @elseif($reservation->thesis)
                     <h5>Thesis Information</h5>
                     <p><strong>Title:</strong> {{ $reservation->thesis->title ?? '-' }}</p>
-                    <p><strong>Authors:</strong> {{ $reservation->thesis->authors ?? '-' }}</p>
+                    <p><strong>Author:</strong> {{ $reservation->thesis->author ?? '-' }}</p>
                     <p><strong>Institution:</strong> {{ $reservation->thesis->institution ?? '-' }}</p>
                     <p><strong>Category:</strong> {{ $reservation->thesis->category->category_name ?? '-' }}</p>
                     <p><strong>Availability:</strong> {{ $reservation->thesis->availability ?? '-' }}</p>
