@@ -114,7 +114,7 @@
             <div class="card-body">
                 @forelse($myBorrows as $borrow)
                     @php
-                        $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->title ?? 'Unknown Item';
+                        $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->author ?? 'Unknown Item';
                         $itemType = $borrow->book ? 'Book' : ($borrow->journal ? 'Journal' : ($borrow->thesis ? 'Thesis' : 'Item'));
                     @endphp
                     <div class="list-group list-group-flush">

@@ -157,7 +157,7 @@ class ReservationController extends Controller
 
         $reservation->update(['status' => 'Approved']);
 
-        $itemTitle = $reservation->book?->title ?? $reservation->journal?->title ?? $reservation->thesis?->title ?? 'Unknown Item';
+        $itemTitle = $reservation->book?->title ?? $reservation->journal?->title ?? $reservation->thesis?->author ?? 'Unknown Item';
 
         if ($reservation->member->user && $reservation->member->user->email) {
             Mail::to($reservation->member->user->email)->send(new RequestStatusMail(
@@ -203,7 +203,7 @@ class ReservationController extends Controller
 
         $reservation->update(['status' => 'Cancelled']);
 
-        $itemTitle = $reservation->book?->title ?? $reservation->journal?->title ?? $reservation->thesis?->title ?? 'Unknown Item';
+        $itemTitle = $reservation->book?->title ?? $reservation->journal?->title ?? $reservation->thesis?->author ?? 'Unknown Item';
 
         if ($reservation->member->user && $reservation->member->user->email) {
             Mail::to($reservation->member->user->email)->send(new RequestStatusMail(

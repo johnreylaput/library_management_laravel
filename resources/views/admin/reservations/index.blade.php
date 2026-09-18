@@ -21,7 +21,7 @@
     <tbody>
         @foreach($reservations as $reservation)
             @php
-                $itemTitle = $reservation->book?->title ?? $reservation->journal?->title ?? $reservation->thesis?->title ?? '-';
+                $itemTitle = $reservation->book?->title ?? $reservation->journal?->title ?? $reservation->thesis?->author ?? '-';
                 $itemType = $reservation->book ? 'Book' : ($reservation->journal ? 'Journal' : ($reservation->thesis ? 'Thesis' : '-'));
             @endphp
             <tr>

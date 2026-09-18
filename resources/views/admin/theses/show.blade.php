@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', $thesis->title)
+@section('title', 'Thesis')
 
 @section('content')
 <div class="card mb-4">
@@ -12,25 +12,12 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <h2>{{ $thesis->title }}</h2>
-                <p class="mb-1"><strong>Author:</strong> {{ $thesis->author ?? '-' }}</p>
+                <h2>{{ $thesis->author }}</h2>
                 <p class="mb-1"><strong>Research:</strong> {{ $thesis->research ?? '-' }}</p>
-                <p class="mb-1"><strong>Institution:</strong> {{ $thesis->institution ?? '-' }}</p>
                 <p class="mb-1"><strong>Date Published:</strong> {{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : '-' }}</p>
-                <p class="mb-1"><strong>Pages:</strong> {{ $thesis->pages ?? '-' }}</p>
-                <p class="mb-1"><strong>Category:</strong> {{ $thesis->category->category_name ?? '-' }}</p>
-                <p class="mb-1"><strong>Advisor:</strong> {{ $thesis->advisor->author_name ?? '-' }}</p>
-                <p class="mb-1"><strong>Publisher:</strong> {{ $thesis->publisher->publisher_name ?? '-' }}</p>
-                <p class="mb-1"><strong>Status:</strong>
-                    <span class="badge bg-{{ $thesis->status === 'Available' ? 'success' : 'danger' }}">
-                        {{ $thesis->status }}
-                    </span>
-                </p>
+                <p class="mb-1"><strong>Subjects / Keywords:</strong> {{ $thesis->subjects_keywords ?? '-' }}</p>
                 @if($thesis->summary)
                     <p class="mt-3"><strong>Summary:</strong><br>{{ nl2br(e($thesis->summary)) }}</p>
-                @endif
-                @if($thesis->description)
-                    <p class="mt-3"><strong>Description:</strong><br>{{ nl2br(e($thesis->description)) }}</p>
                 @endif
                 <p class="mt-3"><strong>Added By:</strong> {{ $thesis->added_by ?? '-' }}</p>
                 <p class="mb-1"><strong>Edited By:</strong>
@@ -54,53 +41,30 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Title of the Thesis</label>
-                <input type="text" class="form-control" value="{{ $thesis->title }}" readonly>
-            </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
                 <label class="form-label fw-bold">Author</label>
                 <input type="text" class="form-control" value="{{ $thesis->author ?? '-' }}" readonly>
             </div>
-            <div class="col-12 mb-3">
-                <label class="form-label fw-bold">Full Record</label>
-                <textarea class="form-control" rows="3" readonly>{{ $thesis->author ?? '' }} ({{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('Y') : '' }}). {{ $thesis->title }}. {{ $thesis->institution ?? '' }}. {{ $thesis->research ?? '' }}.</textarea>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">Research</label>
+                <input type="text" class="form-control" value="{{ $thesis->research ?? '-' }}" readonly>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">Date Published</label>
+                <input type="text" class="form-control" value="{{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : '-' }}" readonly>
+            </div>
+            <div class="col-md-12 mb-3">
+                <label class="form-label fw-bold">Subjects / Keywords</label>
+                <input type="text" class="form-control" value="{{ $thesis->subjects_keywords ?? '-' }}" readonly>
             </div>
             <div class="col-12 mb-3">
                 <label class="form-label fw-bold">Summary</label>
                 <textarea class="form-control" rows="4" readonly>{{ $thesis->summary ?? '-' }}</textarea>
             </div>
-            <div class="col-12 mb-3">
-                <label class="form-label fw-bold">Thesis Information</label>
-                <div class="row">
-                    <div class="col-md-3 mb-2">
-                        <label class="form-label">Institution</label>
-                        <input type="text" class="form-control" value="{{ $thesis->institution ?? '-' }}" readonly>
-                    </div>
-                    <div class="col-md-3 mb-2">
-                        <label class="form-label">Research</label>
-                        <input type="text" class="form-control" value="{{ $thesis->research ?? '-' }}" readonly>
-                    </div>
-                    <div class="col-md-2 mb-2">
-                        <label class="form-label">Date Published</label>
-                        <input type="text" class="form-control" value="{{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : '-' }}" readonly>
-                    </div>
-                    <div class="col-md-2 mb-2">
-                        <label class="form-label">Pages</label>
-                        <input type="text" class="form-control" value="{{ $thesis->pages ?? '-' }}" readonly>
-                    </div>
-                    <div class="col-md-2 mb-2">
-                        <label class="form-label">Status</label>
-                        <input type="text" class="form-control" value="{{ $thesis->status }}" readonly>
-                    </div>
-                </div>
+            <div class="col-md-12 mb-3">
+                <label class="form-label fw-bold">Status</label>
+                <input type="text" class="form-control" value="{{ $thesis->status }}" readonly>
             </div>
-            @if($thesis->link)
-                <div class="col-12 mb-3">
-                    <label class="form-label fw-bold">Link</label>
-                    <a href="{{ $thesis->link }}" target="_blank" class="btn btn-primary">{{ $thesis->link }}</a>
-                </div>
-            @endif
         </div>
     </div>
 </div>

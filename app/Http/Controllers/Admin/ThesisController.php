@@ -4,11 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Thesis;
-use App\Models\Category;
-use App\Models\Author;
-use App\Models\Publisher;
-use App\Models\DeletionRequest;
 use App\Models\User;
+use App\Models\DeletionRequest;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,33 +22,25 @@ class ThesisController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('q');
-        $categoryId = $request->get('category');
 
-        $query = Thesis::with(['category', 'advisor', 'publisher']);
+        $query = Thesis::query();
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('author', 'like', "%{$search}%")
-                  ->orWhere('institution', 'like', "%{$search}%")
+                $q->where('author', 'like', "%{$search}%")
                   ->orWhere('research', 'like', "%{$search}%")
                   ->orWhere('subjects_keywords', 'like', "%{$search}%");
             });
         }
 
-        if ($categoryId) {
-            $query->where('category_id', $categoryId);
-        }
-
         $theses = $query->get();
-        $categories = Category::all();
 
-        return view('admin.theses.index', compact('theses', 'categories', 'search', 'categoryId'));
+        return view('admin.theses.index', compact('theses', 'search'));
     }
 
     public function show($id)
     {
-        $thesis = Thesis::with(['category', 'advisor', 'publisher'])->findOrFail($id);
+        $thesis = Thesis::findOrFail($id);
 
         if (request()->query('ajax') == '1') {
             return view('admin.theses.partials.detail', compact('thesis'))->render();
@@ -62,30 +51,17 @@ class ThesisController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
-        $authors = \App\Models\Author::all();
-        $publishers = \App\Models\Publisher::all();
-        return view('admin.theses.create', compact('categories', 'authors', 'publishers'));
+        return view('admin.theses.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'research' => 'required|in:Thesis,Capstone,Feasibility Study,Marketing Research,Undergraduate Thesis,Masteral Thesis,Doctoral Thesis,University Research',
-            'institution' => 'nullable|string|max:255',
             'date_published' => 'required|date',
-            'pages' => 'nullable|string|max:50',
-            'category_id' => 'nullable|exists:categories,id',
-            'author_id' => 'nullable|exists:authors,id',
-            'publisher_id' => 'nullable|exists:publishers,id',
-            'link' => 'nullable|url|max:500',
-            'summary' => 'required|string',
-            'description' => 'nullable|string',
-            'database_collection' => 'nullable|string|max:255',
-            'availability' => 'nullable|in:Available,Unavailable,Archived',
             'subjects_keywords' => 'required|string|max:500',
+            'summary' => 'required|string',
         ]);
 
         $validated['status'] = 'Available';
@@ -98,32 +74,19 @@ class ThesisController extends Controller
     public function edit($id)
     {
         $thesis = Thesis::findOrFail($id);
-        $categories = Category::all();
-        $authors = \App\Models\Author::all();
-        $publishers = \App\Models\Publisher::all();
-        return view('admin.theses.edit', compact('thesis', 'categories', 'authors', 'publishers'));
+        return view('admin.theses.edit', compact('thesis'));
     }
 
     public function update(Request $request, $id)
     {
         $thesis = Thesis::findOrFail($id);
+
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'nullable|string|max:255',
-            'research' => 'nullable|in:Thesis,Capstone,Feasibility Study,Marketing Research,Undergraduate,Masteral Thesis,Doctoral Thesis,University Research',
-            'institution' => 'nullable|string|max:255',
-            'date_published' => 'nullable|digits:4|integer',
-            'pages' => 'nullable|string|max:50',
-            'category_id' => 'nullable|exists:categories,id',
-            'author_id' => 'nullable|exists:authors,id',
-            'publisher_id' => 'nullable|exists:publishers,id',
-            'link' => 'nullable|url|max:500',
-            'summary' => 'nullable|string',
-            'description' => 'nullable|string',
-            'status' => 'nullable|in:Available,Unavailable,Archived',
-            'database_collection' => 'nullable|string|max:255',
-            'availability' => 'nullable|in:Available,Unavailable,Archived',
-            'subjects_keywords' => 'nullable|string|max:500',
+            'author' => 'required|string|max:255',
+            'research' => 'required|in:Thesis,Capstone,Feasibility Study,Marketing Research,Undergraduate Thesis,Masteral Thesis,Doctoral Thesis,University Research',
+            'date_published' => 'required|date',
+            'subjects_keywords' => 'required|string|max:500',
+            'summary' => 'required|string',
         ]);
 
         $thesis->update(array_merge($validated, ['edited_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
@@ -149,7 +112,7 @@ class ThesisController extends Controller
                 'user_id' => Auth::id(),
                 'item_type' => Thesis::class,
                 'item_id' => $thesis->id,
-                'title' => $thesis->title,
+                'title' => $thesis->author . ' - ' . $thesis->research,
                 'status' => 'Pending',
             ]);
 
@@ -160,12 +123,12 @@ class ThesisController extends Controller
                     'user_id' => $librarian->id,
                     'type' => 'deletion_request',
                     'title' => 'New Deletion Request',
-                    'message' => Auth::user()->full_name . ' (Working.Student) requested deletion of thesis "' . $thesis->title . '" (ID: ' . $thesis->id . ')',
+                    'message' => Auth::user()->full_name . ' (Working.Student) requested deletion of thesis "' . $thesis->author . ' - ' . $thesis->research . '" (ID: ' . $thesis->id . ')',
                     'sent_by' => Auth::id(),
                 ]);
             }
 
-            return back()->with('info', 'Deletion request for thesis "' . $thesis->title . '" has been submitted for librarian review.');
+            return back()->with('info', 'Deletion request for thesis "' . $thesis->author . ' - ' . $thesis->research . '" has been submitted for librarian review.');
         }
 
         $thesis = Thesis::findOrFail($id);

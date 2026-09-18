@@ -21,31 +21,15 @@
     <div class="col-md-4">
         <input type="text" name="q" class="form-control" placeholder="Search theses..." value="{{ $search ?? '' }}">
     </div>
-    <div class="col-md-3">
-        <select name="category" class="form-select">
-            <option value="">All Categories</option>
-            @foreach($categories as $category)
-                <option value="{{ $category->id }}" {{ ($categoryId ?? '') == $category->id ? 'selected' : '' }}>
-                    {{ $category->category_name }}
-                </option>
-            @endforeach
-        </select>
-    </div>
-    <div class="col-md-2">
-        <button type="submit" class="btn btn-dark w-100"><i class="bi bi-search"></i> Search</button>
-    </div>
 </form>
 
 <table class="table table-striped table-bordered">
     <thead class="table-dark">
         <tr>
-            <th>Title</th>
             <th>Author</th>
             <th>Research</th>
-            <th>Institution</th>
             <th>Date Published</th>
-            <th>Added By</th>
-            <th>Edited By</th>
+            <th>Subjects / Keywords</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
@@ -53,22 +37,10 @@
     <tbody>
         @foreach($theses as $thesis)
             <tr>
-                <td>{{ $thesis->title }}</td>
                 <td>{{ $thesis->author ?? '-' }}</td>
                 <td>{{ $thesis->research ?? '-' }}</td>
-                <td>{{ $thesis->institution ?? '-' }}</td>
                 <td>{{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : '-' }}</td>
-                <td>{{ $thesis->added_by ?? '-' }}</td>
-                <td>
-                    @php
-                        $editorText = $thesis->edited_by ?? '-';
-                        preg_match('/^(.+) \(([^)]+)\)$/', $editorText, $editorMatches);
-                    @endphp
-                    {{ $editorMatches[1] ?? $editorText }}
-                    @if(isset($editorMatches[2]))
-                        <span class="badge bg-info">{{ $editorMatches[2] }}</span>
-                    @endif
-                </td>
+                <td>{{ $thesis->subjects_keywords ?? '-' }}</td>
                 <td>
                     <span class="badge bg-{{ $thesis->status === 'Available' ? 'success' : 'danger' }}">
                         {{ $thesis->status }}

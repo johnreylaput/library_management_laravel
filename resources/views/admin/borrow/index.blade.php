@@ -21,7 +21,7 @@
     <tbody>
         @foreach($borrows as $borrow)
             @php
-                $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->title ?? '-';
+                $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->author ?? '-';
                 $itemType = $borrow->book ? 'Book' : ($borrow->journal ? 'Journal' : ($borrow->thesis ? 'Thesis' : '-'));
             @endphp
             <tr>

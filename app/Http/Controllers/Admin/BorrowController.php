@@ -219,7 +219,7 @@ class BorrowController extends Controller
             return redirect()->route('borrow.index')->with('error', 'Only pending requests can be rejected.');
         }
 
-        $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->title ?? 'Unknown Item';
+        $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->author ?? 'Unknown Item';
 
         $borrow->update(['status' => 'Cancelled']);
 

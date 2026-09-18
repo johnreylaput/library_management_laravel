@@ -210,14 +210,13 @@
                         <i class="bi bi-file-earmark-text"></i>
                     </div>
                     <div class="card-body">
-                        <div class="card-title">{{ $thesis->title }}</div>
-                        <div class="resource-meta"><strong>Author:</strong> {{ $thesis->author ?? 'N/A' }}</div>
+                        <div class="card-title">{{ $thesis->author }}</div>
                         <div class="resource-meta"><strong>Research:</strong> {{ $thesis->research ?? 'N/A' }}</div>
-                        <div class="resource-meta"><strong>Institution:</strong> {{ $thesis->institution ?? 'N/A' }}</div>
                         <div class="resource-meta"><strong>Date Published:</strong> {{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : 'N/A' }}</div>
+                        <div class="resource-meta"><strong>Subjects / Keywords:</strong> {{ $thesis->subjects_keywords ?? 'N/A' }}</div>
                         <div class="resource-badges">
-                            <span class="badge bg-{{ $thesis->availability === 'Available' ? 'success' : 'danger' }}">
-                                {{ $thesis->availability ?? 'N/A' }}
+                            <span class="badge bg-{{ $thesis->status === 'Available' ? 'success' : 'danger' }}">
+                                {{ $thesis->status ?? 'N/A' }}
                             </span>
                         </div>
                         <a href="{{ route('member.theses.show', $thesis->id) }}" class="btn btn-primary btn-sm">View Details</a>

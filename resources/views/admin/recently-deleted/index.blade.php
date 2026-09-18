@@ -131,12 +131,11 @@
         <table class="table table-striped table-hover mb-0">
             <thead>
                 <tr>
-                    <th>Title</th>
                     <th>Author</th>
                     <th>Research</th>
-                    <th>Institution</th>
                     <th>Date Published</th>
-                    <th>Category</th>
+                    <th>Subjects / Keywords</th>
+                    <th>Status</th>
                     <th>Deleted At</th>
                     <th>Actions</th>
                 </tr>
@@ -144,12 +143,15 @@
             <tbody>
                 @forelse($theses as $thesis)
                     <tr>
-                        <td>{{ $thesis->title ?? '-' }}</td>
                         <td>{{ $thesis->author ?? '-' }}</td>
                         <td>{{ $thesis->research ?? '-' }}</td>
-                        <td>{{ $thesis->institution ?? '-' }}</td>
                         <td>{{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : '-' }}</td>
-                        <td>{{ $thesis->category->category_name ?? '-' }}</td>
+                        <td>{{ $thesis->subjects_keywords ?? '-' }}</td>
+                        <td>
+                            <span class="badge bg-{{ $thesis->status === 'Available' ? 'success' : 'danger' }}">
+                                {{ $thesis->status }}
+                            </span>
+                        </td>
                         <td>{{ $thesis->deleted_at?->format('M d, Y h:i A') ?? '-' }}</td>
                         <td>
                             <form action="{{ route('recently-deleted.restore', ['type' => 'thesis', 'id' => $thesis->id]) }}" method="POST" class="d-inline">

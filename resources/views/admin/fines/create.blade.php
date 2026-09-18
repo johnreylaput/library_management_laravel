@@ -12,7 +12,7 @@
             <option value="">Select Borrow Record</option>
             @foreach($borrows as $borrow)
                 @php
-                    $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->title ?? 'Unknown Item';
+                    $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->author ?? 'Unknown Item';
                 @endphp
                 <option value="{{ $borrow->id }}">{{ $borrow->member->user->full_name ?? $borrow->member_id }} - {{ $itemTitle }}</option>
             @endforeach

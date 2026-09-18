@@ -25,7 +25,7 @@
                 <td>{{ $fine->borrow->member->user->full_name ?? '-' }}</td>
                 <td>
                     @php
-                        $itemTitle = $fine->borrow?->book?->title ?? $fine->borrow?->journal?->title ?? $fine->borrow?->thesis?->title ?? '-';
+                        $itemTitle = $fine->borrow?->book?->title ?? $fine->borrow?->journal?->title ?? $fine->borrow?->thesis?->author ?? '-';
                     @endphp
                     {{ $itemTitle }}
                 </td>

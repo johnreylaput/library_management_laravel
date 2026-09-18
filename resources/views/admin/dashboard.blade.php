@@ -141,7 +141,7 @@
                     <div class="list-group list-group-flush">
                         @foreach($pendingBorrows as $borrow)
                             @php
-                                $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->title ?? 'Unknown Item';
+                                $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->author ?? 'Unknown Item';
                                 $itemType = $borrow->book ? 'Book' : ($borrow->journal ? 'Journal' : ($borrow->thesis ? 'Thesis' : 'Item'));
                             @endphp
                             <div class="list-group-item">
@@ -182,7 +182,7 @@
                     <div class="list-group list-group-flush">
                         @foreach($pendingReservations as $reservation)
                             @php
-                                $itemTitle = $reservation->book?->title ?? $reservation->journal?->title ?? $reservation->thesis?->title ?? 'Unknown Item';
+                                $itemTitle = $reservation->book?->title ?? $reservation->journal?->title ?? $reservation->thesis?->author ?? 'Unknown Item';
                                 $itemType = $reservation->book ? 'Book' : ($reservation->journal ? 'Journal' : ($reservation->thesis ? 'Thesis' : 'Item'));
                             @endphp
                             <div class="list-group-item">

@@ -109,7 +109,7 @@
                 <ul class="list-group list-group-flush">
                     @forelse($borrows as $borrow)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ $borrow->book->title ?? ($borrow->journal->title ?? ($borrow->thesis->title ?? 'Item')) }}
+                            {{ $borrow->book->title ?? ($borrow->journal->title ?? ($borrow->thesis->author ?? 'Item')) }}
                             <span class="badge bg-{{ $borrow->status === 'Returned' ? 'success' : ($borrow->status === 'Overdue' ? 'danger' : 'warning') }}">
                                 {{ $borrow->status }}
                             </span>

@@ -8,45 +8,13 @@
             <div class="detail-label">Research</div>
             <div class="detail-value">{{ $thesis->research ?? 'N/A' }}</div>
         </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Title of Thesis</div>
-            <div class="detail-value">{{ $thesis->title }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Institution</div>
-            <div class="detail-value">{{ $thesis->institution ?? 'N/A' }}</div>
-        </div>
         <div class="col-md-3 mb-2">
             <div class="detail-label">Date Published</div>
             <div class="detail-value">{{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : 'N/A' }}</div>
         </div>
-        <div class="col-md-3 mb-2">
-            <div class="detail-label">Pages</div>
-            <div class="detail-value">{{ $thesis->pages ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-3 mb-2">
-            <div class="detail-label">Availability</div>
-            <div class="detail-value">
-                <span class="badge bg-{{ $thesis->availability === 'Available' ? 'success' : 'danger' }}">
-                    {{ $thesis->availability ?? 'N/A' }}
-                </span>
-            </div>
-        </div>
         <div class="col-md-6 mb-2">
-            <div class="detail-label">Publisher</div>
-            <div class="detail-value">{{ $thesis->publisher->publisher_name ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Advisor</div>
-            <div class="detail-value">{{ $thesis->advisor->author_name ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Subject / Keywords</div>
-            <div class="detail-value">{{ $thesis->subjects_keywords ?? ($thesis->category->category_name ?? 'N/A') }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Database / Collection</div>
-            <div class="detail-value">{{ $thesis->database_collection ?? 'N/A' }}</div>
+            <div class="detail-label">Subjects / Keywords</div>
+            <div class="detail-value">{{ $thesis->subjects_keywords ?? 'N/A' }}</div>
         </div>
         <div class="col-md-6 mb-2">
             <div class="detail-label">Added By</div>
@@ -65,12 +33,6 @@
                 @endif
             </div>
         </div>
-        @if($thesis->link)
-            <div class="col-12 mb-2">
-                <div class="detail-label">URL / External Link</div>
-                <div class="detail-value"><a href="{{ $thesis->link }}" target="_blank">{{ $thesis->link }}</a></div>
-            </div>
-        @endif
     </div>
 </div>
 
@@ -81,31 +43,24 @@
     </div>
 @endif
 
-@if($thesis->description)
-    <div class="detail-section">
-        <div class="detail-label">Article Description</div>
-        <div class="detail-value">{{ nl2br(e($thesis->description)) }}</div>
-    </div>
-@endif
-
 @if(Auth::check() && Auth::user()->role === 'Member')
     <div class="detail-section mt-3">
         <div class="d-flex gap-2">
-            <form action="{{ route('member.borrow.store') }}" method="POST" onsubmit="return confirm('Request to borrow {{ addslashes($thesis->title) }}?');">
+            <form action="{{ route('member.borrow.store') }}" method="POST" onsubmit="return confirm('Request to borrow this thesis?');">
                 @csrf
                 <input type="hidden" name="thesis_id" value="{{ $thesis->id }}">
                 <input type="hidden" name="borrow_date" value="{{ date('Y-m-d') }}">
                 <input type="hidden" name="due_date" value="{{ date('Y-m-d', strtotime('+3 days')) }}">
-                <button type="submit" class="btn btn-success" @if($thesis->availability !== 'Available') disabled @endif>
+                <button type="submit" class="btn btn-success" @if($thesis->status !== 'Available') disabled @endif>
                     <i class="bi bi-journal-arrow-down"></i> Borrow
                 </button>
             </form>
-            <form action="{{ route('member.reservation.store') }}" method="POST" onsubmit="return confirm('Request to reserve {{ addslashes($thesis->title) }}?');">
+            <form action="{{ route('member.reservation.store') }}" method="POST" onsubmit="return confirm('Request to reserve this thesis?');">
                 @csrf
                 <input type="hidden" name="thesis_id" value="{{ $thesis->id }}">
                 <input type="hidden" name="reservation_date" value="{{ date('Y-m-d') }}">
                 <input type="hidden" name="due_date" value="{{ date('Y-m-d', strtotime('+3 days')) }}">
-                <button type="submit" class="btn btn-warning" @if($thesis->availability !== 'Available') disabled @endif>
+                <button type="submit" class="btn btn-warning" @if($thesis->status !== 'Available') disabled @endif>
                     <i class="bi bi-calendar-check"></i> Reserve
                 </button>
             </form>

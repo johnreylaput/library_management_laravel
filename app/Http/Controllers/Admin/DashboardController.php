@@ -67,7 +67,7 @@ class DashboardController extends Controller
                     ->get();
 
                 foreach ($dueToday as $record) {
-                    $bookTitle = $record->book?->title ?? $record->journal?->title ?? $record->thesis?->title ?? 'Unknown Item';
+                    $bookTitle = $record->book?->title ?? $record->journal?->title ?? $record->thesis?->author ?? 'Unknown Item';
                     $dueNotifications->push([
                         'type' => 'danger',
                         'icon' => 'bi-calendar-check',
@@ -77,7 +77,7 @@ class DashboardController extends Controller
                 }
 
                 foreach ($dueTomorrow as $record) {
-                    $bookTitle = $record->book?->title ?? $record->journal?->title ?? $record->thesis?->title ?? 'Unknown Item';
+                    $bookTitle = $record->book?->title ?? $record->journal?->title ?? $record->thesis?->author ?? 'Unknown Item';
                     $dueNotifications->push([
                         'type' => 'warning',
                         'icon' => 'bi-exclamation-triangle',
@@ -87,7 +87,7 @@ class DashboardController extends Controller
                 }
 
                 foreach ($overdue as $record) {
-                    $bookTitle = $record->book?->title ?? $record->journal?->title ?? $record->thesis?->title ?? 'Unknown Item';
+                    $bookTitle = $record->book?->title ?? $record->journal?->title ?? $record->thesis?->author ?? 'Unknown Item';
                     $dueNotifications->push([
                         'type' => 'danger',
                         'icon' => 'bi-x-circle',

@@ -42,7 +42,6 @@ class RecentlyDeletedController extends Controller
             ->get();
 
         $theses = Thesis::onlyTrashed()
-            ->with(['category', 'advisor', 'publisher'])
             ->latest('deleted_at')
             ->latest('id')
             ->get();

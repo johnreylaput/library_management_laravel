@@ -9,10 +9,6 @@
     @method('PUT')
     <div class="row">
         <div class="col-md-6 mb-3">
-            <label>Title</label>
-            <input type="text" name="title" class="form-control" value="{{ old('title', $thesis->title) }}" required>
-        </div>
-        <div class="col-md-6 mb-3">
             <label>Author</label>
             <input type="text" name="author" class="form-control" value="{{ old('author', $thesis->author) }}" required>
         </div>
@@ -31,65 +27,8 @@
             </select>
         </div>
         <div class="col-md-4 mb-3">
-            <label>Institution</label>
-            <input type="text" name="institution" class="form-control" value="{{ old('institution', $thesis->institution) }}" placeholder="e.g. University of the Philippines">
-        </div>
-        <div class="col-md-4 mb-3">
             <label>Date Published</label>
             <input type="date" name="date_published" class="form-control" value="{{ old('date_published', $thesis->date_published) }}" required>
-        </div>
-        <div class="col-md-6 mb-3">
-            <label>Pages</label>
-            <input type="text" name="pages" class="form-control" value="{{ old('pages', $thesis->pages) }}" placeholder="e.g. 150">
-        </div>
-        <div class="col-md-6 mb-3">
-            <label>Category</label>
-            <select name="category_id" class="form-select">
-                <option value="">Select Category</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}" {{ old('category_id', $thesis->category_id) == $category->id ? 'selected' : '' }}>
-                        {{ $category->category_name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-6 mb-3">
-            <label>Advisor / Author Reference</label>
-            <select name="author_id" class="form-select">
-                <option value="">Select Author</option>
-                @foreach($authors as $author)
-                    <option value="{{ $author->id }}" {{ old('author_id', $thesis->author_id) == $author->id ? 'selected' : '' }}>
-                        {{ $author->author_name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-6 mb-3">
-            <label>Publisher</label>
-            <select name="publisher_id" class="form-select">
-                <option value="">Select Publisher</option>
-                @foreach($publishers as $publisher)
-                    <option value="{{ $publisher->id }}" {{ old('publisher_id', $thesis->publisher_id) == $publisher->id ? 'selected' : '' }}>
-                        {{ $publisher->publisher_name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-12 mb-3">
-            <label>Link / URL</label>
-            <input type="url" name="link" class="form-control" value="{{ old('link', $thesis->link) }}">
-        </div>
-        <div class="col-md-6 mb-3">
-            <label>Database / Collection</label>
-            <input type="text" name="database_collection" class="form-control" value="{{ old('database_collection', $thesis->database_collection) }}" placeholder="e.g. University Repository, JSTOR">
-        </div>
-        <div class="col-md-6 mb-3">
-            <label>Availability</label>
-            <select name="availability" class="form-select">
-                <option value="Available" {{ old('availability', $thesis->availability) === 'Available' ? 'selected' : '' }}>Available</option>
-                <option value="Unavailable" {{ old('availability', $thesis->availability) === 'Unavailable' ? 'selected' : '' }}>Unavailable</option>
-                <option value="Archived" {{ old('availability', $thesis->availability) === 'Archived' ? 'selected' : '' }}>Archived</option>
-            </select>
         </div>
         <div class="col-md-12 mb-3">
             <label>Subjects / Keywords</label>
@@ -98,10 +37,6 @@
         <div class="col-12 mb-3">
             <label>Summary</label>
             <textarea name="summary" class="form-control" rows="4" required>{{ old('summary', $thesis->summary) }}</textarea>
-        </div>
-        <div class="col-12 mb-3">
-            <label>Description</label>
-            <textarea name="description" class="form-control" rows="3">{{ old('description', $thesis->description) }}</textarea>
         </div>
     </div>
     <button type="submit" class="btn btn-success">Update Thesis</button>

@@ -234,10 +234,8 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Title</th>
+                            <th>Author</th>
                             <th>Author(s)</th>
-                            <th>Institution</th>
-                            <th>Category</th>
                             <th>Borrows</th>
                         </tr>
                     </thead>
@@ -245,14 +243,12 @@
                         @forelse($topTheses as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item['thesis']->title ?? 'Unknown' }}</td>
+                                <td>{{ $item['thesis']->author ?? 'Unknown' }}</td>
                                 <td>{{ $item['thesis']->author ?? '-' }}</td>
-                                <td>{{ $item['thesis']->institution ?? '-' }}</td>
-                                <td>{{ $item['thesis']->category->category_name ?? '-' }}</td>
                                 <td><span class="badge bg-success">{{ $item['count'] }}</span></td>
                             </tr>
                         @empty
-                            <tr><td colspan="6" class="text-center text-muted">No borrowing records yet.</td></tr>
+                            <tr><td colspan="4" class="text-center text-muted">No borrowing records yet.</td></tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -283,7 +279,7 @@
                     <tbody>
                         @forelse($overdueBorrows as $borrow)
                             @php
-                                $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->title ?? 'Unknown Item';
+                                $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->author ?? 'Unknown Item';
                                 $itemType = $borrow->book ? 'Book' : ($borrow->journal ? 'Periodical' : ($borrow->thesis ? 'Thesis' : 'Unknown'));
                                 $borrower = $borrow->member->user->full_name ?? 'Unknown';
                                 $daysOverdue = \Carbon\Carbon::parse($borrow->due_date)->diffInDays(now());
@@ -326,7 +322,7 @@
                     <tbody>
                         @forelse($recentBorrows as $borrow)
                             @php
-                                $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->title ?? 'Unknown Item';
+                                $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->author ?? 'Unknown Item';
                                 $itemType = $borrow->book ? 'Book' : ($borrow->journal ? 'Periodical' : ($borrow->thesis ? 'Thesis' : 'Unknown'));
                                 $borrower = $borrow->member->user->full_name ?? 'Unknown';
                             @endphp
@@ -382,7 +378,7 @@
                     <tbody>
                         @forelse($recentReturns as $borrow)
                             @php
-                                $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->title ?? 'Unknown Item';
+                                $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->author ?? 'Unknown Item';
                                 $itemType = $borrow->book ? 'Book' : ($borrow->journal ? 'Periodical' : ($borrow->thesis ? 'Thesis' : 'Unknown'));
                                 $borrower = $borrow->member->user->full_name ?? 'Unknown';
                             @endphp
@@ -432,7 +428,7 @@
                     <tbody>
                         @forelse($recentReservations as $reservation)
                             @php
-                                $itemTitle = $reservation->book?->title ?? $reservation->journal?->title ?? $reservation->thesis?->title ?? 'Unknown Item';
+                                $itemTitle = $reservation->book?->title ?? $reservation->journal?->title ?? $reservation->thesis?->author ?? 'Unknown Item';
                                 $itemType = $reservation->book ? 'Book' : ($reservation->journal ? 'Periodical' : ($reservation->thesis ? 'Thesis' : 'Unknown'));
                                 $member = $reservation->member->user->full_name ?? 'Unknown';
                             @endphp
@@ -488,7 +484,7 @@
                     <tbody>
                         @forelse($recentFines as $fine)
                             @php
-                                $itemTitle = $fine->borrow->book?->title ?? $fine->borrow->journal?->title ?? $fine->borrow->thesis?->title ?? 'Unknown Item';
+                                $itemTitle = $fine->borrow->book?->title ?? $fine->borrow->journal?->title ?? $fine->borrow->thesis?->author ?? 'Unknown Item';
                                 $itemType = $fine->borrow->book ? 'Book' : ($fine->borrow->journal ? 'Periodical' : ($fine->borrow->thesis ? 'Thesis' : 'Unknown'));
                                 $borrower = $fine->borrow->member->user->full_name ?? 'Unknown';
                             @endphp

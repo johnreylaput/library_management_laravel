@@ -42,7 +42,7 @@ class SendBorrowDueNotifications extends Command
                 continue;
             }
 
-            $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->title ?? 'Unknown Item';
+            $itemTitle = $borrow->book?->title ?? $borrow->journal?->title ?? $borrow->thesis?->author ?? 'Unknown Item';
             $status = $dueDate->lt($today) ? 'Overdue' : 'Due Soon';
 
             Mail::to($user->email)->send(new BorrowDueMail(
