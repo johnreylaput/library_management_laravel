@@ -18,7 +18,7 @@
         </div>
         <div class="col-md-3 mb-2">
             <div class="detail-label">Date Published</div>
-            <div class="detail-value">{{ $thesis->date_published ?? 'N/A' }}</div>
+            <div class="detail-value">{{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : 'N/A' }}</div>
         </div>
         <div class="col-md-3 mb-2">
             <div class="detail-label">Pages</div>

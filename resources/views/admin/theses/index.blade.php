@@ -57,7 +57,7 @@
                 <td>{{ $thesis->author ?? '-' }}</td>
                 <td>{{ $thesis->research ?? '-' }}</td>
                 <td>{{ $thesis->institution ?? '-' }}</td>
-                <td>{{ $thesis->date_published ?? '-' }}</td>
+                <td>{{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : '-' }}</td>
                 <td>{{ $thesis->added_by ?? '-' }}</td>
                 <td>
                     @php

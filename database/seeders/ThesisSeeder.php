@@ -169,6 +169,16 @@ class ThesisSeeder extends Seeder
             'Masters' => 'Masteral Thesis',
         ];
 
+        $dateMap = [
+            2015 => '2015-06-15',
+            2018 => '2018-08-20',
+            2016 => '2016-07-10',
+            2019 => '2019-05-12',
+            2020 => '2020-03-25',
+            2017 => '2017-09-18',
+            2025 => '2025-01-15',
+        ];
+
         foreach ($theses as $thesisData) {
             $category = $categories->get($thesisData['category']);
             $author = $authors->get($thesisData['author']);
@@ -183,7 +193,7 @@ class ThesisSeeder extends Seeder
                     [
                         'author' => $thesisData['author'],
                         'research' => $researchMap[$thesisData['thesis_type']] ?? $thesisData['thesis_type'],
-                        'date_published' => $thesisData['year'],
+                        'date_published' => $dateMap[$thesisData['year']] ?? $thesisData['year'],
                         'pages' => $thesisData['pages'],
                         'category_id' => $category->id,
                         'author_id' => $author->id,

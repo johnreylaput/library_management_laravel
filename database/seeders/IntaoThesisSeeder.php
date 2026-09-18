@@ -54,7 +54,7 @@ class IntaoThesisSeeder extends Seeder
                 [
                     'author' => $thesisData['author'],
                     'research' => $researchMap[$thesisData['thesis_type']] ?? $thesisData['thesis_type'],
-                    'date_published' => $thesisData['year'],
+                    'date_published' => '2025-01-15',
                     'pages' => $thesisData['pages'],
                     'category_id' => $category->id,
                     'author_id' => $author->id,

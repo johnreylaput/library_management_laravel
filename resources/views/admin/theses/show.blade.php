@@ -16,7 +16,7 @@
                 <p class="mb-1"><strong>Author:</strong> {{ $thesis->author ?? '-' }}</p>
                 <p class="mb-1"><strong>Research:</strong> {{ $thesis->research ?? '-' }}</p>
                 <p class="mb-1"><strong>Institution:</strong> {{ $thesis->institution ?? '-' }}</p>
-                <p class="mb-1"><strong>Date Published:</strong> {{ $thesis->date_published ?? '-' }}</p>
+                <p class="mb-1"><strong>Date Published:</strong> {{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : '-' }}</p>
                 <p class="mb-1"><strong>Pages:</strong> {{ $thesis->pages ?? '-' }}</p>
                 <p class="mb-1"><strong>Category:</strong> {{ $thesis->category->category_name ?? '-' }}</p>
                 <p class="mb-1"><strong>Advisor:</strong> {{ $thesis->advisor->author_name ?? '-' }}</p>
@@ -64,7 +64,7 @@
             </div>
             <div class="col-12 mb-3">
                 <label class="form-label fw-bold">Full Record</label>
-                <textarea class="form-control" rows="3" readonly>{{ $thesis->author ?? '' }} ({{ $thesis->date_published ?? '' }}). {{ $thesis->title }}. {{ $thesis->institution ?? '' }}. {{ $thesis->research ?? '' }}.</textarea>
+                <textarea class="form-control" rows="3" readonly>{{ $thesis->author ?? '' }} ({{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('Y') : '' }}). {{ $thesis->title }}. {{ $thesis->institution ?? '' }}. {{ $thesis->research ?? '' }}.</textarea>
             </div>
             <div class="col-12 mb-3">
                 <label class="form-label fw-bold">Summary</label>
@@ -83,7 +83,7 @@
                     </div>
                     <div class="col-md-2 mb-2">
                         <label class="form-label">Date Published</label>
-                        <input type="text" class="form-control" value="{{ $thesis->date_published ?? '-' }}" readonly>
+                        <input type="text" class="form-control" value="{{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : '-' }}" readonly>
                     </div>
                     <div class="col-md-2 mb-2">
                         <label class="form-label">Pages</label>

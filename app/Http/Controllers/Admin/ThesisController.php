@@ -72,20 +72,20 @@ class ThesisController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'author' => 'nullable|string|max:255',
-            'research' => 'nullable|in:Thesis,Capstone,Feasibility Study,Marketing Research,Undergraduate,Masteral Thesis,Doctoral Thesis,University Research',
+            'author' => 'required|string|max:255',
+            'research' => 'required|in:Thesis,Capstone,Feasibility Study,Marketing Research,Undergraduate Thesis,Masteral Thesis,Doctoral Thesis,University Research',
             'institution' => 'nullable|string|max:255',
-            'date_published' => 'nullable|digits:4|integer',
+            'date_published' => 'required|date',
             'pages' => 'nullable|string|max:50',
             'category_id' => 'nullable|exists:categories,id',
             'author_id' => 'nullable|exists:authors,id',
             'publisher_id' => 'nullable|exists:publishers,id',
             'link' => 'nullable|url|max:500',
-            'summary' => 'nullable|string',
+            'summary' => 'required|string',
             'description' => 'nullable|string',
             'database_collection' => 'nullable|string|max:255',
             'availability' => 'nullable|in:Available,Unavailable,Archived',
-            'subjects_keywords' => 'nullable|string|max:500',
+            'subjects_keywords' => 'required|string|max:500',
         ]);
 
         $validated['status'] = 'Available';
