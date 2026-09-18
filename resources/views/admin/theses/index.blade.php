@@ -40,11 +40,9 @@
     <thead class="table-dark">
         <tr>
             <th>Title</th>
-            <th>Authors</th>
             <th>Author</th>
             <th>Research</th>
             <th>Institution</th>
-            <th>Year</th>
             <th>Date Published</th>
             <th>Added By</th>
             <th>Edited By</th>
@@ -56,11 +54,9 @@
         @foreach($theses as $thesis)
             <tr>
                 <td>{{ $thesis->title }}</td>
-                <td>{{ Str::limit($thesis->authors, 30) }}</td>
                 <td>{{ $thesis->author ?? '-' }}</td>
                 <td>{{ $thesis->research ?? '-' }}</td>
                 <td>{{ $thesis->institution ?? '-' }}</td>
-                <td>{{ $thesis->year ?? '-' }}</td>
                 <td>{{ $thesis->date_published ?? '-' }}</td>
                 <td>{{ $thesis->added_by ?? '-' }}</td>
                 <td>

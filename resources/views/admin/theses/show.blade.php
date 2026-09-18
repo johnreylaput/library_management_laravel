@@ -13,12 +13,9 @@
             </div>
             <div class="col-md-9">
                 <h2>{{ $thesis->title }}</h2>
-                <p class="mb-1"><strong>Author(s):</strong> {{ $thesis->authors ?? '-' }}</p>
                 <p class="mb-1"><strong>Author:</strong> {{ $thesis->author ?? '-' }}</p>
                 <p class="mb-1"><strong>Research:</strong> {{ $thesis->research ?? '-' }}</p>
-                <p class="mb-1"><strong>Thesis Type:</strong> {{ $thesis->thesis_type ?? '-' }}</p>
                 <p class="mb-1"><strong>Institution:</strong> {{ $thesis->institution ?? '-' }}</p>
-                <p class="mb-1"><strong>Year:</strong> {{ $thesis->year ?? '-' }}</p>
                 <p class="mb-1"><strong>Date Published:</strong> {{ $thesis->date_published ?? '-' }}</p>
                 <p class="mb-1"><strong>Pages:</strong> {{ $thesis->pages ?? '-' }}</p>
                 <p class="mb-1"><strong>Category:</strong> {{ $thesis->category->category_name ?? '-' }}</p>
@@ -32,10 +29,7 @@
                 @if($thesis->summary)
                     <p class="mt-3"><strong>Summary:</strong><br>{{ nl2br(e($thesis->summary)) }}</p>
                 @endif
-                @if($thesis->abstract)
-                    <p class="mt-3"><strong>Abstract:</strong><br>{{ nl2br(e($thesis->abstract)) }}</p>
-                @endif
-                 @if($thesis->description)
+                @if($thesis->description)
                     <p class="mt-3"><strong>Description:</strong><br>{{ nl2br(e($thesis->description)) }}</p>
                 @endif
                 <p class="mt-3"><strong>Added By:</strong> {{ $thesis->added_by ?? '-' }}</p>
@@ -65,16 +59,16 @@
                 <input type="text" class="form-control" value="{{ $thesis->title }}" readonly>
             </div>
             <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Author(s)</label>
-                <input type="text" class="form-control" value="{{ $thesis->authors ?? '-' }}" readonly>
+                <label class="form-label fw-bold">Author</label>
+                <input type="text" class="form-control" value="{{ $thesis->author ?? '-' }}" readonly>
             </div>
             <div class="col-12 mb-3">
                 <label class="form-label fw-bold">Full Record</label>
-                <textarea class="form-control" rows="3" readonly>{{ $thesis->authors ?? '' }} ({{ $thesis->date_published ?? $thesis->year ?? '' }}). {{ $thesis->title }}. {{ $thesis->institution ?? '' }}. {{ $thesis->research ?? $thesis->thesis_type ?? '' }}.</textarea>
+                <textarea class="form-control" rows="3" readonly>{{ $thesis->author ?? '' }} ({{ $thesis->date_published ?? '' }}). {{ $thesis->title }}. {{ $thesis->institution ?? '' }}. {{ $thesis->research ?? '' }}.</textarea>
             </div>
             <div class="col-12 mb-3">
-                <label class="form-label fw-bold">Summary / Abstract</label>
-                <textarea class="form-control" rows="4" readonly>{{ $thesis->summary ?? $thesis->abstract ?? '-' }}</textarea>
+                <label class="form-label fw-bold">Summary</label>
+                <textarea class="form-control" rows="4" readonly>{{ $thesis->summary ?? '-' }}</textarea>
             </div>
             <div class="col-12 mb-3">
                 <label class="form-label fw-bold">Thesis Information</label>
@@ -84,12 +78,12 @@
                         <input type="text" class="form-control" value="{{ $thesis->institution ?? '-' }}" readonly>
                     </div>
                     <div class="col-md-3 mb-2">
-                        <label class="form-label">Thesis Type</label>
-                        <input type="text" class="form-control" value="{{ $thesis->thesis_type ?? '-' }}" readonly>
+                        <label class="form-label">Research</label>
+                        <input type="text" class="form-control" value="{{ $thesis->research ?? '-' }}" readonly>
                     </div>
                     <div class="col-md-2 mb-2">
-                        <label class="form-label">Year</label>
-                        <input type="text" class="form-control" value="{{ $thesis->year ?? '-' }}" readonly>
+                        <label class="form-label">Date Published</label>
+                        <input type="text" class="form-control" value="{{ $thesis->date_published ?? '-' }}" readonly>
                     </div>
                     <div class="col-md-2 mb-2">
                         <label class="form-label">Pages</label>

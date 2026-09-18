@@ -106,7 +106,6 @@ class SearchController extends Controller
 
                 $thesisQuery->where(function ($q) use ($query) {
                     $q->where('title', 'like', "%{$query}%")
-                      ->orWhere('authors', 'like', "%{$query}%")
                       ->orWhere('institution', 'like', "%{$query}%")
                       ->orWhere('research', 'like', "%{$query}%")
                       ->orWhere('subjects_keywords', 'like', "%{$query}%")
@@ -221,7 +220,6 @@ class SearchController extends Controller
 
                 $thesisQuery->where(function ($q) use ($query) {
                     $q->where('title', 'like', "%{$query}%")
-                      ->orWhere('authors', 'like', "%{$query}%")
                       ->orWhere('institution', 'like', "%{$query}%")
                       ->orWhere('research', 'like', "%{$query}%")
                       ->orWhere('subjects_keywords', 'like', "%{$query}%")

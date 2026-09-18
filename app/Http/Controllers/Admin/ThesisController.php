@@ -32,7 +32,7 @@ class ThesisController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('authors', 'like', "%{$search}%")
+                  ->orWhere('author', 'like', "%{$search}%")
                   ->orWhere('institution', 'like', "%{$search}%")
                   ->orWhere('research', 'like', "%{$search}%")
                   ->orWhere('subjects_keywords', 'like', "%{$search}%");
@@ -72,24 +72,19 @@ class ThesisController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'authors' => 'nullable|string',
             'author' => 'nullable|string|max:255',
-            'thesis_type' => 'nullable|string|max:100',
             'research' => 'nullable|in:Thesis,Capstone,Feasibility Study,Marketing Research,Undergraduate,Masteral Thesis,Doctoral Thesis,University Research',
             'institution' => 'nullable|string|max:255',
-            'year' => 'nullable|digits:4|integer',
             'date_published' => 'nullable|digits:4|integer',
             'pages' => 'nullable|string|max:50',
             'category_id' => 'nullable|exists:categories,id',
             'author_id' => 'nullable|exists:authors,id',
             'publisher_id' => 'nullable|exists:publishers,id',
             'link' => 'nullable|url|max:500',
-            'abstract' => 'nullable|string',
             'summary' => 'nullable|string',
             'description' => 'nullable|string',
             'database_collection' => 'nullable|string|max:255',
             'availability' => 'nullable|in:Available,Unavailable,Archived',
-            'subjects' => 'nullable|string|max:500',
             'subjects_keywords' => 'nullable|string|max:500',
         ]);
 
@@ -114,25 +109,20 @@ class ThesisController extends Controller
         $thesis = Thesis::findOrFail($id);
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'authors' => 'nullable|string',
             'author' => 'nullable|string|max:255',
-            'thesis_type' => 'nullable|string|max:100',
             'research' => 'nullable|in:Thesis,Capstone,Feasibility Study,Marketing Research,Undergraduate,Masteral Thesis,Doctoral Thesis,University Research',
             'institution' => 'nullable|string|max:255',
-            'year' => 'nullable|digits:4|integer',
             'date_published' => 'nullable|digits:4|integer',
             'pages' => 'nullable|string|max:50',
             'category_id' => 'nullable|exists:categories,id',
             'author_id' => 'nullable|exists:authors,id',
             'publisher_id' => 'nullable|exists:publishers,id',
             'link' => 'nullable|url|max:500',
-            'abstract' => 'nullable|string',
             'summary' => 'nullable|string',
             'description' => 'nullable|string',
             'status' => 'nullable|in:Available,Unavailable,Archived',
             'database_collection' => 'nullable|string|max:255',
             'availability' => 'nullable|in:Available,Unavailable,Archived',
-            'subjects' => 'nullable|string|max:500',
             'subjects_keywords' => 'nullable|string|max:500',
         ]);
 
