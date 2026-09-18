@@ -177,18 +177,23 @@ class ThesisSeeder extends Seeder
                     ],
                     [
                         'authors' => $thesisData['authors'],
+                        'author' => $thesisData['author'],
                         'thesis_type' => $thesisData['thesis_type'],
+                        'research' => $thesisData['thesis_type'],
                         'year' => $thesisData['year'],
+                        'date_published' => $thesisData['year'],
                         'pages' => $thesisData['pages'],
                         'category_id' => $category->id,
                         'author_id' => $author->id,
                         'publisher_id' => $publisher->id,
                         'link' => $thesisData['link'],
                         'abstract' => $thesisData['abstract'],
+                        'summary' => $thesisData['abstract'],
                         'description' => $thesisData['description'],
                         'database_collection' => $thesisData['database_collection'],
                         'availability' => $thesisData['availability'],
                         'subjects' => $thesisData['subjects'],
+                        'subjects_keywords' => $thesisData['subjects'],
                         'status' => $thesisData['status'],
                     ]
                 );

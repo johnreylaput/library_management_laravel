@@ -133,9 +133,11 @@
                 <tr>
                     <th>Title</th>
                     <th>Authors</th>
+                    <th>Author</th>
+                    <th>Research</th>
                     <th>Institution</th>
-                    <th>Thesis Type</th>
                     <th>Year</th>
+                    <th>Date Published</th>
                     <th>Category</th>
                     <th>Deleted At</th>
                     <th>Actions</th>
@@ -146,9 +148,11 @@
                     <tr>
                         <td>{{ $thesis->title ?? '-' }}</td>
                         <td>{{ $thesis->authors ?? '-' }}</td>
+                        <td>{{ $thesis->author ?? '-' }}</td>
+                        <td>{{ $thesis->research ?? '-' }}</td>
                         <td>{{ $thesis->institution ?? '-' }}</td>
-                        <td>{{ $thesis->thesis_type ?? '-' }}</td>
                         <td>{{ $thesis->year ?? '-' }}</td>
+                        <td>{{ $thesis->date_published ?? '-' }}</td>
                         <td>{{ $thesis->category->category_name ?? '-' }}</td>
                         <td>{{ $thesis->deleted_at?->format('M d, Y h:i A') ?? '-' }}</td>
                         <td>
@@ -168,7 +172,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="text-center text-muted py-4">No recently deleted theses.</td>
+                        <td colspan="10" class="text-center text-muted py-4">No recently deleted theses.</td>
                     </tr>
                 @endforelse
             </tbody>

@@ -102,15 +102,14 @@ class SearchController extends Controller
             }
 
             if ($type === 'all' || $type === 'theses') {
-                $thesisQuery = Thesis::with(['category', 'author', 'publisher']);
+                $thesisQuery = Thesis::with(['category', 'advisor', 'publisher']);
 
                 $thesisQuery->where(function ($q) use ($query) {
                     $q->where('title', 'like', "%{$query}%")
                       ->orWhere('authors', 'like', "%{$query}%")
                       ->orWhere('institution', 'like', "%{$query}%")
-                      ->orWhere('thesis_type', 'like', "%{$query}%")
-                      ->orWhere('year', 'like', "%{$query}%")
-                      ->orWhere('subjects', 'like', "%{$query}%")
+                      ->orWhere('research', 'like', "%{$query}%")
+                      ->orWhere('subjects_keywords', 'like', "%{$query}%")
                       ->orWhere('database_collection', 'like', "%{$query}%");
                 });
 
@@ -141,7 +140,7 @@ class SearchController extends Controller
                     ->get();
             }
             if ($type === 'all' || $type === 'theses') {
-                $theses = Thesis::with(['category', 'author', 'publisher'])
+                $theses = Thesis::with(['category', 'advisor', 'publisher'])
                     ->where('category_id', $categoryId)
                     ->get();
             }
@@ -153,7 +152,7 @@ class SearchController extends Controller
                 $journals = Journal::with(['category', 'publisher'])->get();
             }
             if ($type === 'all' || $type === 'theses') {
-                $theses = Thesis::with(['category', 'author', 'publisher'])->get();
+                $theses = Thesis::with(['category', 'advisor', 'publisher'])->get();
             }
         }
 
@@ -218,15 +217,14 @@ class SearchController extends Controller
             }
 
             if ($type === 'all' || $type === 'theses') {
-                $thesisQuery = Thesis::with(['category', 'author', 'publisher']);
+                $thesisQuery = Thesis::with(['category', 'advisor', 'publisher']);
 
                 $thesisQuery->where(function ($q) use ($query) {
                     $q->where('title', 'like', "%{$query}%")
                       ->orWhere('authors', 'like', "%{$query}%")
                       ->orWhere('institution', 'like', "%{$query}%")
-                      ->orWhere('thesis_type', 'like', "%{$query}%")
-                      ->orWhere('year', 'like', "%{$query}%")
-                      ->orWhere('subjects', 'like', "%{$query}%")
+                      ->orWhere('research', 'like', "%{$query}%")
+                      ->orWhere('subjects_keywords', 'like', "%{$query}%")
                       ->orWhere('database_collection', 'like', "%{$query}%");
                 });
 
@@ -243,7 +241,7 @@ class SearchController extends Controller
                     ->get();
             }
             if ($type === 'all' || $type === 'theses') {
-                $theses = Thesis::with(['category', 'author', 'publisher'])
+                $theses = Thesis::with(['category', 'advisor', 'publisher'])
                     ->where('category_id', $categoryId)
                     ->get();
             }

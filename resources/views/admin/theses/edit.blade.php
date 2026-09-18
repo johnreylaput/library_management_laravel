@@ -16,9 +16,17 @@
             <label>Author(s)</label>
             <input type="text" name="authors" class="form-control" value="{{ old('authors', $thesis->authors) }}" placeholder="e.g. Smith, John; Doe, Jane">
         </div>
+        <div class="col-md-6 mb-3">
+            <label>Author</label>
+            <input type="text" name="author" class="form-control" value="{{ old('author', $thesis->author) }}" placeholder="e.g. John Smith">
+        </div>
         <div class="col-md-4 mb-3">
             <label>Thesis Type</label>
             <input type="text" name="thesis_type" class="form-control" value="{{ old('thesis_type', $thesis->thesis_type) }}" placeholder="e.g. Master's, PhD">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label>Research</label>
+            <input type="text" name="research" class="form-control" value="{{ old('research', $thesis->research) }}" placeholder="e.g. PhD, Masters">
         </div>
         <div class="col-md-4 mb-3">
             <label>Institution</label>
@@ -27,6 +35,10 @@
         <div class="col-md-4 mb-3">
             <label>Year</label>
             <input type="number" name="year" class="form-control" value="{{ old('year', $thesis->year) }}" placeholder="e.g. 2024" min="1900" max="2099">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label>Date Published</label>
+            <input type="number" name="date_published" class="form-control" value="{{ old('date_published', $thesis->date_published) }}" placeholder="e.g. 2024" min="1900" max="2099">
         </div>
         <div class="col-md-6 mb-3">
             <label>Pages</label>
@@ -85,9 +97,17 @@
             <label>Subject / Keywords</label>
             <input type="text" name="subjects" class="form-control" value="{{ old('subjects', $thesis->subjects) }}" placeholder="e.g. Psychology, Education">
         </div>
+        <div class="col-md-12 mb-3">
+            <label>Subjects / Keywords</label>
+            <input type="text" name="subjects_keywords" class="form-control" value="{{ old('subjects_keywords', $thesis->subjects_keywords) }}" placeholder="e.g. Psychology, Education">
+        </div>
         <div class="col-12 mb-3">
             <label>Abstract</label>
             <textarea name="abstract" class="form-control" rows="4">{{ old('abstract', $thesis->abstract) }}</textarea>
+        </div>
+        <div class="col-12 mb-3">
+            <label>Summary</label>
+            <textarea name="summary" class="form-control" rows="4">{{ old('summary', $thesis->summary) }}</textarea>
         </div>
         <div class="col-12 mb-3">
             <label>Description</label>

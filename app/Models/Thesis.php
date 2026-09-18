@@ -13,20 +13,25 @@ class Thesis extends Model
     protected $fillable = [
         'title',
         'authors',
+        'author',
         'thesis_type',
+        'research',
         'institution',
         'year',
+        'date_published',
         'pages',
         'category_id',
         'author_id',
         'publisher_id',
         'link',
         'abstract',
+        'summary',
         'description',
         'status',
         'database_collection',
         'availability',
         'subjects',
+        'subjects_keywords',
         'added_by',
         'edited_by',
     ];
@@ -36,7 +41,7 @@ class Thesis extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function author(): BelongsTo
+    public function advisor(): BelongsTo
     {
         return $this->belongsTo(Author::class);
     }

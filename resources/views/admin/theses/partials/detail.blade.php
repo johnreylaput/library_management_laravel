@@ -5,6 +5,18 @@
             <div class="detail-value">{{ $thesis->authors ?? 'N/A' }}</div>
         </div>
         <div class="col-md-6 mb-2">
+            <div class="detail-label">Author</div>
+            <div class="detail-value">{{ $thesis->author ?? 'N/A' }}</div>
+        </div>
+        <div class="col-md-6 mb-2">
+            <div class="detail-label">Research</div>
+            <div class="detail-value">{{ $thesis->research ?? 'N/A' }}</div>
+        </div>
+        <div class="col-md-6 mb-2">
+            <div class="detail-label">Thesis Type</div>
+            <div class="detail-value">{{ $thesis->thesis_type ?? 'N/A' }}</div>
+        </div>
+        <div class="col-md-6 mb-2">
             <div class="detail-label">Title of Thesis</div>
             <div class="detail-value">{{ $thesis->title }}</div>
         </div>
@@ -13,12 +25,12 @@
             <div class="detail-value">{{ $thesis->institution ?? 'N/A' }}</div>
         </div>
         <div class="col-md-3 mb-2">
-            <div class="detail-label">Thesis Type</div>
-            <div class="detail-value">{{ $thesis->thesis_type ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-3 mb-2">
             <div class="detail-label">Year</div>
             <div class="detail-value">{{ $thesis->year ?? 'N/A' }}</div>
+        </div>
+        <div class="col-md-3 mb-2">
+            <div class="detail-label">Date Published</div>
+            <div class="detail-value">{{ $thesis->date_published ?? 'N/A' }}</div>
         </div>
         <div class="col-md-3 mb-2">
             <div class="detail-label">Pages</div>
@@ -38,11 +50,11 @@
         </div>
         <div class="col-md-6 mb-2">
             <div class="detail-label">Advisor</div>
-            <div class="detail-value">{{ $thesis->author->author_name ?? 'N/A' }}</div>
+            <div class="detail-value">{{ $thesis->advisor->author_name ?? 'N/A' }}</div>
         </div>
         <div class="col-md-6 mb-2">
             <div class="detail-label">Subject / Keywords</div>
-            <div class="detail-value">{{ $thesis->subjects ?? ($thesis->category->category_name ?? 'N/A') }}</div>
+            <div class="detail-value">{{ $thesis->subjects_keywords ?? $thesis->subjects ?? ($thesis->category->category_name ?? 'N/A') }}</div>
         </div>
         <div class="col-md-6 mb-2">
             <div class="detail-label">Database / Collection</div>
@@ -73,6 +85,13 @@
         @endif
     </div>
 </div>
+
+@if($thesis->summary)
+    <div class="detail-section">
+        <div class="detail-label">Summary</div>
+        <div class="abstract-box">{{ nl2br(e($thesis->summary)) }}</div>
+    </div>
+@endif
 
 @if($thesis->abstract)
     <div class="detail-section">

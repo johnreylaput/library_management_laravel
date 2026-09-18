@@ -65,7 +65,7 @@ class ReservationController extends Controller
             $title = $item->title;
         } elseif ($request->thesis_id) {
             $type = 'thesis';
-            $item = Thesis::with(['category', 'author', 'publisher'])->findOrFail($request->thesis_id);
+            $item = Thesis::with(['category', 'advisor', 'publisher'])->findOrFail($request->thesis_id);
             $title = $item->title;
         } else {
             return back()->with('error', 'No item selected for reservation.');

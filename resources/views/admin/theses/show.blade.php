@@ -14,18 +14,24 @@
             <div class="col-md-9">
                 <h2>{{ $thesis->title }}</h2>
                 <p class="mb-1"><strong>Author(s):</strong> {{ $thesis->authors ?? '-' }}</p>
+                <p class="mb-1"><strong>Author:</strong> {{ $thesis->author ?? '-' }}</p>
+                <p class="mb-1"><strong>Research:</strong> {{ $thesis->research ?? '-' }}</p>
                 <p class="mb-1"><strong>Thesis Type:</strong> {{ $thesis->thesis_type ?? '-' }}</p>
                 <p class="mb-1"><strong>Institution:</strong> {{ $thesis->institution ?? '-' }}</p>
                 <p class="mb-1"><strong>Year:</strong> {{ $thesis->year ?? '-' }}</p>
+                <p class="mb-1"><strong>Date Published:</strong> {{ $thesis->date_published ?? '-' }}</p>
                 <p class="mb-1"><strong>Pages:</strong> {{ $thesis->pages ?? '-' }}</p>
                 <p class="mb-1"><strong>Category:</strong> {{ $thesis->category->category_name ?? '-' }}</p>
-                <p class="mb-1"><strong>Advisor:</strong> {{ $thesis->author->author_name ?? '-' }}</p>
+                <p class="mb-1"><strong>Advisor:</strong> {{ $thesis->advisor->author_name ?? '-' }}</p>
                 <p class="mb-1"><strong>Publisher:</strong> {{ $thesis->publisher->publisher_name ?? '-' }}</p>
                 <p class="mb-1"><strong>Status:</strong>
                     <span class="badge bg-{{ $thesis->status === 'Available' ? 'success' : 'danger' }}">
                         {{ $thesis->status }}
                     </span>
                 </p>
+                @if($thesis->summary)
+                    <p class="mt-3"><strong>Summary:</strong><br>{{ nl2br(e($thesis->summary)) }}</p>
+                @endif
                 @if($thesis->abstract)
                     <p class="mt-3"><strong>Abstract:</strong><br>{{ nl2br(e($thesis->abstract)) }}</p>
                 @endif
@@ -64,11 +70,11 @@
             </div>
             <div class="col-12 mb-3">
                 <label class="form-label fw-bold">Full Record</label>
-                <textarea class="form-control" rows="3" readonly>{{ $thesis->authors ?? '' }} ({{ $thesis->year ?? '' }}). {{ $thesis->title }}. {{ $thesis->institution ?? '' }}. {{ $thesis->thesis_type ?? '' }}.</textarea>
+                <textarea class="form-control" rows="3" readonly>{{ $thesis->authors ?? '' }} ({{ $thesis->date_published ?? $thesis->year ?? '' }}). {{ $thesis->title }}. {{ $thesis->institution ?? '' }}. {{ $thesis->research ?? $thesis->thesis_type ?? '' }}.</textarea>
             </div>
             <div class="col-12 mb-3">
-                <label class="form-label fw-bold">Abstract / Summary</label>
-                <textarea class="form-control" rows="4" readonly>{{ $thesis->abstract ?? '-' }}</textarea>
+                <label class="form-label fw-bold">Summary / Abstract</label>
+                <textarea class="form-control" rows="4" readonly>{{ $thesis->summary ?? $thesis->abstract ?? '-' }}</textarea>
             </div>
             <div class="col-12 mb-3">
                 <label class="form-label fw-bold">Thesis Information</label>

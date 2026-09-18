@@ -73,7 +73,7 @@ class ReportController extends Controller
             ->limit(10)
             ->get()
             ->map(function ($item) {
-                $thesis = Thesis::with(['category', 'author', 'publisher'])->find($item->thesis_id);
+                $thesis = Thesis::with(['category', 'advisor', 'publisher'])->find($item->thesis_id);
                 return [
                     'thesis' => $thesis,
                     'count' => $item->borrow_count,
