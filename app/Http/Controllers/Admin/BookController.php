@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -61,10 +62,16 @@ class BookController extends Controller
         $validated = $request->validate($this->bookRules());
         $auditUser = $this->auditUser();
 
-        Book::create(array_merge($validated, [
+        $data = array_merge($validated, [
             'added_by' => $auditUser,
             'edited_by' => $auditUser,
-        ]));
+        ]);
+
+        if ($request->hasFile('cover_image')) {
+            $data['cover_image'] = $this->storeCoverImage($request->file('cover_image'));
+        }
+
+        Book::create($data);
 
         return redirect()->route('books.index')->with('success', 'Book created successfully.');
     }
@@ -81,7 +88,14 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
         $validated = $request->validate($this->bookRules());
 
-        $book->update(array_merge($validated, ['edited_by' => $this->auditUser()]));
+        $data = array_merge($validated, ['edited_by' => $this->auditUser()]);
+
+        if ($request->hasFile('cover_image')) {
+            $this->deleteCoverImage($book);
+            $data['cover_image'] = $this->storeCoverImage($request->file('cover_image'));
+        }
+
+        $book->update($data);
 
         return redirect()->route('books.index')->with('success', 'Book updated successfully.');
     }
@@ -95,7 +109,20 @@ class BookController extends Controller
             'year' => ['bail', 'required', 'integer', 'between:1,' . now()->year],
             'subject' => ['bail', 'required', 'string', 'max:255', 'not_regex:/^\s*$/'],
             'publication' => ['bail', 'required', 'in:Foreign,Local'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
+    }
+
+    private function storeCoverImage($file): string
+    {
+        return $file->store('books/covers', 'public');
+    }
+
+    private function deleteCoverImage(Book $book): void
+    {
+        if ($book->cover_image && Storage::disk('public')->exists($book->cover_image)) {
+            Storage::disk('public')->delete($book->cover_image);
+        }
     }
 
     private function auditUser(): string
@@ -107,9 +134,9 @@ class BookController extends Controller
 
     public function destroy($id)
     {
-        if (Auth::user()->role === 'Working.Student') {
-            $book = Book::findOrFail($id);
+        $book = Book::findOrFail($id);
 
+        if (Auth::user()->role === 'Working.Student') {
             $pendingRequest = DeletionRequest::where('item_type', Book::class)
                 ->where('item_id', $book->id)
                 ->where('status', 'Pending')
@@ -123,8 +150,8 @@ class BookController extends Controller
                 'user_id' => Auth::id(),
                 'item_type' => Book::class,
                 'item_id' => $book->id,
-            'title' => $book->title,
-            'status' => 'Pending',
+                'title' => $book->title,
+                'status' => 'Pending',
             ]);
 
             $staffUsers = User::whereIn('role', ['Admin', 'Librarian'])->get();
@@ -132,8 +159,8 @@ class BookController extends Controller
                 Notification::create([
                     'user_id' => $staff->id,
                     'type' => 'deletion_request',
-                'title' => 'New Deletion Request',
-                'message' => Auth::user()->full_name . ' requested deletion of book "' . $book->title . '" (ID: ' . $book->id . ')',
+                    'title' => 'New Deletion Request',
+                    'message' => Auth::user()->full_name . ' requested deletion of book "' . $book->title . '" (ID: ' . $book->id . ')',
                     'sent_by' => Auth::id(),
                 ]);
             }
@@ -141,7 +168,6 @@ class BookController extends Controller
             return back()->with('info', 'Deletion request for "' . $book->title . '" has been submitted and is awaiting librarian approval.');
         }
 
-        $book = Book::findOrFail($id);
         $book->delete();
 
         return redirect()->route('books.index')->with('success', 'Book deleted successfully.');

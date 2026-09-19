@@ -8,6 +8,7 @@ use App\Models\Book;
 use App\Models\Journal;
 use App\Models\Thesis;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class RecentlyDeletedController extends Controller
 {
@@ -118,6 +119,10 @@ class RecentlyDeletedController extends Controller
         ]);
 
         $item->forceDelete();
+
+        if ($type === 'book' && $item->cover_image && Storage::disk('public')->exists($item->cover_image)) {
+            Storage::disk('public')->delete($item->cover_image);
+        }
 
         return redirect()
             ->route('recently-deleted.index')

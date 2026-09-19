@@ -16,6 +16,7 @@ class Book extends Model
         'year',
         'subject',
         'publication',
+        'cover_image',
         'added_by',
         'edited_by',
     ];
@@ -25,6 +26,15 @@ class Book extends Model
         return [
             'year' => 'integer',
         ];
+    }
+
+    public function getCoverImageUrlAttribute(): ?string
+    {
+        if ($this->cover_image) {
+            return asset('storage/' . $this->cover_image);
+        }
+
+        return null;
     }
 
 }

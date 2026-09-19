@@ -15,41 +15,49 @@
     </div>
 </form>
 
-<table class="table table-striped table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>Author</th>
-            <th>Title</th>
-            <th>Edition</th>
-            <th>Year</th>
-            <th>Subject</th>
-            <th>Publication</th>
-            <th>Added By</th>
-            <th>Edited By</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($books as $book)
-            <tr>
-                <td>{{ $book->author ?? '-' }}</td>
-                <td>{{ $book->title ?? '-' }}</td>
-                <td>{{ $book->edition ?? '-' }}</td>
-                <td>{{ $book->year ?? '-' }}</td>
-                <td>{{ $book->subject ?? '-' }}</td>
-                <td>{{ $book->publication ?? '-' }}</td>
-                <td>{{ $book->added_by ?? '-' }}</td>
-                <td>{{ $book->edited_by ?? '-' }}</td>
-                <td>
-                    <a href="{{ route('member.books.show', $book->id) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i></a>
-                    <a href="{{ route('books.edit', $book->id) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i></a>
-                    <form action="{{ route('books.destroy', $book->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this book?')">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+    @forelse($books as $book)
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-img-top text-center p-2" style="min-height: 200px; display: flex; align-items: center; justify-content: center;">
+                    @if($book->cover_image)
+                        <img src="{{ asset('storage/' . $book->cover_image) }}" alt="Book Cover" class="img-fluid border rounded" style="max-height: 200px; max-width: 150px; object-fit: contain; object-position: center;">
+                    @else
+                        <div class="text-center text-muted fst-italic" style="min-height: 150px; min-width: 120px; display: flex; align-items: center; justify-content: center;">
+                            No Cover Available
+                        </div>
+                    @endif
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="fw-bold">Author:</span> {{ $book->author ?? '-' }}
+                    </div>
+                    <div class="mb-2">
+                        <span class="fw-bold">Title:</span> {{ $book->title ?? '-' }}
+                    </div>
+                    <div class="mb-2">
+                        <span class="fw-bold">Edition:</span> {{ $book->edition ?? '-' }}
+                    </div>
+                    <div class="mb-2">
+                        <span class="fw-bold">Year:</span> {{ $book->year ?? '-' }}
+                    </div>
+                    <div class="mb-2">
+                        <span class="fw-bold">Subject:</span> {{ $book->subject ?? '-' }}
+                    </div>
+                    <div class="mb-3">
+                        <span class="fw-bold">Publication:</span> {{ $book->publication ?? '-' }}
+                    </div>
+                    <div class="text-center mb-3">
+                        <span class="badge rounded-pill bg-secondary">{{ $book->publication ?? 'Local' }}</span>
+                    </div>
+                    <a href="{{ route('member.books.show', $book->id) }}" class="btn btn-outline-primary w-100">View Details</a>
+                </div>
+            </div>
+        </div>
+    @empty
+        <div class="col-12">
+            <p class="text-muted">No books found.</p>
+        </div>
+    @endforelse
+</div>
 @endsection
