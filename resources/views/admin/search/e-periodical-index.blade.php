@@ -273,7 +273,7 @@
                        
                     </div>
                     <div class="text-center">
-                        <span class="fw-bold text-primary banner-index-title">IN-HOUSE-PERIODICAL INDEX</span>
+                        <span class="fw-bold text-primary banner-index-title">PERIODICAL INDEX</span>
                     </div>
                     <div class="d-flex gap-2">
                         @if(Auth::check() && Auth::user()->role === 'Member')

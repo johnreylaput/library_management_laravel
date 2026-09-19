@@ -1,27 +1,31 @@
 <div class="detail-section">
     <div class="row">
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Author</div>
+        <div class="col-12 mb-2">
+            <div class="detail-label">Author:</div>
             <div class="detail-value">{{ $thesis->author ?? 'N/A' }}</div>
         </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Research</div>
+        <div class="col-12 mb-2">
+            <div class="detail-label">Research:</div>
             <div class="detail-value">{{ $thesis->research ?? 'N/A' }}</div>
         </div>
-        <div class="col-md-3 mb-2">
-            <div class="detail-label">Date Published</div>
+        <div class="col-12 mb-2">
+            <div class="detail-label">Date Published:</div>
             <div class="detail-value">{{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : 'N/A' }}</div>
         </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Subjects / Keywords</div>
+        <div class="col-12 mb-2">
+            <div class="detail-label">Subject/Keyword:</div>
             <div class="detail-value">{{ $thesis->subjects_keywords ?? 'N/A' }}</div>
         </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Added By</div>
+        <div class="col-12 mb-2">
+            <div class="detail-label">Summary:</div>
+            <div class="detail-value">{{ $thesis->summary ?? 'N/A' }}</div>
+        </div>
+        <div class="col-12 mb-2">
+            <div class="detail-label">Added By:</div>
             <div class="detail-value">{{ $thesis->added_by ?? 'N/A' }}</div>
         </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Edited By</div>
+        <div class="col-12 mb-2">
+            <div class="detail-label">Edited By:</div>
             <div class="detail-value">
                 @php
                     $editorText = $thesis->edited_by ?? 'N/A';
@@ -38,7 +42,7 @@
 
 @if($thesis->summary)
     <div class="detail-section">
-        <div class="detail-label">Summary</div>
+        <div class="detail-label">Abstract</div>
         <div class="abstract-box">{{ nl2br(e($thesis->summary)) }}</div>
     </div>
 @endif
