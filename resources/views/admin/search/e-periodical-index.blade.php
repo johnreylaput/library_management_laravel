@@ -561,9 +561,19 @@
                             </div>
                         </div>
                     @endforeach
-                
-
+                @elseif(!empty($query) && ($type === 'all' || $type === 'theses'))
+                    <div class="no-results">
+                        <i class="bi bi-file-earmark-text d-block"></i>
+                        <h4>No theses found.</h4>
+                        <p class="text-muted">No thesis records matched your search for "{{ $query }}".</p>
+                    </div>
                 @endif
+            @elseif(!empty($query) && $type === 'theses')
+                <div class="no-results">
+                    <i class="bi bi-file-earmark-text d-block"></i>
+                    <h4>No theses found.</h4>
+                    <p class="text-muted">No thesis records matched your search for "{{ $query }}".</p>
+                </div>
             @elseif(!empty($query))
                 <div class="no-results">
                     <i class="bi bi-search d-block"></i>
