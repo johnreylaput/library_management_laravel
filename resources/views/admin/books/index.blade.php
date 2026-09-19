@@ -51,6 +51,17 @@
                         <span class="badge rounded-pill bg-secondary">{{ $book->publication ?? 'Local' }}</span>
                     </div>
                     <a href="{{ route('member.books.show', $book->id) }}" class="btn btn-outline-primary w-100">View Details</a>
+                    <div class="d-flex gap-2 mt-2">
+                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-warning btn-sm w-50">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <form action="{{ route('books.destroy', $book->id) }}" method="POST" class="w-50" onsubmit="return confirm('Delete this book?')">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm w-100">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
