@@ -125,11 +125,9 @@ class BookController extends Controller
         }
     }
 
-    private function auditUser(): string
+    private function auditUser(): int
     {
-        $user = Auth::user();
-
-        return $user->full_name ?: $user->username;
+        return Auth::id();
     }
 
     public function destroy($id)
