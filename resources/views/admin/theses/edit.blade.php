@@ -4,7 +4,7 @@
 
 @section('content')
 <h2 class="mb-4">Edit Thesis</h2>
-<form method="POST" action="{{ route('theses.update', $thesis->id) }}">
+<form method="POST" action="{{ route('theses.update', $thesis->id) }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="row">
@@ -37,6 +37,16 @@
         <div class="col-12 mb-3">
             <label>Summary</label>
             <textarea name="summary" class="form-control" rows="4" required>{{ old('summary', $thesis->summary) }}</textarea>
+        </div>
+        <div class="col-12 mb-3">
+            <label>Cover Image:</label>
+            @if($thesis->cover_image)
+                <div class="mb-2">
+                    <img src="{{ asset('storage/' . $thesis->cover_image) }}" alt="Current Cover" class="img-thumbnail" style="max-height: 150px;">
+                    <div class="form-text">Leave empty to keep current image</div>
+                </div>
+            @endif
+            <input type="file" name="cover_image" class="form-control" accept="image/*">
         </div>
     </div>
     <button type="submit" class="btn btn-success">Update Thesis</button>

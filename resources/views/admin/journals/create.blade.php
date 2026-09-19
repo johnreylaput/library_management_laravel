@@ -13,7 +13,7 @@
         </ul>
     </div>
 @endif
-<form method="POST" action="{{ route('journals.store') }}">
+<form method="POST" action="{{ route('journals.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-md-12 mb-3">
@@ -75,6 +75,10 @@
         <div class="col-md-12 mb-3">
             <label>Note:</label>
             <textarea name="description" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <label>Cover Image:</label>
+            <input type="file" name="cover_image" class="form-control" accept="image/*">
         </div>
     </div>
     <div class="d-flex gap-2 mt-3">

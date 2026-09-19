@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Thesis;
-use App\Models\User;
 use App\Models\DeletionRequest;
 use App\Models\Notification;
+use App\Models\Thesis;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ThesisController extends Controller
 {
@@ -27,8 +28,8 @@ class ThesisController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('author', 'like', "%{$search}%")
-                  ->orWhere('research', 'like', "%{$search}%")
-                  ->orWhere('subjects_keywords', 'like', "%{$search}%");
+                    ->orWhere('research', 'like', "%{$search}%")
+                    ->orWhere('subjects_keywords', 'like', "%{$search}%");
             });
         }
 
@@ -61,9 +62,14 @@ class ThesisController extends Controller
             'date_published' => 'required|date',
             'subjects_keywords' => 'required|string|max:500',
             'summary' => 'required|string',
+            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
         $validated['status'] = 'Available';
+
+        if ($request->hasFile('cover_image')) {
+            $validated['cover_image'] = $this->storeCoverImage($request->file('cover_image'));
+        }
 
         Thesis::create(array_merge($validated, ['added_by' => Auth::user()->section]));
 
@@ -73,6 +79,7 @@ class ThesisController extends Controller
     public function edit($id)
     {
         $thesis = Thesis::findOrFail($id);
+
         return view('admin.theses.edit', compact('thesis'));
     }
 
@@ -86,9 +93,15 @@ class ThesisController extends Controller
             'date_published' => 'required|date',
             'subjects_keywords' => 'required|string|max:500',
             'summary' => 'required|string',
+            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
-        $thesis->update(array_merge($validated, ['edited_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
+        if ($request->hasFile('cover_image')) {
+            $this->deleteCoverImage($thesis);
+            $validated['cover_image'] = $this->storeCoverImage($request->file('cover_image'));
+        }
+
+        $thesis->update(array_merge($validated, ['edited_by' => Auth::user()->full_name.' ('.Auth::user()->role.')']));
 
         return redirect()->route('theses.index')->with('success', 'Thesis updated successfully.');
     }
@@ -111,7 +124,7 @@ class ThesisController extends Controller
                 'user_id' => Auth::id(),
                 'item_type' => Thesis::class,
                 'item_id' => $thesis->id,
-                'title' => $thesis->author . ' - ' . $thesis->research,
+                'title' => $thesis->author.' - '.$thesis->research,
                 'status' => 'Pending',
             ]);
 
@@ -122,17 +135,29 @@ class ThesisController extends Controller
                     'user_id' => $librarian->id,
                     'type' => 'deletion_request',
                     'title' => 'New Deletion Request',
-                    'message' => Auth::user()->full_name . ' (Working.Student) requested deletion of thesis "' . $thesis->author . ' - ' . $thesis->research . '" (ID: ' . $thesis->id . ')',
+                    'message' => Auth::user()->full_name.' (Working.Student) requested deletion of thesis "'.$thesis->author.' - '.$thesis->research.'" (ID: '.$thesis->id.')',
                     'sent_by' => Auth::id(),
                 ]);
             }
 
-            return back()->with('info', 'Deletion request for thesis "' . $thesis->author . ' - ' . $thesis->research . '" has been submitted for librarian review.');
+            return back()->with('info', 'Deletion request for thesis "'.$thesis->author.' - '.$thesis->research.'" has been submitted for librarian review.');
         }
 
         $thesis = Thesis::findOrFail($id);
         $thesis->delete();
 
         return redirect()->route('theses.index')->with('success', 'Thesis moved to Recently Deleted successfully.');
+    }
+
+    private function storeCoverImage($file): string
+    {
+        return $file->store('theses/covers', 'public');
+    }
+
+    private function deleteCoverImage(Thesis $thesis): void
+    {
+        if ($thesis->cover_image && Storage::disk('public')->exists($thesis->cover_image)) {
+            Storage::disk('public')->delete($thesis->cover_image);
+        }
     }
 }

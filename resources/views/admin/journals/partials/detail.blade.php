@@ -1,96 +1,109 @@
 <div class="detail-section">
     <div class="row">
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Author of the Article</div>
-            <div class="detail-value">{{ $journal->authors ?? 'N/A' }}</div>
+        <div class="col-md-4 mb-3 d-flex justify-content-center">
+            @if($journal->cover_image)
+                <img src="{{ asset('storage/' . $journal->cover_image) }}" alt="Journal Cover" class="img-fluid border rounded" style="max-height: 250px; max-width: 100%; object-fit: contain; object-position: center;">
+            @else
+                <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height:200px;font-size:3rem;color:#aaa;width:100%;max-width:200px;">
+                    <i class="bi bi-journal-arrow-down"></i>
+                </div>
+            @endif
         </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Title of the Article</div>
-            <div class="detail-value">{{ $journal->title }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Source</div>
-            <div class="detail-value">{{ $journal->source ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Title of the Journal</div>
-            <div class="detail-value">{{ $journal->journal_name ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Volume</div>
-            <div class="detail-value">{{ $journal->volume ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Issue</div>
-            <div class="detail-value">{{ $journal->issue ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Pages</div>
-            <div class="detail-value">{{ $journal->pages ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Publication Date</div>
-            <div class="detail-value">{{ $journal->publication_date ? \Carbon\Carbon::parse($journal->publication_date)->format('F Y') : 'N/A' }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">DOI</div>
-            <div class="detail-value">{{ $journal->doi ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">ISSN</div>
-            <div class="detail-value">{{ $journal->issn ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Publisher</div>
-            <div class="detail-value">{{ $journal->publisher_text ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Availability</div>
-            <div class="detail-value">
-                <span class="badge bg-{{ $journal->availability === 'Available' ? 'success' : 'danger' }}">
-                    {{ $journal->availability ?? 'N/A' }}
-                </span>
-            </div>
-        </div>
-        @if($journal->link)
-            <div class="col-12 mb-2">
-                <div class="detail-label">Link of the Periodical</div>
-                <div class="detail-value"><a href="{{ $journal->link }}" target="_blank">{{ $journal->link }}</a></div>
-            </div>
-        @endif
-        @if($journal->subjects)
-            <div class="col-md-6 mb-2">
-                <div class="detail-label">Subject</div>
-                <div class="detail-value">{{ $journal->subjects }}</div>
-            </div>
-        @endif
-        @if($journal->keyword)
-            <div class="col-md-6 mb-2">
-                <div class="detail-label">Keyword</div>
-                <div class="detail-value">{{ $journal->keyword }}</div>
-            </div>
-        @endif
-        @if($journal->database_collection)
-            <div class="col-md-6 mb-2">
-                <div class="detail-label">Database / Collection</div>
-                <div class="detail-value">{{ $journal->database_collection }}</div>
-            </div>
-        @endif
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Added By</div>
-            <div class="detail-value">{{ $journal->added_by ?? 'N/A' }}</div>
-        </div>
-        <div class="col-md-6 mb-2">
-            <div class="detail-label">Edited By</div>
-            <div class="detail-value">
-                @php
-                    $editorText = $journal->edited_by ?? 'N/A';
-                    preg_match('/^(.+) \(([^)]+)\)$/', $editorText, $editorMatches);
-                @endphp
-                {{ $editorMatches[1] ?? $editorText }}
-                @if(isset($editorMatches[2]))
-                    <span class="badge bg-info">{{ $editorMatches[2] }}</span>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">Author of the Article</div>
+                    <div class="detail-value">{{ $journal->authors ?? 'N/A' }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">Title of the Article</div>
+                    <div class="detail-value">{{ $journal->title }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">Source</div>
+                    <div class="detail-value">{{ $journal->source ?? 'N/A' }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">Title of the Journal</div>
+                    <div class="detail-value">{{ $journal->journal_name ?? 'N/A' }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">Volume</div>
+                    <div class="detail-value">{{ $journal->volume ?? 'N/A' }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">Issue</div>
+                    <div class="detail-value">{{ $journal->issue ?? 'N/A' }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">Pages</div>
+                    <div class="detail-value">{{ $journal->pages ?? 'N/A' }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">Publication Date</div>
+                    <div class="detail-value">{{ $journal->publication_date ? \Carbon\Carbon::parse($journal->publication_date)->format('F Y') : 'N/A' }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">DOI</div>
+                    <div class="detail-value">{{ $journal->doi ?? 'N/A' }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">ISSN</div>
+                    <div class="detail-value">{{ $journal->issn ?? 'N/A' }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">Publisher</div>
+                    <div class="detail-value">{{ $journal->publisher_text ?? 'N/A' }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">Availability</div>
+                    <div class="detail-value">
+                        <span class="badge bg-{{ $journal->availability === 'Available' ? 'success' : 'danger' }}">
+                            {{ $journal->availability ?? 'N/A' }}
+                        </span>
+                    </div>
+                </div>
+                @if($journal->link)
+                    <div class="col-12 mb-2">
+                        <div class="detail-label">Link of the Periodical</div>
+                        <div class="detail-value"><a href="{{ $journal->link }}" target="_blank">{{ $journal->link }}</a></div>
+                    </div>
                 @endif
+                @if($journal->subjects)
+                    <div class="col-md-6 mb-2">
+                        <div class="detail-label">Subject</div>
+                        <div class="detail-value">{{ $journal->subjects }}</div>
+                    </div>
+                @endif
+                @if($journal->keyword)
+                    <div class="col-md-6 mb-2">
+                        <div class="detail-label">Keyword</div>
+                        <div class="detail-value">{{ $journal->keyword }}</div>
+                    </div>
+                @endif
+                @if($journal->database_collection)
+                    <div class="col-md-6 mb-2">
+                        <div class="detail-label">Database / Collection</div>
+                        <div class="detail-value">{{ $journal->database_collection }}</div>
+                    </div>
+                @endif
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">Added By</div>
+                    <div class="detail-value">{{ $journal->added_by ?? 'N/A' }}</div>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <div class="detail-label">Edited By</div>
+                    <div class="detail-value">
+                        @php
+                            $editorText = $journal->edited_by ?? 'N/A';
+                            preg_match('/^(.+) \(([^)]+)\)$/', $editorText, $editorMatches);
+                        @endphp
+                        {{ $editorMatches[1] ?? $editorText }}
+                        @if(isset($editorMatches[2]))
+                            <span class="badge bg-info">{{ $editorMatches[2] }}</span>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -184,7 +184,11 @@
             @foreach($journals as $journal)
                 <div class="resource-card">
                     <div class="card-cover">
-                        <i class="bi bi-journal-arrow-down"></i>
+                        @if($journal->cover_image)
+                            <img src="{{ asset('storage/' . $journal->cover_image) }}" alt="Journal Cover" class="img-fluid" style="object-fit: cover;">
+                        @else
+                            <i class="bi bi-journal-arrow-down"></i>
+                        @endif
                     </div>
                     <div class="card-body">
                         <div class="card-title">{{ $journal->title }}</div>
@@ -211,7 +215,11 @@
             @foreach($theses as $thesis)
                 <div class="resource-card">
                     <div class="card-cover">
-                        <i class="bi bi-file-earmark-text"></i>
+                        @if($thesis->cover_image)
+                            <img src="{{ asset('storage/' . $thesis->cover_image) }}" alt="Thesis Cover" class="img-fluid" style="object-fit: cover;">
+                        @else
+                            <i class="bi bi-file-earmark-text"></i>
+                        @endif
                     </div>
                     <div class="card-body">
                         <div class="card-title">{{ $thesis->author }}</div>

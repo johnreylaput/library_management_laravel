@@ -27,6 +27,7 @@ class Journal extends Model
         'publisher_text',
         'abstract',
         'description',
+        'cover_image',
         'status',
         'database_collection',
         'availability',
@@ -44,5 +45,14 @@ class Journal extends Model
     public function publisher(): BelongsTo
     {
         return $this->belongsTo(Publisher::class);
+    }
+
+    public function getCoverImageUrlAttribute(): ?string
+    {
+        if ($this->cover_image) {
+            return asset('storage/'.$this->cover_image);
+        }
+
+        return null;
     }
 }

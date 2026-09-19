@@ -4,7 +4,7 @@
 
 @section('content')
 <h2 class="mb-4">Add Thesis</h2>
-<form method="POST" action="{{ route('theses.store') }}">
+<form method="POST" action="{{ route('theses.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-md-6 mb-3">
@@ -36,6 +36,10 @@
         <div class="col-12 mb-3">
             <label>Summary</label>
             <textarea name="summary" class="form-control" rows="4" required>{{ old('summary') }}</textarea>
+        </div>
+        <div class="col-12 mb-3">
+            <label>Cover Image:</label>
+            <input type="file" name="cover_image" class="form-control" accept="image/*">
         </div>
     </div>
     <button type="submit" class="btn btn-success">Save Thesis</button>

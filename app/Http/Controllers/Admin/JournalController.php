@@ -10,6 +10,7 @@ use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class JournalController extends Controller
 {
@@ -80,6 +81,7 @@ class JournalController extends Controller
             'description' => 'nullable|string',
             'availability' => 'nullable|in:Available,Unavailable,Archived',
             'keyword' => 'nullable|string|max:255',
+            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
         $validated['source'] = $validated['journal_name_source'] ?? null;
@@ -93,7 +95,11 @@ class JournalController extends Controller
         $validated['status'] = 'Available';
         $validated['availability'] = $validated['availability'] ?? 'Available';
 
-        Journal::create(array_merge($validated, ['added_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
+        if ($request->hasFile('cover_image')) {
+            $validated['cover_image'] = $this->storeCoverImage($request->file('cover_image'));
+        }
+
+        Journal::create(array_merge($validated, ['added_by' => Auth::user()->full_name.' ('.Auth::user()->role.')']));
 
         return redirect()->route('e-periodical.index', ['view' => 'all-journals'])->with('success', 'Journal created successfully.');
     }
@@ -126,6 +132,7 @@ class JournalController extends Controller
             'status' => 'nullable|in:Available,Unavailable,Archived',
             'availability' => 'nullable|in:Available,Unavailable,Archived',
             'keyword' => 'nullable|string|max:255',
+            'cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
         $validated['source'] = $validated['journal_name_source'] ?? null;
@@ -137,7 +144,12 @@ class JournalController extends Controller
 
         $validated['availability'] = $validated['availability'] ?? 'Available';
 
-        $journal->update(array_merge($validated, ['edited_by' => Auth::user()->full_name . ' (' . Auth::user()->role . ')']));
+        if ($request->hasFile('cover_image')) {
+            $this->deleteCoverImage($journal);
+            $validated['cover_image'] = $this->storeCoverImage($request->file('cover_image'));
+        }
+
+        $journal->update(array_merge($validated, ['edited_by' => Auth::user()->full_name.' ('.Auth::user()->role.')']));
 
         return redirect()->route('e-periodical.index', ['view' => 'all-journals'])->with('success', 'Journal updated successfully.');
     }
@@ -183,5 +195,17 @@ class JournalController extends Controller
         $journal->delete();
 
         return redirect()->route('e-periodical.index', ['view' => 'delete-journal'])->with('success', 'Periodical moved to Recently Deleted successfully.');
+    }
+
+    private function storeCoverImage($file): string
+    {
+        return $file->store('journals/covers', 'public');
+    }
+
+    private function deleteCoverImage(Journal $journal): void
+    {
+        if ($journal->cover_image && Storage::disk('public')->exists($journal->cover_image)) {
+            Storage::disk('public')->delete($journal->cover_image);
+        }
     }
 }

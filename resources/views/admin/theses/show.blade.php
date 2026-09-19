@@ -7,9 +7,13 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-3">
-                <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height:250px;font-size:4rem;color:#aaa;">
-                    <i class="bi bi-journal-arrow-down"></i>
-                </div>
+                @if($thesis->cover_image)
+                    <img src="{{ asset('storage/' . $thesis->cover_image) }}" alt="Thesis Cover" class="img-fluid border rounded" style="max-height: 300px; max-width: 100%; object-fit: contain; object-position: center;">
+                @else
+                    <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height:250px;font-size:4rem;color:#aaa;">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                @endif
             </div>
             <div class="col-md-9">
                 <h2>{{ $thesis->author }}</h2>

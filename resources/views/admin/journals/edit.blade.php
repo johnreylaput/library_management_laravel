@@ -4,7 +4,7 @@
 
 @section('content')
 <h2 class="mb-4">Edit Periodical</h2>
-<form method="POST" action="{{ route('journals.update', $journal->id) }}">
+<form method="POST" action="{{ route('journals.update', $journal->id) }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="row">
@@ -67,6 +67,16 @@
         <div class="col-md-12 mb-3">
             <label>Note:</label>
             <textarea name="description" class="form-control" rows="3">{{ old('description', $journal->description) }}</textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <label>Cover Image:</label>
+            @if($journal->cover_image)
+                <div class="mb-2">
+                    <img src="{{ asset('storage/' . $journal->cover_image) }}" alt="Current Cover" class="img-thumbnail" style="max-height: 150px;">
+                    <div class="form-text">Leave empty to keep current image</div>
+                </div>
+            @endif
+            <input type="file" name="cover_image" class="form-control" accept="image/*">
         </div>
     </div>
     <button type="submit" class="btn btn-success">Update Periodical</button>

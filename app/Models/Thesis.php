@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Thesis extends Model
@@ -17,7 +16,17 @@ class Thesis extends Model
         'subjects_keywords',
         'summary',
         'status',
+        'cover_image',
         'added_by',
         'edited_by',
     ];
+
+    public function getCoverImageUrlAttribute(): ?string
+    {
+        if ($this->cover_image) {
+            return asset('storage/'.$this->cover_image);
+        }
+
+        return null;
+    }
 }
