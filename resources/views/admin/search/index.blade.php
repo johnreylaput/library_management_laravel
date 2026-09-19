@@ -150,11 +150,15 @@
     @if(($books->count() ?? 0) > 0)
         <div class="browse-section-title"><i class="bi bi-book"></i> Books</div>
         <div class="resource-grid">
-            @foreach($books as $book)
-                <div class="resource-card">
-                    <div class="card-cover">
-                        <i class="bi bi-book"></i>
-                    </div>
+@foreach($books as $book)
+                        <div class="resource-card">
+                            <div class="card-cover">
+                                @if($book->cover_image)
+                                    <img src="{{ asset('storage/' . $book->cover_image) }}" alt="Book Cover" class="img-fluid" style="object-fit: cover;">
+                                @else
+                                    <i class="bi bi-book"></i>
+                                @endif
+                            </div>
                     <div class="card-body">
                         <div class="card-title">{{ $book->author ?? 'N/A' }}</div>
                         <div class="resource-meta"><strong>Title:</strong> {{ $book->title ?? 'Untitled Book' }}</div>
@@ -231,12 +235,16 @@
         <p>Try refining your search or browse categories above.</p>
     </div>
     <div class="resource-grid">
-        @php $featured = \App\Models\Book::take(6)->get(); @endphp
-        @foreach($featured as $fb)
-            <div class="resource-card">
-                <div class="card-cover">
-                    <i class="bi bi-book"></i>
-                </div>
+@php $featured = \App\Models\Book::take(6)->get(); @endphp
+            @foreach($featured as $fb)
+                <div class="resource-card">
+                    <div class="card-cover">
+                        @if($fb->cover_image)
+                            <img src="{{ asset('storage/' . $fb->cover_image) }}" alt="Book Cover" class="img-fluid" style="object-fit: cover;">
+                        @else
+                            <i class="bi bi-book"></i>
+                        @endif
+                    </div>
                 <div class="card-body">
                     <div class="card-title">{{ $fb->title }}</div>
                     <div class="resource-meta"><strong>Author:</strong> {{ $fb->author ?? 'N/A' }}</div>
