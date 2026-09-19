@@ -12,7 +12,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Admin
-        User::firstOrCreate(
+        User::updateOrCreate(
             ['username' => 'admin'],
             [
                 'full_name' => 'Admin User',
@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($workingStudents as $ws) {
-            User::firstOrCreate(
+            User::updateOrCreate(
                 ['username' => $ws['username']],
                 [
                     'full_name' => $ws['full_name'],
@@ -76,7 +76,7 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($members as $member) {
-            User::firstOrCreate(
+            User::updateOrCreate(
                 ['username' => $member['username']],
                 [
                     'full_name' => $member['full_name'],
