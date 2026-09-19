@@ -34,3 +34,9 @@ npx.cmd
 npx.ps1
 install_tools.bat
 /database/database.sqlite
+
+# Development scripts
+comprehensive_test.php
+debug_save.php
+setup.php
+*.sql

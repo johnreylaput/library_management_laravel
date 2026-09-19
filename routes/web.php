@@ -84,11 +84,6 @@ Route::middleware('auth')->group(function () {
         Route::post('reservations/{reservation}/reject', [ReservationController::class, 'reject'])->name('reservations.reject');
     });
 
-    // Member-specific show routes (for browsing)
-    Route::get('/books/{book}', [BookController::class, 'show'])->name('member.books.show');
-    Route::get('/journals/{journal}', [JournalController::class, 'show'])->name('member.journals.show');
-    Route::get('/theses/{thesis}', [ThesisController::class, 'show'])->name('member.theses.show');
-
     Route::middleware('role:Admin,Librarian,Working.Student')->group(function () {
         Route::resource('users', UserController::class);
     });
@@ -96,4 +91,9 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:Admin')->group(function () {
         Route::resource('librarians', LibrarianController::class);
     });
+
+    // Member-accessible detail pages (no role restriction beyond auth)
+    Route::get('/books/{book}', [BookController::class, 'show'])->name('member.books.show');
+    Route::get('/journals/{journal}', [JournalController::class, 'show'])->name('member.journals.show');
+    Route::get('/theses/{thesis}', [ThesisController::class, 'show'])->name('member.theses.show');
 });

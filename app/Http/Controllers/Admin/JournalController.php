@@ -16,8 +16,7 @@ class JournalController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:Admin,Librarian,Working.Student')->except(['create', 'store', 'edit', 'update', 'destroy', 'show']);
-        $this->middleware('role:Admin,Librarian,Working.Student')->only(['create', 'store', 'edit', 'update', 'destroy']);
+        $this->middleware('role:Admin,Librarian,Working.Student');
     }
 
     public function index(Request $request)

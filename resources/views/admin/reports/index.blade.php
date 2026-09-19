@@ -128,17 +128,21 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Category</th>
+                            <th>Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($categoryStats as $category)
                             <tr>
+                                <td>{{ $category->id }}</td>
                                 <td>{{ $category->category_name ?? 'Uncategorized' }}</td>
+                                <td>{{ $category->description ?? '-' }}</td>
                             </tr>
                         @endforeach
                         @if($categoryStats->isEmpty())
-                            <tr><td class="text-center text-muted">No categories available.</td></tr>
+                            <tr><td colspan="3" class="text-center text-muted">No categories available.</td></tr>
                         @endif
                     </tbody>
                 </table>
@@ -235,7 +239,6 @@
                         <tr>
                             <th>#</th>
                             <th>Author</th>
-                            <th>Author(s)</th>
                             <th>Borrows</th>
                         </tr>
                     </thead>
@@ -244,11 +247,10 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item['thesis']->author ?? 'Unknown' }}</td>
-                                <td>{{ $item['thesis']->author ?? '-' }}</td>
                                 <td><span class="badge bg-success">{{ $item['count'] }}</span></td>
                             </tr>
                         @empty
-                            <tr><td colspan="4" class="text-center text-muted">No borrowing records yet.</td></tr>
+                            <tr><td colspan="3" class="text-center text-muted">No borrowing records yet.</td></tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -494,10 +496,10 @@
                                 <td><span class="badge bg-secondary">{{ $itemType }}</span></td>
                                 <td>₱{{ number_format($fine->amount ?? 0, 2) }}</td>
                                 <td>
-                                    @if($fine->status === 'Paid')
-                                        <span class="badge bg-success">Paid</span>
-                                    @elseif($fine->status === 'Unpaid')
-                                        <span class="badge bg-danger">Unpaid</span>
+                                @if($fine->paid === 'Yes')
+                                         <span class="badge bg-success">Paid</span>
+                                     @elseif($fine->paid === 'No')
+                                         <span class="badge bg-danger">Unpaid</span>
                                     @else
                                         <span class="badge bg-secondary">{{ $fine->status }}</span>
                                     @endif
