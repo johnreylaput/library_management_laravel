@@ -153,8 +153,8 @@
 @foreach($books as $book)
                         <div class="resource-card">
                             <div class="card-cover">
-                                @if($book->cover_image)
-                                    <img src="{{ $book->cover_image_url }}" alt="Book Cover" class="img-fluid" style="object-fit: cover;">
+@if($book->cover_image)
+                                    <img src="{{ $book->cover_image_url }}" alt="Book Cover" class="img-fluid rounded" style="height: 200px; width: 100%; object-fit: cover; object-position: center;">
                                 @else
                                     <i class="bi bi-book"></i>
                                 @endif
@@ -184,9 +184,9 @@
             @foreach($journals as $journal)
                 <div class="resource-card">
                     <div class="card-cover">
-                        @if($journal->cover_image)
-                            <img src="{{ $journal->cover_image_url }}" alt="Journal Cover" class="img-fluid" style="object-fit: cover;">
-                        @else
+@if($journal->cover_image)
+                                <img src="{{ $journal->cover_image_url }}" alt="Journal Cover" class="img-fluid rounded" style="height: 200px; width: 100%; object-fit: cover; object-position: center;">
+                            @else
                             <i class="bi bi-journal-arrow-down"></i>
                         @endif
                     </div>
@@ -215,9 +215,9 @@
             @foreach($theses as $thesis)
                 <div class="resource-card">
                     <div class="card-cover">
-                        @if($thesis->cover_image)
-                            <img src="{{ $thesis->cover_image_url }}" alt="Thesis Cover" class="img-fluid" style="object-fit: cover;">
-                        @else
+@if($thesis->cover_image)
+                                <img src="{{ $thesis->cover_image_url }}" alt="Thesis Cover" class="img-fluid rounded" style="height: 200px; width: 100%; object-fit: cover; object-position: center;">
+                            @else
                             <i class="bi bi-file-earmark-text"></i>
                         @endif
                     </div>
@@ -247,9 +247,9 @@
             @foreach($featured as $fb)
                 <div class="resource-card">
                     <div class="card-cover">
-                        @if($fb->cover_image)
-                            <img src="{{ $fb->cover_image_url }}" alt="Book Cover" class="img-fluid" style="object-fit: cover;">
-                        @else
+@if($fb->cover_image)
+                                <img src="{{ $fb->cover_image_url }}" alt="Book Cover" class="img-fluid rounded" style="height: 200px; width: 100%; object-fit: cover; object-position: center;">
+                            @else
                             <i class="bi bi-book"></i>
                         @endif
                     </div>

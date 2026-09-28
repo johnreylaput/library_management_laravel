@@ -7,8 +7,8 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-3">
-                @if($journal->cover_image)
-                    <img src="{{ $journal->cover_image_url }}" alt="Journal Cover" class="img-fluid border rounded" style="max-height: 300px; max-width: 100%; object-fit: contain; object-position: center;">
+@if($journal->cover_image)
+                    <img src="{{ $journal->cover_image_url }}" alt="Journal Cover" class="img-fluid rounded" style="height: 220px; width: 100%; object-fit: cover; object-position: center;">
                 @else
                     <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height:250px;font-size:4rem;color:#aaa;">
                         <i class="bi bi-journal-arrow-down"></i>

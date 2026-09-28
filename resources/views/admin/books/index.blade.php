@@ -19,9 +19,9 @@
     @forelse($books as $book)
         <div class="col">
             <div class="card h-100 shadow-sm">
-                <div class="card-img-top text-center p-2" style="min-height: 200px; display: flex; align-items: center; justify-content: center;">
+<div class="card-img-top text-center p-2" style="min-height: 200px; display: flex; align-items: center; justify-content: center;">
                     @if($book->cover_image)
-                        <img src="{{ $book->cover_image_url }}" alt="Book Cover" class="img-fluid border rounded" style="max-height: 200px; max-width: 150px; object-fit: contain; object-position: center;">
+                        <img src="{{ $book->cover_image_url }}" alt="Book Cover" class="card-img-top rounded" style="height: 200px; width: 100%; object-fit: cover; object-position: center;">
                     @else
                         <div class="text-center text-muted fst-italic" style="min-height: 150px; min-width: 120px; display: flex; align-items: center; justify-content: center;">
                             No Cover Available

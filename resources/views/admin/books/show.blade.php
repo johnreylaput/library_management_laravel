@@ -10,8 +10,8 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-4 mb-3 d-flex justify-content-center">
-                @if($book->cover_image)
-                    <img src="{{ $book->cover_image_url }}" alt="Book Cover" class="img-fluid border rounded" style="max-height: 300px; max-width: 200px; object-fit: contain; object-position: center;">
+@if($book->cover_image)
+                    <img src="{{ $book->cover_image_url }}" alt="Book Cover" class="img-fluid rounded" style="height: 220px; width: 100%; object-fit: cover; object-position: center;">
                 @else
                     <div class="text-center text-muted fst-italic border rounded d-flex align-items-center justify-content-center" style="min-height: 300px; min-width: 200px;">
                         <span>No Cover Available</span>

@@ -1,8 +1,8 @@
 <div class="detail-section">
     <div class="row">
         <div class="col-md-4 mb-3 d-flex justify-content-center">
-            @if($book->cover_image)
-                <img src="{{ $book->cover_image_url }}" alt="Book Cover" class="img-fluid border rounded" style="max-height: 250px; max-width: 170px; object-fit: contain; object-position: center;">
+@if($book->cover_image)
+                <img src="{{ $book->cover_image_url }}" alt="Book Cover" class="img-fluid rounded" style="height: 220px; width: 100%; object-fit: cover; object-position: center;">
             @else
                 <div class="text-center text-muted fst-italic border rounded d-flex align-items-center justify-content-center" style="min-height: 250px; min-width: 170px;">
                     No Cover Available

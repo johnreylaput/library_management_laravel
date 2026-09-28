@@ -1,8 +1,8 @@
 <div class="detail-section">
     <div class="row">
         <div class="col-md-4 mb-3 d-flex justify-content-center">
-            @if($thesis->cover_image)
-                <img src="{{ $thesis->cover_image_url }}" alt="Thesis Cover" class="img-fluid border rounded" style="max-height: 250px; max-width: 100%; object-fit: contain; object-position: center;">
+@if($thesis->cover_image)
+                <img src="{{ $thesis->cover_image_url }}" alt="Thesis Cover" class="img-fluid rounded" style="height: 220px; width: 100%; object-fit: cover; object-position: center;">
             @else
                 <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height:200px;font-size:3rem;color:#aaa;width:100%;max-width:200px;">
                     <i class="bi bi-file-earmark-text"></i>

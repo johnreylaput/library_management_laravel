@@ -40,9 +40,9 @@
         </div>
         <div class="col-12 mb-3">
             <label>Cover Image:</label>
-            @if($thesis->cover_image)
+@if($thesis->cover_image)
                 <div class="mb-2">
-                    <img src="{{ $thesis->cover_image_url }}" alt="Current Cover" class="img-thumbnail" style="max-height: 150px;">
+                    <img src="{{ $thesis->cover_image_url }}" alt="Current Cover" class="rounded" style="height: 200px; width: 100%; object-fit: cover; object-position: center;">
                     <div class="form-text">Leave empty to keep current image</div>
                 </div>
             @endif
