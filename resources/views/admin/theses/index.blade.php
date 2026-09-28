@@ -26,6 +26,7 @@
 <table class="table table-striped table-bordered">
     <thead class="table-dark">
         <tr>
+            <th>Cover</th>
             <th>Author</th>
             <th>Research</th>
             <th>Date Published</th>
@@ -37,6 +38,13 @@
     <tbody>
         @foreach($theses as $thesis)
             <tr>
+                <td>
+                    @if($thesis->cover_image)
+                        <img src="{{ $thesis->cover_image_url }}" alt="Cover" class="rounded" style="height: 50px; object-fit: cover;">
+                    @else
+                        <span class="text-muted">—</span>
+                    @endif
+                </td>
                 <td>{{ $thesis->author ?? '-' }}</td>
                 <td>{{ $thesis->research ?? '-' }}</td>
                 <td>{{ $thesis->date_published ? \Carbon\Carbon::parse($thesis->date_published)->format('F j, Y') : '-' }}</td>

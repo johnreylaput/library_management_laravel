@@ -47,6 +47,7 @@
 <table class="table table-striped table-bordered">
     <thead class="table-dark">
         <tr>
+            <th>Cover</th>
             <th>Title</th>
             <th>Journal Name</th>
             <th>Authors</th>
@@ -61,6 +62,13 @@
     <tbody>
         @foreach($journals as $journal)
             <tr>
+                <td>
+                    @if($journal->cover_image)
+                        <img src="{{ $journal->cover_image_url }}" alt="Cover" class="rounded" style="height: 50px; object-fit: cover;">
+                    @else
+                        <span class="text-muted">—</span>
+                    @endif
+                </td>
                 <td>{{ $journal->title }}</td>
                 <td>{{ $journal->journal_name }}</td>
                 <td>{{ Str::limit($journal->authors, 30) }}</td>
