@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Thesis extends Model
 {
@@ -24,7 +25,7 @@ class Thesis extends Model
     public function getCoverImageUrlAttribute(): ?string
     {
         if ($this->cover_image) {
-            return asset('storage/'.$this->cover_image);
+            return Storage::url($this->cover_image);
         }
 
         return null;

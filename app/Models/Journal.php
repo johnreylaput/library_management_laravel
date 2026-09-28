@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Journal extends Model
 {
@@ -50,7 +51,7 @@ class Journal extends Model
     public function getCoverImageUrlAttribute(): ?string
     {
         if ($this->cover_image) {
-            return asset('storage/'.$this->cover_image);
+            return Storage::url($this->cover_image);
         }
 
         return null;

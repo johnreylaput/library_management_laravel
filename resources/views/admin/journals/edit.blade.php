@@ -72,7 +72,7 @@
             <label>Cover Image:</label>
             @if($journal->cover_image)
                 <div class="mb-2">
-                    <img src="{{ asset('storage/' . $journal->cover_image) }}" alt="Current Cover" class="img-thumbnail" style="max-height: 150px;">
+                    <img src="{{ $journal->cover_image_url }}" alt="Current Cover" class="img-thumbnail" style="max-height: 150px;">
                     <div class="form-text">Leave empty to keep current image</div>
                 </div>
             @endif
@@ -83,3 +83,4 @@
     <a href="{{ route('journals.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection
+

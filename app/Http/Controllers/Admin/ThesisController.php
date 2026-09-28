@@ -99,6 +99,8 @@ class ThesisController extends Controller
         if ($request->hasFile('cover_image')) {
             $this->deleteCoverImage($thesis);
             $validated['cover_image'] = $this->storeCoverImage($request->file('cover_image'));
+        } else {
+            unset($validated['cover_image']);
         }
 
         $thesis->update(array_merge($validated, ['edited_by' => Auth::user()->full_name.' ('.Auth::user()->role.')']));
@@ -151,13 +153,13 @@ class ThesisController extends Controller
 
     private function storeCoverImage($file): string
     {
-        return $file->store('theses/covers', 'public');
+        return $file->store('theses/covers');
     }
 
     private function deleteCoverImage(Thesis $thesis): void
     {
-        if ($thesis->cover_image && Storage::disk('public')->exists($thesis->cover_image)) {
-            Storage::disk('public')->delete($thesis->cover_image);
+        if ($thesis->cover_image && Storage::exists($thesis->cover_image)) {
+            Storage::delete($thesis->cover_image);
         }
     }
 }

@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-3">
                 @if($thesis->cover_image)
-                    <img src="{{ asset('storage/' . $thesis->cover_image) }}" alt="Thesis Cover" class="img-fluid border rounded" style="max-height: 300px; max-width: 100%; object-fit: contain; object-position: center;">
+                    <img src="{{ $thesis->cover_image_url }}" alt="Thesis Cover" class="img-fluid border rounded" style="max-height: 300px; max-width: 100%; object-fit: contain; object-position: center;">
                 @else
                     <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height:250px;font-size:4rem;color:#aaa;">
                         <i class="bi bi-file-earmark-text"></i>
@@ -75,3 +75,4 @@
 
 <a href="{{ route('search.index', ['type' => 'theses']) }}" class="btn btn-secondary">Back to Theses</a>
 @endsection
+

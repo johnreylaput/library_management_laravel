@@ -120,8 +120,8 @@ class RecentlyDeletedController extends Controller
 
         $item->forceDelete();
 
-        if ($type === 'book' && $item->cover_image && Storage::disk('public')->exists($item->cover_image)) {
-            Storage::disk('public')->delete($item->cover_image);
+        if ($type === 'book' && $item->cover_image && Storage::exists($item->cover_image)) {
+            Storage::delete($item->cover_image);
         }
 
         return redirect()

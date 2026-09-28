@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 class Book extends Model
@@ -32,7 +33,7 @@ class Book extends Model
     public function getCoverImageUrlAttribute(): ?string
     {
         if ($this->cover_image) {
-            return asset('storage/' . $this->cover_image);
+            return Storage::url($this->cover_image);
         }
 
         return null;

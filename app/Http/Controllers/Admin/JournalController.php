@@ -147,6 +147,8 @@ class JournalController extends Controller
         if ($request->hasFile('cover_image')) {
             $this->deleteCoverImage($journal);
             $validated['cover_image'] = $this->storeCoverImage($request->file('cover_image'));
+        } else {
+            unset($validated['cover_image']);
         }
 
         $journal->update(array_merge($validated, ['edited_by' => Auth::user()->full_name.' ('.Auth::user()->role.')']));
@@ -199,13 +201,13 @@ class JournalController extends Controller
 
     private function storeCoverImage($file): string
     {
-        return $file->store('journals/covers', 'public');
+        return $file->store('journals/covers');
     }
 
     private function deleteCoverImage(Journal $journal): void
     {
-        if ($journal->cover_image && Storage::disk('public')->exists($journal->cover_image)) {
-            Storage::disk('public')->delete($journal->cover_image);
+        if ($journal->cover_image && Storage::exists($journal->cover_image)) {
+            Storage::delete($journal->cover_image);
         }
     }
 }

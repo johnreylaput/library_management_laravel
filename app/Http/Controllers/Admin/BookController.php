@@ -93,6 +93,8 @@ class BookController extends Controller
         if ($request->hasFile('cover_image')) {
             $this->deleteCoverImage($book);
             $data['cover_image'] = $this->storeCoverImage($request->file('cover_image'));
+        } else {
+            unset($data['cover_image']);
         }
 
         $book->update($data);
@@ -115,13 +117,13 @@ class BookController extends Controller
 
     private function storeCoverImage($file): string
     {
-        return $file->store('books/covers', 'public');
+        return $file->store('books/covers');
     }
 
     private function deleteCoverImage(Book $book): void
     {
-        if ($book->cover_image && Storage::disk('public')->exists($book->cover_image)) {
-            Storage::disk('public')->delete($book->cover_image);
+        if ($book->cover_image && Storage::exists($book->cover_image)) {
+            Storage::delete($book->cover_image);
         }
     }
 

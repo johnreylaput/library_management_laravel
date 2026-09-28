@@ -47,7 +47,7 @@
         <small class="text-muted">Allowed formats: JPG, JPEG, PNG, WEBP. Max size: 2MB. Leave empty to keep the existing cover.</small>
         @if($book->cover_image)
             <div class="mt-2">
-                <img src="{{ asset('storage/' . $book->cover_image) }}" alt="Current Cover" class="border rounded" style="max-height: 200px; max-width: 150px; object-fit: contain; object-position: center;">
+                <img src="{{ $book->cover_image_url }}" alt="Current Cover" class="border rounded" style="max-height: 200px; max-width: 150px; object-fit: contain; object-position: center;">
             </div>
         @else
             <div class="mt-2 text-muted fst-italic">No cover image set.</div>
@@ -79,3 +79,4 @@ document.querySelector('input[name="cover_image"]').addEventListener('change', f
 });
 </script>
 @endpush
+

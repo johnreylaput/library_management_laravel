@@ -42,7 +42,7 @@
             <label>Cover Image:</label>
             @if($thesis->cover_image)
                 <div class="mb-2">
-                    <img src="{{ asset('storage/' . $thesis->cover_image) }}" alt="Current Cover" class="img-thumbnail" style="max-height: 150px;">
+                    <img src="{{ $thesis->cover_image_url }}" alt="Current Cover" class="img-thumbnail" style="max-height: 150px;">
                     <div class="form-text">Leave empty to keep current image</div>
                 </div>
             @endif
@@ -53,3 +53,4 @@
     <a href="{{ route('theses.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection
+

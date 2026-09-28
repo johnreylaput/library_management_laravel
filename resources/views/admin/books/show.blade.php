@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-4 mb-3 d-flex justify-content-center">
                 @if($book->cover_image)
-                    <img src="{{ asset('storage/' . $book->cover_image) }}" alt="Book Cover" class="img-fluid border rounded" style="max-height: 300px; max-width: 200px; object-fit: contain; object-position: center;">
+                    <img src="{{ $book->cover_image_url }}" alt="Book Cover" class="img-fluid border rounded" style="max-height: 300px; max-width: 200px; object-fit: contain; object-position: center;">
                 @else
                     <div class="text-center text-muted fst-italic border rounded d-flex align-items-center justify-content-center" style="min-height: 300px; min-width: 200px;">
                         <span>No Cover Available</span>
@@ -63,3 +63,4 @@
 </div>
 <a href="{{ route('books.index') }}" class="btn btn-secondary">Back to Books</a>
 @endsection
+

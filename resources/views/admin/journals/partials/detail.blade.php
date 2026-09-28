@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-4 mb-3 d-flex justify-content-center">
             @if($journal->cover_image)
-                <img src="{{ asset('storage/' . $journal->cover_image) }}" alt="Journal Cover" class="img-fluid border rounded" style="max-height: 250px; max-width: 100%; object-fit: contain; object-position: center;">
+                <img src="{{ $journal->cover_image_url }}" alt="Journal Cover" class="img-fluid border rounded" style="max-height: 250px; max-width: 100%; object-fit: contain; object-position: center;">
             @else
                 <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height:200px;font-size:3rem;color:#aaa;width:100%;max-width:200px;">
                     <i class="bi bi-journal-arrow-down"></i>
@@ -147,3 +147,4 @@
         </div>
     </div>
 @endif
+

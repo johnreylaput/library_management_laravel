@@ -154,7 +154,7 @@
                         <div class="resource-card">
                             <div class="card-cover">
                                 @if($book->cover_image)
-                                    <img src="{{ asset('storage/' . $book->cover_image) }}" alt="Book Cover" class="img-fluid" style="object-fit: cover;">
+                                    <img src="{{ $book->cover_image_url }}" alt="Book Cover" class="img-fluid" style="object-fit: cover;">
                                 @else
                                     <i class="bi bi-book"></i>
                                 @endif
@@ -185,7 +185,7 @@
                 <div class="resource-card">
                     <div class="card-cover">
                         @if($journal->cover_image)
-                            <img src="{{ asset('storage/' . $journal->cover_image) }}" alt="Journal Cover" class="img-fluid" style="object-fit: cover;">
+                            <img src="{{ $journal->cover_image_url }}" alt="Journal Cover" class="img-fluid" style="object-fit: cover;">
                         @else
                             <i class="bi bi-journal-arrow-down"></i>
                         @endif
@@ -216,7 +216,7 @@
                 <div class="resource-card">
                     <div class="card-cover">
                         @if($thesis->cover_image)
-                            <img src="{{ asset('storage/' . $thesis->cover_image) }}" alt="Thesis Cover" class="img-fluid" style="object-fit: cover;">
+                            <img src="{{ $thesis->cover_image_url }}" alt="Thesis Cover" class="img-fluid" style="object-fit: cover;">
                         @else
                             <i class="bi bi-file-earmark-text"></i>
                         @endif
@@ -248,7 +248,7 @@
                 <div class="resource-card">
                     <div class="card-cover">
                         @if($fb->cover_image)
-                            <img src="{{ asset('storage/' . $fb->cover_image) }}" alt="Book Cover" class="img-fluid" style="object-fit: cover;">
+                            <img src="{{ $fb->cover_image_url }}" alt="Book Cover" class="img-fluid" style="object-fit: cover;">
                         @else
                             <i class="bi bi-book"></i>
                         @endif
@@ -270,3 +270,4 @@
     </div>
 @endif
 @endsection
+
