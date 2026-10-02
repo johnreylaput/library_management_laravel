@@ -6,6 +6,7 @@
     <title>E-Periodical Index - UC Library</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('css/page-transitions.css') }}" rel="stylesheet">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -263,7 +264,7 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid pt-content">
         <div class="header-branding">
             <div class="container">
                 <div class="d-flex justify-content-between align-items-center">
@@ -610,6 +611,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/page-transitions.js') }}"></script>
     <script>
         function showJournalDetail(id) {
             const url = `{{ url('/journals') }}/${id}`;

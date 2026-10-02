@@ -6,6 +6,7 @@
     <title>Library Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('css/page-transitions.css') }}" rel="stylesheet">
     <style>
         :root {
             --bg-image: url('{{ asset('images/templib.png') }}');
@@ -166,7 +167,8 @@
         }
     </style>
 </head>
-<body>
+    <body>
+    <div class="pt-content">
     <div class="hero">
         <div class="container">
             <img src="{{ asset('images/uc-library-logo.png') }}" alt="UC Banilad Library" class="hero-logo">
@@ -243,6 +245,7 @@
             Library Management System
         </div>
     </footer>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -274,5 +277,6 @@
             revealOnScroll();
         });
     </script>
+    <script src="{{ asset('js/page-transitions.js') }}"></script>
 </body>
 </html>

@@ -1,0 +1,207 @@
+/* ===== Page Turn Transition — Book Page-Flip ===== */
+/* Reusable across the entire application.
+   Paired with public/js/page-transitions.js */
+
+/* ── Overlay (created dynamically by JS on navigation) ────────────── */
+
+.pt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999999;
+    pointer-events: none;
+    display: flex;
+    perspective: 1500px;
+    background: var(--pt-bg-color, #ffffff);
+}
+
+.pt-left {
+    width: 50%;
+    height: 100%;
+    background: var(--pt-bg-color, #ffffff);
+    overflow: hidden;
+}
+
+.pt-right {
+    width: 50%;
+    height: 100%;
+    transform-origin: 0 0;
+    transform: rotateY(0deg);
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--pt-bg-color, #ffffff);
+    position: relative;
+}
+
+/* The right half "folds" — simulating a book page being turned */
+.pt-right.pt-folding {
+    transform: rotateY(-180deg);
+}
+
+/* Subtle gradient on the folding half to simulate paper depth */
+.pt-right::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        rgba(0, 0, 0, 0.015) 0%,
+        rgba(0, 0, 0, 0.04) 50%,
+        rgba(0, 0, 0, 0.08) 100%);
+    opacity: 0.5;
+}
+
+.pt-right.pt-folding::before {
+    opacity: 0.3;
+}
+
+/* Thin spine line at the fold for visual separation */
+.pt-spine {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.08);
+    pointer-events: none;
+}
+
+/* ── Enter animation for the destination page ─────────────────────── */
+
+.pt-enter-anim {
+    opacity: 0;
+    transform: translateY(12px);
+}
+
+.pt-enter-anim.pt-enter-anim-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Respect prefers-reduced-motion ───────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+    .pt-overlay {
+        display: none !important;
+    }
+
+    .pt-enter-anim,
+    .pt-enter-anim.pt-enter-anim-active {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* ===== UI Enhancements ===== */
+/* Subtle, consistent transitions for interactive elements */
+/* These improve the feel of the interface without redesigning it */
+
+.sidebar .nav-link {
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link:focus {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    outline: none;
+}
+
+.sidebar .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    position: relative;
+}
+
+.sidebar .nav-link.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 3px;
+    background: #0d6efd;
+    border-radius: 2px;
+}
+
+.btn {
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn:focus-visible {
+    outline: 2px solid #0d6efd;
+    outline-offset: 2px;
+}
+
+.btn-primary:hover,
+.btn-success:hover,
+.btn-warning:hover,
+.btn-danger:hover,
+.btn-info:hover,
+.btn-secondary:hover {
+    opacity: 0.92;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover {
+    transform: translateY(-1px);
+}
+
+a {
+    transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+a:hover,
+a:focus {
+    opacity: 0.85;
+}
+
+a:focus {
+    outline: 2px solid #0d6efd;
+    outline-offset: 2px;
+    border-radius: 3px;
+}
+
+.card {
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+    border-color: #2a5298;
+    box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+}
+
+.table-striped tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.04);
+}
+
+.dropdown-item:hover {
+    background-color: rgba(13, 110, 253, 0.08);
+}
+
+.page-link {
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.page-link:hover {
+    background-color: rgba(13, 110, 253, 0.08);
+}

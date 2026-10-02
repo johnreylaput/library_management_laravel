@@ -6,6 +6,7 @@
     <title>Login - Library Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('css/page-transitions.css') }}" rel="stylesheet">
     <style>
         :root {
             --bg-image: url('{{ asset('images/templib.png') }}');
@@ -116,7 +117,7 @@
     </style>
 </head>
 <body>
-    <div class="login-card">
+    <div class="login-card pt-content">
         <div class="login-header">
             <img src="{{ asset('images/templib.png') }}" alt="Library Management System" class="login-logo">
         </div>
@@ -154,6 +155,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/page-transitions.js') }}"></script>
     <script>
         function togglePassword(inputId, button) {
             const input = document.getElementById(inputId);

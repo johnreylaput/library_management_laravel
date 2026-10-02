@@ -6,11 +6,12 @@
     <title>@yield('title', 'Library Management System')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ asset('css/page-transitions.css') }}" rel="stylesheet">
     <style>
         body { margin: 0; }
         .sidebar { min-height: 100vh; overflow-y: auto; }
-        .sidebar .nav-link { padding: 0.5rem 1rem; }
-        .sidebar .nav-link:hover { background-color: rgba(255,255,255,0.1); }
+         .sidebar .nav-link { padding: 0.5rem 1rem; transition: background-color 0.2s ease, color 0.2s ease; }
+         .sidebar .nav-link:hover { background-color: rgba(255,255,255,0.12); }
         .sidebar-logo {
             width: 60px;
             height: 60px;
@@ -55,8 +56,9 @@
     <div class="container-fluid">
         <div class="row">
             @include('layout.sidebar')
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-                @if(session('success'))
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <div class="pt-content">
+            @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="bi bi-check-circle"></i> <strong>Success!</strong> {{ session('success') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -75,10 +77,12 @@
                     </div>
                 @endif
                 @yield('content')
-            </main>
+            </div>
+        </main>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/page-transitions.js') }}"></script>
     @stack('scripts')
 </body>
 </html>
