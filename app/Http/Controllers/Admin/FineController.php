@@ -18,12 +18,14 @@ class FineController extends Controller
     public function index()
     {
         $fines = Fine::with('borrow.member.user', 'borrow.book', 'borrow.journal', 'borrow.thesis')->get();
+
         return view('admin.fines.index', compact('fines'));
     }
 
     public function create()
     {
         $borrows = BorrowRecord::where('status', 'Overdue')->with(['member.user', 'book', 'journal', 'thesis'])->get();
+
         return view('admin.fines.create', compact('borrows'));
     }
 
@@ -44,6 +46,7 @@ class FineController extends Controller
     public function show($id)
     {
         $fine = Fine::with('borrow.member.user', 'borrow.book', 'borrow.journal', 'borrow.thesis')->findOrFail($id);
+
         return view('admin.fines.show', compact('fine'));
     }
 
@@ -51,6 +54,7 @@ class FineController extends Controller
     {
         $fine = Fine::with('borrow')->findOrFail($id);
         $borrows = BorrowRecord::with(['member.user', 'book'])->get();
+
         return view('admin.fines.edit', compact('fine', 'borrows'));
     }
 

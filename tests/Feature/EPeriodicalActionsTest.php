@@ -39,13 +39,13 @@ class EPeriodicalActionsTest extends TestCase
         $deleteResponse->assertStatus(200)
             ->assertSee('Select a Journal Article to Delete')
             ->assertSee('Feature Test Journal')
-            ->assertSee('Move to Recently Deleted');
+            ->assertSee('Delete');
     }
 
     public function test_librarian_and_working_student_can_add_journal_to_database(): void
     {
         $librarian = User::factory()->create(['role' => 'Librarian']);
-        $workingStudent = User::factory()->create(['role' => 'Working-Student']);
+        $workingStudent = User::factory()->create(['role' => 'Working.Student']);
 
         $this->actingAs($librarian)
             ->post('/journals', [
@@ -57,7 +57,7 @@ class EPeriodicalActionsTest extends TestCase
                 'keyword' => 'workflow, research',
                 'status' => 'Available',
             ])
-            ->assertRedirect('/e-periodical-index');
+            ->assertRedirect('/e-periodical-index?view=all-journals');
 
         $this->assertDatabaseHas('journals', [
             'title' => 'Research Workflow Journal',
@@ -74,7 +74,7 @@ class EPeriodicalActionsTest extends TestCase
                 'keyword' => 'students, education',
                 'status' => 'Available',
             ])
-            ->assertRedirect('/e-periodical-index');
+            ->assertRedirect('/e-periodical-index?view=all-journals');
 
         $this->assertDatabaseHas('journals', [
             'title' => 'Student Learning Journal',
